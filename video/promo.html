@@ -1,0 +1,94 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@font-face{font-family:Sana;src:url(/fonts/SanaSans-Variable.woff2);font-weight:100 900}
+:root{--bg:#111;--brand:#f4a950;--ink:#fff}
+*{box-sizing:border-box;margin:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:var(--bg);font-family:Sana,sans-serif;color:var(--ink)}
+.scene{position:absolute;inset:0;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 55%,#2a2622 0%,#111 65%)}
+h1,h2{font-weight:450;letter-spacing:-.035em;line-height:1.02}
+.big{font-size:190px}.mid{font-size:112px}
+.sub{font-size:38px;color:#ffffffb3;line-height:1.45;margin-top:40px}
+.tag{font-size:30px;color:#ffffffc0;display:flex;gap:16px;align-items:center;margin-bottom:36px}
+.brand{color:var(--brand)}
+.logo{width:480px;filter:brightness(0) invert(1)}
+.pill{display:inline-block;background:var(--brand);color:#111;font-size:36px;padding:26px 56px;border-radius:60px;margin-top:56px;font-weight:500}
+.card{position:absolute;border-radius:28px;overflow:hidden;background:#1b1b1b}
+.card img{width:100%;height:100%;object-fit:cover}
+.cap{position:absolute;left:0;right:0;bottom:0;padding:90px 36px 32px;background:linear-gradient(transparent,#000c);font-size:40px;text-align:left}
+.cap small{display:block;font-size:24px;color:var(--brand);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.step{position:absolute;inset:0;opacity:0}
+.step img{position:absolute;right:90px;top:90px;width:1100px;height:900px;object-fit:cover;border-radius:32px}
+.step .txt{position:absolute;left:130px;top:50%;transform:translateY(-50%);text-align:left;width:600px}
+.num{font-size:34px;color:var(--brand);letter-spacing:.14em;margin-bottom:24px}
+.step h2{font-size:150px}.step p{font-size:38px;color:#ffffffb3;margin-top:28px;line-height:1.4}
+.bar{position:absolute;left:130px;bottom:110px;display:flex;gap:18px}
+.bar i{display:block;width:90px;height:6px;border-radius:3px;background:#ffffff30}
+.bar i b{display:block;height:100%;width:0;background:var(--brand);border-radius:3px}
+</style></head><body>
+<div class="glow"></div>
+
+<div class="scene" id="s1">
+  <img class="logo" src="/wivork/wordmark.png" id="logo">
+  <div class="tag" id="s1t" style="margin:60px 0 0">Small figures. Big feelings.</div>
+</div>
+
+<div class="scene" id="s2">
+  <h1 class="big" id="l1">Your moments.</h1><h1 class="big brand" id="l2" style="color:#fff">Made real.</h1>
+  <p class="sub" id="s2p">The people you love. The memories you keep.<br>Turned into hand-painted 3D miniatures.</p>
+</div>
+
+<div class="scene" id="s3">
+  <h2 class="mid" id="s3h" style="position:absolute;top:90px;left:0;right:0">Two ways to keep<br><span class="brand">a little of your world.</span></h2>
+  <div class="card" id="c1" style="left:160px;top:430px;width:780px;height:520px"><img src="/wivork/products/couple-bust.webp"><div class="cap"><small>A moment together</small>Couple portrait bust</div></div>
+  <div class="card" id="c2" style="left:980px;top:430px;width:780px;height:520px"><img src="/wivork/products/signature-miniature.webp"><div class="cap"><small>Personally yours</small>Signature miniature</div></div>
+</div>
+
+<div id="steps"></div>
+
+<div class="scene" id="s5" style="flex-direction:row;justify-content:flex-start;padding-left:160px;text-align:left">
+  <div style="width:1000px">
+    <span id="s5t" style="display:inline-block;background:#fff;color:#111;font-size:26px;padding:12px 24px;border-radius:30px">Made for you</span>
+    <h1 class="big" id="s5h" style="font-size:150px;margin-top:40px">Your imagination.<br><span class="brand">Made real.</span></h1>
+    <p class="sub" id="s5p">Start with a photo. We’ll help with the rest.</p>
+    <span class="pill" id="s5b">Let’s create on WhatsApp ↗</span>
+  </div>
+  <img id="s5i" src="/wivork/products/signature-cutout.webp" style="position:absolute;right:140px;top:40px;height:1000px">
+</div>
+
+<script>
+const steps=[['Model','Your idea, digitally sculpted','We turn your photographs and ideas into a carefully sculpted digital model.','/wivork/generated/modeling.webp'],
+['Print','From digital to physical','Your digital model takes physical form through precise 3D printing.','/wivork/generated/printing.webp'],
+['Paint','Character in every brushstroke','Our artists bring each miniature to life with hand-painted details.','/wivork/generated/painting.webp'],
+['Create','Something entirely your own','Custom miniatures, collectibles and personal pieces.','/wivork/products/couple-bust.webp']];
+const host=document.getElementById('steps');
+steps.forEach((s,i)=>{host.insertAdjacentHTML('beforeend',`<div class="step" id="st${i}"><img src="${s[3]}"><div class="txt"><div class="num">0${i+1} / 04 · THE ART OF MAKING</div><h2>${s[0]}</h2><p>${s[1]}.<br><span style="font-size:30px;opacity:.7">${s[2]}</span></p></div><div class="bar">${steps.map((_,j)=>`<i><b class="p${j}"></b></i>`).join('')}</div></div>`)});
+const E='cubic-bezier(.22,1,.36,1)';
+const A=[];
+function an(el,kf,start,dur,easing=E){A.push(document.querySelector(el).animate(kf,{delay:start*1000,duration:dur*1000,fill:'both',easing}))}
+const fade=(el,a,b,fi=.5,fo=.5)=>an(el,[{opacity:0},{opacity:1,offset:fi/(b-a)},{opacity:1,offset:1-fo/(b-a)},{opacity:0}],a,b-a,'linear');
+const rise=(el,t,d=.9,y=50)=>an(el,[{opacity:0,transform:`translateY(${y}px)`},{opacity:1,transform:'none'}],t,d);
+// S1 0-4
+fade('#s1',0,4);rise('#logo',.2,1.2);rise('#s1t',1.2);
+// S2 4-9
+fade('#s2',3.8,9);rise('#l1',4.2,1);rise('#l2',4.7,1);rise('#s2p',5.9);
+// S3 9-15
+fade('#s3',8.8,15);rise('#s3h',9.2);
+an('#c1',[{opacity:0,transform:'translateY(120px) rotate(-2deg)'},{opacity:1,transform:'none'}],10,1.1);
+an('#c2',[{opacity:0,transform:'translateY(120px) rotate(2deg)'},{opacity:1,transform:'none'}],10.5,1.1);
+an('#c1 img',[{transform:'scale(1)'},{transform:'scale(1.12)'}],10,5,'linear');an('#c2 img',[{transform:'scale(1)'},{transform:'scale(1.12)'}],10.5,5,'linear');
+// S4 steps 15-25, 2.5s each
+steps.forEach((_,i)=>{const a=14.8+i*2.55,b=a+2.65;
+ fade('#st'+i,a,b,.4,.4);
+ an(`#st${i} img`,[{transform:'scale(1.12)'},{transform:'scale(1)'}],a,2.8,'linear');
+ an(`#st${i} .txt`,[{opacity:0,transform:'translate(-40px,-50%)'},{opacity:1,transform:'translate(0,-50%)'}],a+.1,.8);
+ steps.forEach((_,j)=>{ if(j<=i) an(`#st${i} .p${j}`,[{width:'0%'},{width:'100%'}],j<i?0:a+.2,j<i?.01:2.2,'linear')});
+});
+// S5 25-31
+fade('#s5',24.8,31,.6,.6);rise('#s5t',25.2);rise('#s5h',25.5);rise('#s5p',26.5);rise('#s5b',27.2);
+an('#s5i',[{opacity:0,transform:'translateX(120px)'},{opacity:1,transform:'none'}],25.3,1.4);
+an('#s5b',[{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],28.5,1.2,'ease-in-out');
+A.forEach(a=>a.pause());
+window.DURATION=31;
+window.seek=async t=>{A.forEach(a=>a.currentTime=t*1000);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))};
+window.ready=Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode().catch(()=>{}))]);
+</script></body></html>
