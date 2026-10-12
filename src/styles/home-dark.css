@@ -42,7 +42,7 @@
 .wivork-page .wk-photo>img.wk-photo-bg{object-fit:cover;filter:blur(40px) brightness(.5) saturate(1.1);transform:scale(1.3)}
 .wivork-page .wk-photo>img:not(.wk-photo-bg){object-fit:contain;position:absolute;z-index:1}
 .wivork-page .wk-photo::after,.wivork-page .wk-image-caption,.wivork-page .wk-image-index{z-index:2}
-@media(max-width:600px){.wivork-page .wk-photo{aspect-ratio:4/5}.wivork-page .wk-photo>img:not(.wk-photo-bg){object-fit:cover}}
+@media(max-width:600px){.wivork-page .wk-photo{aspect-ratio:5/4}.wivork-page .wk-photo>img:not(.wk-photo-bg){object-fit:cover}}
 
 /* A faint shadow helps the amber logo stand out on the light header. */
 .home-header.is-light .wk-logo::after{filter:drop-shadow(0 1px 1px #8a521530)}
