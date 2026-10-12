@@ -1,14 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import '../styles/landing-sections.css';
 import WivorkFooter from './WivorkFooter';
 import ProductShowcase from './ProductShowcase';
+import SlideArrow from './SlideArrow';
+import CrossfadeImage from './CrossfadeImage';
+import SlidePagination from './SlidePagination';
+import { useSlideshow } from '../lib/useSlideshow';
 
 const contact = 'https://wa.me/94722227440';
 const services = [
-  { title: 'Photos', description: 'Your reference, captured', image: '/process/reference-photos.webp', alt: 'A phone showing front and side reference photos of a person', detail: 'Send us clear, well-lit reference photos. A direct frontal view of the face helps us capture authentic expressions.', icon: 3 },
-  { title: 'Model', description: 'Your idea, digitally sculpted', image: '/process/digital-sculpting.webp', alt: 'A sculptor refining a digital 3D model on a pen display', detail: 'Our digital artists sculpt a detailed 3D model of you, capturing your signature features and structure.', icon: 0 },
-  { title: 'Print', description: 'From digital to physical', image: '/process/3d-printing.webp', alt: 'A 3D printer building a miniature figure', detail: 'Ultra-high precision 3D printing brings the digital model into physical form with remarkable depth and texture.', icon: 1 },
-  { title: 'Paint', description: 'Character in every brushstroke', image: '/process/hand-painting.webp', alt: 'An artist hand-painting a miniature figure in a white saree', detail: 'Each miniature is carefully hand-painted to match natural skin tones, hair textures and clothing highlights.', icon: 2 },
+  { title: 'Send photos', description: 'Your reference, captured', image: '/process/reference-upload-woman-v3.webp', alt: 'A customer sending front and side reference photographs of a woman on a phone', detail: 'Send us clear, well-lit reference photos. Include front and side views so we can capture your likeness.', icon: 3 },
+  { title: 'We sculpt', description: 'Your idea, digitally sculpted', image: '/process/digital-sculpting-v2.webp', alt: 'An artist sculpting a digital portrait miniature of a woman in a cream sari', detail: 'Our digital artists sculpt a detailed 3D model of you, capturing your signature features and structure.', icon: 0 },
+  { title: 'We print', description: 'From digital to physical', image: '/process/3d-printing-v2.webp', alt: 'A resin printer creating an unpainted portrait miniature of a woman in a sari', detail: 'Ultra-high precision 3D printing brings the digital model into physical form with remarkable depth and texture.', icon: 1 },
+  { title: 'We paint', description: 'Character in every brushstroke', image: '/process/hand-painting-woman-v4.webp', alt: 'An artist painting a portrait miniature of a woman in a cream sari', detail: 'Each miniature is carefully hand-painted to match natural skin tones, hair textures and clothing highlights.', icon: 2 },
 ];
 function Icon({ type }: { type: number }) {
   return <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -16,7 +20,7 @@ function Icon({ type }: { type: number }) {
   </svg>;
 }
 export default function LandingSections() {
-  const [active, setActive] = useState(0);
+  const { selected: active, setSelected: setActive, paused, setPaused, reduced, playing, bindings } = useSlideshow(services.length);
   const sectionsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const panels = sectionsRef.current?.querySelectorAll('.wk-product-panel');
@@ -34,21 +38,31 @@ export default function LandingSections() {
     };
     configure();
     motion.addEventListener('change', configure);
-    return () => {
-      observer?.disconnect();
-      motion.removeEventListener('change', configure);
-    };
+    return () => { observer?.disconnect(); motion.removeEventListener('change', configure); };
   }, []);
   return <div className="wk-sana-sections" ref={sectionsRef}>
     <ProductShowcase />
 
 
-    <section className="wk-product-panel wk-making-panel" id="process" aria-labelledby="making-title"><div className="wk-panel-heading"><h2 id="making-title">The art of making</h2><p>From the first digital sketch to the final brushstroke.<br/>Everything your idea needs to become real.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Explore your idea ↗</a></div>
-      <div className="wk-feature-row wk-service-selector" aria-label="Explore our services">{services.map((service, index) => <button className={`wk-feature${active === index ? ' active' : ''}`} key={service.title} aria-pressed={active === index} aria-controls="making-image" onClick={() => setActive(index)}><Icon type={service.icon}/><h3>{service.title}</h3><p>{service.description}</p></button>)}</div>
-      <div className="wk-making-visual" id="making-image"><img key={active} src={services[active].image} alt={services[active].alt} loading="lazy"/><p aria-live="polite">{services[active].detail}</p></div>
+    <section className="wk-product-panel wk-making-panel" id="process" aria-labelledby="making-title">
+      <div className="wk-panel-heading"><h2 id="making-title">How it’s made</h2><p>From your reference photos to a hand-painted miniature.<br/>A little care at every step.</p></div>
+      <div className="wk-making-carousel" {...bindings} role="region" aria-roledescription="carousel" aria-label="How your miniature is made">
+        <div className="wk-feature-row wk-service-selector" aria-label="Choose a making step">{services.map((service, index) => <button className={`wk-feature${active === index ? ' active' : ''}`} key={service.title} aria-pressed={active === index} aria-controls="making-image" onClick={() => setActive(index)}><Icon type={service.icon}/><span className="wk-feature-title">{service.title}</span><span className="wk-feature-description">{service.description}</span></button>)}</div>
+        <div className="wk-making-visual" id="making-image">
+          <CrossfadeImage src={services[active].image} alt={services[active].alt}/>
+          <SlideArrow direction="prev" onClick={() => setActive((active + services.length - 1) % services.length)} label="Previous making step"/>
+          <SlideArrow direction="next" onClick={() => setActive((active + 1) % services.length)} label="Next making step"/>
+          <span className="wk-image-index">0{active + 1} / 04</span>
+        </div>
+        <div className="wk-making-toolbar"><SlidePagination labels={services.map(item => item.title)} selected={active} onSelect={setActive} playing={playing}/>{!reduced && <button className="wk-slideshow-toggle" onClick={() => setPaused(!paused)} aria-label={paused ? 'Play making slideshow' : 'Pause making slideshow'}>{paused ? <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m5 3 8 5-8 5Z"/></svg> : <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg>}</button>}</div>
+        <div className="wk-making-details">
+          <div className="wk-making-description" aria-live={paused || reduced ? 'polite' : 'off'} aria-atomic="true"><span className="wk-step-count">STEP 0{active + 1} OF 04</span><h3>{services[active].title}</h3><p>{services[active].detail}</p></div>
+          <div className="wk-making-actions"><a className="wk-primary" href={`${contact}?text=${encodeURIComponent('Hi wivorK, I’d like to send reference photos for a custom miniature.')}`} target="_blank" rel="noreferrer">Send your photos ↗</a><a className="wk-secondary" href="/process">See the full process →</a></div>
+        </div>
+      </div>
     </section>
 
-    <section className="wk-contact-banner" id="contact" aria-labelledby="contact-title"><img src="/wivork/products/signature-cutout.webp" alt="A wivorK hand-painted miniature in a red sari with a gold handbag" loading="lazy"/><div className="wk-contact-copy"><span className="wk-banner-tag">Made for you</span><h2 id="contact-title">Your imagination.<br/><span>Made real.</span></h2><p>Start with a photo. We’ll help with the rest.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Let’s create on WhatsApp ↗</a></div></section>
+    <section className="wk-contact-banner" id="contact" aria-labelledby="contact-title"><img src="/wivork/products/black-outfit-cutout.webp" alt="A wivorK hand-painted miniature in a black outfit with a tan backpack on a textured base" loading="lazy"/><div className="wk-contact-copy"><span className="wk-banner-tag">Made for you</span><h2 id="contact-title">Your imagination.<br/><span>Made real.</span></h2><p>Start with a photo. We’ll help with the rest.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Let’s create on WhatsApp ↗</a></div></section>
     <WivorkFooter backHref="#hero-title"/>
   </div>;
 }

@@ -14,6 +14,6 @@ export default function WivorkFooter({ theme = 'light', backHref = '#top', backL
       <nav aria-label="Contact"><h3>Contact</h3><a href={contact} target="_blank" rel="noreferrer">WhatsApp ↗</a><a href="/">Back to home</a></nav>
     </div>
     <img className="wf-mark" src="/wivork/symbol.png" alt="" aria-hidden="true" loading="lazy"/>
-    <div className="wf-bottom"><span>© {new Date().getFullYear()} wivorK</span><span>A creative studio in Sri Lanka · AI-generated concept imagery</span><a href={backHref}>{backLabel}</a></div>
+    <div className="wf-bottom"><span>© {new Date().getFullYear()} wivorK</span><span>A creative studio in Sri Lanka</span><a href={backHref}>{backLabel}</a></div>
   </footer>;
 }

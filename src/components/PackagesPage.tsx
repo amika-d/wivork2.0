@@ -10,19 +10,19 @@ const order = (name: string, price: string) => `https://wa.me/${phone}?text=${en
 
 const groups = [
   { id: 'signature', eyebrow: 'Signature miniatures', title: 'Full-figure, 18cm', note: 'Listed prices are for our standard 18cm height. Pricing may vary depending on requested custom sizes.', packages: [
-    { name: 'Single Miniature', size: '18cm', price: 'Rs. 10,000', text: 'Includes 1 person digital sculpt, 3D printing & custom hand-painting.', featured: true },
-    { name: 'Couple Miniature', size: '18cm', price: 'Rs. 20,000', text: 'Includes 2 person connected miniature, 3D printing & custom hand-painting.' },
+    { name: 'Single Miniature', size: '18cm', price: 'Rs. 10,000', text: 'A full-length portrait of one person, made from your photos.', featured: true },
+    { name: 'Couple Miniature', size: '18cm', price: 'Rs. 20,000', text: 'Two full-length portraits, connected in one personal piece.' },
   ] },
   { id: 'busts', eyebrow: 'Portrait busts', title: 'Compact, 5cm', note: 'Listed prices are for our standard 5cm bust height. Pricing may vary depending on requested custom sizes.', packages: [
-    { name: 'Single Portrait Bust', size: '5cm', price: 'Rs. 1,800', text: 'Includes 1 person digital sculpt, 3D printing (5cm height) & custom hand-painting.' },
-    { name: 'Couple Portrait Bust', size: '5cm', price: 'Rs. 3,500', text: 'Includes 2 person connected bust, 3D printing (5cm height) & custom hand-painting.' },
+    { name: 'Single Portrait Bust', size: '5cm', price: 'Rs. 1,800', text: 'An upper-body portrait of one person, made from your photos.' },
+    { name: 'Couple Portrait Bust', size: '5cm', price: 'Rs. 3,500', text: 'Two upper-body portraits, together on a shared display base.' },
   ] },
 ];
 const steps = [
-  { title: 'Photo submission', image: '/process/reference-photos.webp', alt: 'A phone showing front and side reference photos', text: 'Send us clear, high-resolution reference photos. A direct frontal view of the face helps us capture authentic expressions and facial details.', highlight: 'Head facing straight forward, with both eyes, ears and sides of the face symmetrically aligned to the camera.', note: 'Having trouble with image quality, angles or choosing suitable photos? Reach out to our support team for guidance.' },
-  { title: 'Digital 3D sculpting', image: '/process/digital-sculpting.webp', alt: 'A sculptor refining a 3D model on a pen display', text: 'Our digital artists meticulously sculpt a detailed 3D mesh representation of your photos, capturing signature features and structure.' },
-  { title: 'Precision 3D printing', image: '/process/3d-printing.webp', alt: 'A 3D printer building a miniature', text: 'Using ultra-high precision 3D printing technology, the digital model is brought into physical form with remarkable depth and texture.' },
-  { title: 'Artisanal hand-painting', image: '/process/hand-painting.webp', alt: 'An artist hand-painting a miniature', text: 'Each miniature is carefully hand-painted by artists to match natural skin tones, hair textures and clothing highlights for a premium finish.' },
+  { title: 'Photo submission', image: '/process/reference-upload-woman-v3.webp', alt: 'A phone sending front and side reference photographs of a woman', text: 'Send clear, well-lit front and side photos. In the front view, keep your face straight towards the camera.', help: true },
+  { title: 'Digital 3D sculpting', image: '/process/digital-sculpting-v2.webp', bustImage: '/process/bust-sculpting-v1.webp', bustAlt: 'An artist digitally sculpting an upper-body portrait bust', alt: 'An artist sculpting a portrait of a woman in a cream sari', text: 'We sculpt your likeness in 3D, refining facial features, hairstyle, and outfit.' },
+  { title: 'Precision 3D printing', image: '/process/3d-printing-v2.webp', bustImage: '/process/bust-printing-v1.webp', bustAlt: 'A resin printer creating an upper-body portrait bust', alt: 'A resin printer creating a portrait miniature of a woman in a sari', text: 'Your digital sculpture is resin printed to capture the fine details.' },
+  { title: 'Artisanal hand-painting', image: '/process/hand-painting-woman-v4.webp', bustImage: '/process/bust-painting-v1.webp', bustAlt: 'An artist hand-painting an upper-body portrait bust', alt: 'An artist hand-painting a portrait miniature of a woman in a cream sari', text: 'We paint each piece by hand, matching skin tones, hair, and clothing.' },
 ];
 const terms = [
   ['Production lead time', 'The fully completed miniature will be provided within 1 week from order confirmation.'],
@@ -42,18 +42,19 @@ export default function PackagesPage() {
   return <>
     <WivorkHeader current="packages"/>
     <main className="pk-page">
-      <section className="pk-hero"><p>SIGNATURE MINIATURES</p><h1>Pricing<br/>packages.</h1><p>We turn the people you love into art you can keep, crafting highly accurate miniatures that combine precise hand-painting with modern 3D printing.</p></section>
+      <section className="pk-hero" aria-labelledby="packages-title"><div><span className="pk-eyebrow">PERSONALLY YOURS</span><h1 id="packages-title">Personal pieces.<br/>Clear, simple pricing.</h1></div><div className="pk-hero-copy"><p>A little likeness, made just for you. Choose a full-length miniature or a portrait bust, for yourself or someone you love.</p><a href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Find your perfect piece <span aria-hidden="true">↗</span></a></div></section>
       <section className="pk-group" id="pricing" aria-labelledby="pricing-title">
         <div className="pk-group-head"><span>Choose your size</span><h2 id="pricing-title">{group.title}</h2></div>
         <div className="pk-tabs" role="tablist" aria-label="Package size">{groups.map((item, index) => <button key={item.id} role="tab" id={`tab-${item.id}`} aria-selected={tab === index} aria-controls="pk-panel" onClick={() => setTab(index)}>{item.eyebrow}</button>)}</div>
         <div id="pk-panel" role="tabpanel" aria-labelledby={`tab-${group.id}`} key={group.id}>
-          <div className="pk-cards">{group.packages.map((item) => <article className={`pk-card${item.featured ? ' featured' : ''}`} key={item.name}>
-            <span className="pk-card-detail">{group.eyebrow} · {item.size}</span>
+          <div className="pk-cards">{group.packages.map((item, index) => <article className={`pk-card${index === 1 ? ' featured' : ''}`} key={item.name}>
+            <span className="pk-card-detail">{index === 1 ? 'A MOMENT TOGETHER' : 'A LITTLE OF YOU'}</span>
             <h3>{item.name}</h3>
             <p>{item.text}</p>
+            <ul className="pk-features">{['Custom digital sculpting', 'Resin printed and hand-painted', 'Unlimited sculpting revisions'].map(feature => <li key={feature}><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 8 3 3 7-7"/></svg>{feature}</li>)}</ul>
             <div className="pk-card-foot">
-              <div className="pk-price"><small>From · {item.size}</small><strong>{item.price}</strong></div>
-              <a className="wk-primary pk-wa" href={order(item.name, item.price)} target="_blank" rel="noreferrer"><WhatsAppIcon/>Order on WhatsApp</a>
+              <div className="pk-price"><small>One-time · {item.size}</small><strong>{item.price}</strong></div>
+              <a className="wk-primary pk-wa" href={order(item.name, item.price)} target="_blank" rel="noreferrer">Start your order <span aria-hidden="true">↗</span></a>
             </div>
           </article>)}</div>
           <p className="pk-note">* {group.note}</p>
@@ -63,8 +64,8 @@ export default function PackagesPage() {
       <section className="pk-process" aria-labelledby="pk-process-title">
         <div className="pk-group-head"><span>Our process</span><h2 id="pk-process-title">From photo to keepsake</h2></div>
         {steps.map((step, index) => <article className={`pk-step${index % 2 ? ' flip' : ''}`} key={step.title}>
-          <div className="pk-step-image"><img src={step.image} alt={step.alt} loading="lazy"/><span>{index + 1}</span></div>
-          <div className="pk-step-copy"><h3>{step.title}</h3><p>{step.text}</p>{step.highlight && <p className="pk-highlight">{step.highlight}</p>}{step.note && <p className="pk-small">{step.note}</p>}</div>
+          <div className="pk-step-image"><img src={tab === 1 && 'bustImage' in step ? step.bustImage : step.image} alt={tab === 1 && 'bustAlt' in step ? step.bustAlt : step.alt} width="1672" height="941" loading="lazy"/><span>{index + 1}</span></div>
+          <div className="pk-step-copy"><h3>{step.title}</h3><p>{step.text}</p>{'help' in step && step.help && <a className="pk-step-help" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Help choosing photos ↗</a>}</div>
         </article>)}
       </section>
       <section className="pk-terms" aria-labelledby="pk-terms-title">

@@ -56,10 +56,12 @@ button:focus-visible, a:focus-visible { outline: 2px solid #b77720; outline-offs
 .wk-gallery-footer { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 24px 0; color: var(--wk-muted); }
 .wk-gallery-footer p { font-size: 13px; margin: 0; }
 .wk-gallery-footer > span { font-size: 10px; letter-spacing: 1px; }
-.wk-tabs { display: flex; gap: 9px; }
-.wk-tabs button { width: 7px; height: 7px; border: 0; border-radius: 8px; padding: 0; background: #0a0a0a26; transition: width .2s, background .2s; position: relative; }
-.wk-tabs button::before { content: ''; position: absolute; inset: -9px -4px; }
-.wk-tabs button.active { background: var(--wk-brand); width: 23px; }
+/* Large tap targets around small, single-row slide indicators. */
+.wk-tabs { display:flex; gap:2px; }
+.wk-tabs button { position:relative; display:grid; place-items:center; width:20px; height:44px; border:0; border-radius:0; padding:0; background:transparent; }
+.wk-tabs button::before { content:''; display:block; width:7px; height:7px; border-radius:8px; background:#0a0a0a26; transition:width .2s,background .2s; }
+.wk-tabs button.active { width:32px; background:transparent; }
+.wk-tabs button.active::before { width:23px; background:var(--wk-brand); }
 @keyframes photo-in { from { opacity: .5; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
 @media (max-width: 950px) {
   .wk-header { height: 80px; padding: 0 24px; }
@@ -102,3 +104,20 @@ button:focus-visible, a:focus-visible { outline: 2px solid #b77720; outline-offs
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+@media(max-width:360px){.wk-header{padding-inline:16px}.wk-contact{margin-right:8px}.process-intro h1{font-size:clamp(42px,16vw,64px)}}
+
+.wk-contact{color:#0a0a0a}
+/* Compact progress controls use the same quiet pill treatment on both carousels. */
+.wk-slide-pagination{display:flex;align-items:center;gap:2px;padding:2px 10px;background:#f2f2f2;border-radius:30px}
+.wk-slide-pagination button{display:grid;place-items:center;width:14px;height:32px;padding:0;border:0;background:none;border-radius:8px}
+.wk-slide-pagination button.active{width:72px}
+.wk-slide-indicator{display:block;position:relative;width:6px;height:6px;border-radius:8px;background:#d9d9d9;overflow:hidden}
+.active .wk-slide-indicator{width:64px;height:5px}
+.wk-slide-progress{position:absolute;inset:0;background:#111;transform-origin:left;transform:scaleX(.7)}
+.wk-slide-progress.is-playing{animation:wk-slide-progress 5.5s linear both}
+@keyframes wk-slide-progress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.wk-gallery-footer .wk-slide-pagination{margin-left:auto}
+.wk-making-toolbar{display:flex;align-items:center;justify-content:center;gap:16px;max-width:1080px;margin:16px auto 0}
+.wk-gallery-footer .wk-slideshow-toggle,.wk-making-toolbar .wk-slideshow-toggle{width:36px;height:36px;background:#f2f2f2;border:0;color:#111}
+@media(max-width:600px){.wk-gallery-footer .wk-slide-pagination{margin-left:auto}.wk-gallery-footer .wk-slideshow-toggle{margin-right:auto}.wk-making-actions{display:flex;align-items:stretch}.wk-making-actions .wk-secondary{align-self:center}.wk-making-toolbar{margin-top:14px}.wk-slide-pagination button{height:40px}}

@@ -26,7 +26,7 @@
  margin-left:-32px;
  border-radius:0;
 }
-.wk-making-visual>img:not(.wk-making-bg){object-fit:cover!important;object-position:center 42%}
+
 .wk-product-panel.is-expanded .wk-product-visual,.wk-product-panel.is-expanded .wk-making-visual{
  width:calc(100% + 128px);
  margin-left:-64px;
@@ -41,3 +41,68 @@
  .wk-making-visual>img{position:relative;width:100%;height:auto;display:block;object-fit:contain}
  .wk-making-visual:after{display:none}
 }
+
+/* Process carousel: the image and its explanation occupy separate rows. */
+.wk-making-carousel{min-width:0}
+.wk-feature-title{font-size:17px;font-weight:500;letter-spacing:-.2px}
+.wk-feature-description{font-size:14px;line-height:1.45;color:#0a0a0ab3;max-width:170px}
+.wk-service-selector .wk-feature{cursor:pointer;min-height:112px}
+.wk-service-selector .wk-feature.active{background:#0a0a0a06}
+.wk-making-panel .wk-making-visual{position:relative;aspect-ratio:16/9;height:auto;background:#242321}
+.wk-making-panel .wk-making-visual>img{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain;object-position:center}
+.wk-making-panel .wk-making-visual:after{display:none}
+.wk-making-panel .wk-making-visual .wk-gallery-arrow{z-index:3}
+.wk-making-details{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:32px;max-width:1180px;margin:0 auto;padding:36px 0 40px;text-align:left;min-height:210px}
+.wk-step-count{font-size:11px;letter-spacing:1.5px;color:#68685f}
+.wk-making-description h3{font-size:28px;letter-spacing:-.7px;line-height:1.15;font-weight:450;margin:10px 0 12px}
+.wk-making-description p{font-size:16px;line-height:1.6;color:#0a0a0ab3;margin:0;max-width:600px}
+.wk-making-actions{display:flex;flex-direction:column;align-items:center;gap:16px}
+.wk-making-actions .wk-primary{white-space:nowrap;min-height:44px}
+.wk-secondary{font-size:14px;line-height:1.5;padding:5px 0;border-bottom:1px solid #0a0a0a35;transition:border-color .2s}
+.wk-secondary:hover{border-color:#0a0a0a}
+.wk-slideshow-toggle{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;height:44px;padding:0;background:transparent;border:1px solid #0a0a0a20;border-radius:50%;color:#595950;transition:background .2s,color .2s}
+.wk-slideshow-toggle:hover{background:#0a0a0a08;color:#0a0a0a}
+.wk-slideshow-toggle svg{width:14px;height:14px}
+.wk-gallery-footer{justify-content:flex-start}
+.wk-gallery-footer .wk-tabs{margin-left:auto}
+.wk-product-panel,.wk-contact-banner{scroll-margin-top:104px}
+@media(max-width:950px){
+ .wk-real-product-row{flex-direction:column;align-items:stretch;gap:14px}
+ .wk-real-product-price{white-space:normal;line-height:1.5}
+ .wk-making-details{grid-template-columns:minmax(0,1fr) 210px;gap:24px}
+}
+@media(max-width:600px){
+ .wk-product-panel,.wk-product-panel.is-expanded{margin-inline:16px;padding:48px 20px 0;border-radius:16px}
+ .wk-product-panel .wk-product-visual,.wk-product-panel.is-expanded .wk-product-visual,.wk-making-panel .wk-making-visual,.wk-product-panel.is-expanded .wk-making-visual{width:calc(100% + 40px);margin-left:-20px;border-radius:0}
+ .wk-panel-heading h2{font-size:clamp(34px,9.5vw,42px);letter-spacing:-1.5px}
+ .wk-panel-heading>p br{display:none}
+ .wk-feature-row{gap:16px 12px;margin:28px auto 32px}
+ .wk-feature-title{font-size:15px}
+ .wk-feature-description{font-size:12px}
+ .wk-making-panel .wk-making-visual{aspect-ratio:16/9}
+ .wk-making-panel .wk-making-visual>img{position:absolute;object-fit:contain}
+ .wk-making-details{display:flex;flex-direction:column;align-items:stretch;gap:24px;padding:26px 0 30px;min-height:300px}
+ .wk-making-description h3{font-size:26px}
+ .wk-making-description p{font-size:15px}
+ .wk-making-actions{display:grid;grid-template-columns:minmax(0,1fr) 44px;gap:16px}
+ .wk-making-actions .wk-primary{grid-column:1/-1;white-space:normal}
+ .wk-making-actions .wk-secondary{justify-self:start;align-self:center}
+ .wk-making-actions .wk-slideshow-toggle{justify-self:end}
+ .wk-contact-banner{margin:24px 16px;border-radius:16px}
+ .wk-contact-copy{width:100%}
+ .wk-contact-copy h2{font-size:clamp(34px,10vw,43px)}
+ .wk-contact-copy .wk-primary{font-size:14px;width:100%;min-height:44px}
+ .wk-gallery-footer{flex-wrap:wrap;gap:8px;padding:12px 0}
+ .wk-gallery-footer p{width:100%;text-align:center;font-size:12px}
+ .wk-gallery-footer .wk-tabs{margin-left:auto}
+ .wk-gallery-footer .wk-slideshow-toggle{margin-right:auto}
+ .wivork-page .wk-gallery-arrow{width:44px;min-height:64px}
+}
+
+/* A bounded photographic stage keeps the process calm on wide screens. */
+.wivork-page .wk-making-panel .wk-making-visual{width:100%;max-width:1080px;margin:0 auto;border-radius:16px;aspect-ratio:16/9}
+.wk-making-panel .wk-making-details{max-width:1080px}
+@media(max-width:600px){.wivork-page .wk-making-panel .wk-making-visual{border-radius:12px}.wk-making-panel .wk-making-details{min-height:300px}}
+@media(max-width:600px){.wk-product-panel.is-expanded{margin-inline:0;border-radius:0;padding-inline:36px}.wk-product-panel.is-expanded .wk-product-visual{width:calc(100% + 72px);margin-left:-36px}}
+.wk-making-panel{background:#fff}
+.wk-service-selector .wk-feature.active{background:#0a0a0a04}

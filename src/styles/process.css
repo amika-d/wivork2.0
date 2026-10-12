@@ -23,3 +23,12 @@ body:has(.wk-process-page){background:#111}
 .process-sticky:after{content:'';position:absolute;inset:auto 0 0;height:14%;z-index:2;pointer-events:none;background:linear-gradient(#1110,#111)}
 .process-after summary{border-color:#ffffff22;color:#fff}.process-after summary span{color:var(--wk-brand)}.process-next p{color:#fffa}
 @media(max-width:600px){.process-header .wk-nav.open{background:#111}.process-header .wk-menu{border:0}}
+
+/* Readable chapter navigation over the film. */
+.process-chapter-nav{left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100% - 48px);gap:24px;padding:8px 24px;border-radius:16px;background:#111b;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.process-chapter-nav button{font-size:14px;line-height:1.4;min-height:44px;padding:10px 2px;color:#ffffffc7;white-space:nowrap}
+.process-chapter-nav button[aria-current=step]{color:#fff}
+@media(max-width:600px){.process-chapter-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:calc(100% - 32px);max-width:360px;gap:2px 18px;padding:8px 16px;bottom:20px}.process-chapter-nav button{font-size:13px;white-space:normal;text-align:center}.process-chapter,.process-chapter.is-left,.process-chapter.is-right{bottom:150px}}
+.process-intro .process-discover{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:450;line-height:1.5;letter-spacing:.2px;padding:8px 0;border-bottom:1px solid #f4a95080;color:#ffffffe0;transition:color .2s,border-color .2s}
+.process-discover svg{color:var(--wk-brand)}
+.process-intro .process-discover:hover{color:#fff;border-color:var(--wk-brand)}
