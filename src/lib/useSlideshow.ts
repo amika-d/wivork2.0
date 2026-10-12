@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FocusEvent } from 'react';
 
-export function useSlideshow(count: number, delay = 5500) {
+export function useSlideshow(images: readonly string[], delay = 5500) {
+  const count = images.length;
   const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
   const [focused, setFocused] = useState(false);
@@ -8,6 +9,7 @@ export function useSlideshow(count: number, delay = 5500) {
   const [tabVisible, setTabVisible] = useState(true);
   const [reduced, setReduced] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const nextSrc = images[(selected + 1) % count];
 
   useEffect(() => {
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -25,6 +27,24 @@ export function useSlideshow(count: number, delay = 5500) {
       document.removeEventListener('visibilitychange', updateVisibility);
     };
   }, []);
+
+  useEffect(() => {
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    if (!visible || !tabVisible || reduced || saveData) return;
+    let cancelled = false;
+    const picture = new Image();
+    picture.decoding = 'async';
+    picture.fetchPriority = 'low';
+    picture.onload = () => {
+      if (!cancelled) void picture.decode().catch(() => {});
+    };
+    const timer = window.setTimeout(() => { picture.src = nextSrc; }, 350);
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      picture.onload = null;
+    };
+  }, [nextSrc, visible, tabVisible, reduced]);
 
   useEffect(() => {
     if (paused || focused || reduced || !visible || !tabVisible) return;

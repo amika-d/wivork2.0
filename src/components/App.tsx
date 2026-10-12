@@ -9,10 +9,9 @@ import CrossfadeImage from './CrossfadeImage';
 import SlidePagination from './SlidePagination';
 
 const collections = [...products, ...workCollections];
-const contact = 'https://wa.me/94722227440';
 export default function App() {
   useLenis();
-  const { selected, setSelected, paused, setPaused, reduced, playing, bindings } = useSlideshow(collections.length);
+  const { selected, setSelected, paused, setPaused, reduced, playing, bindings } = useSlideshow(collections.map(item => item.image));
   return <div className="wivork-page">
     <WivorkHeader light/>
     <main>
@@ -20,7 +19,7 @@ export default function App() {
         <div className="wk-eyebrow"><img className="wk-spark" src="/wivork/symbol.png" alt="" width="27" height="12" /> Small figures. Big feelings.</div>
         <h1 id="hero-title">Your moments.<br/><span>Made real.</span></h1>
         <p className="wk-description">The people you love. The memories you keep.<br/>Turn them into beautifully crafted, hand-painted 3D miniatures.</p>
-        <a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Create your miniature <span>↗</span></a>
+        <a className="wk-primary" href="/packages">Create your miniature <span>→</span></a>
         <div className="wk-collection" id="collection" {...bindings} role="region" aria-roledescription="carousel" aria-label="Our creations">
           
           <div className="wk-gallery">

@@ -20,7 +20,7 @@ function Icon({ type }: { type: number }) {
   </svg>;
 }
 export default function LandingSections() {
-  const { selected: active, setSelected: setActive, paused, setPaused, reduced, playing, bindings } = useSlideshow(services.length);
+  const { selected: active, setSelected: setActive, paused, setPaused, reduced, playing, bindings } = useSlideshow(services.map(item => item.image));
   const sectionsRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const panels = sectionsRef.current?.querySelectorAll('.wk-product-panel');

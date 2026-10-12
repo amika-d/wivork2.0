@@ -21,31 +21,31 @@
 | Resin printing | 1672 × 941 | 158 KiB |
 | Hand painting | 1672 × 941 | 125 KiB |
 | Detailed film frames | 1280 × 720 | Samples: 10–21 KiB per frame |
-| Film fallback samples | 384 × 216 | First sample: 1.6 KiB |
+| Legacy fallback samples (unused) | 384 × 216 | First sample: 1.6 KiB |
 
 The landing slideshow directly loads the full 1672 × 941 WebP; it does not intentionally serve a low-quality thumbnail. A selected replacement is decoded before the dissolve starts. Its maximum display width is 1,080px, giving about 1.55 source pixels per CSS pixel. This is suitable for ordinary desktop displays and phone layouts, but below the 2× resolution ideal for a full-width 1,080px Retina presentation.
 
-The fullscreen `/process` film contains 481 detailed frames totaling 6.95 MiB of encoded data. It uses a small decoded-frame cache, neighboring-frame loading, and 20 low-resolution fallback samples. It starts background loading all detailed frames after 1.5 seconds unless reduced motion or data saving is active. That helps later scrubbing, but the first interaction can still use a fallback while a detailed frame is pending. A high-resolution canvas cannot recover detail absent from the 720p source.
+The fullscreen `/process` film contains 481 detailed frames totaling 6.95 MiB of encoded data. It uses a small decoded-frame cache, neighboring-frame loading, and low-priority background warming. After the scrolling-quality fix, it keeps the last decoded 1280 × 720 frame until the next detailed frame is ready. It no longer draws the 384 × 216 fallback samples. Current-frame requests take priority over speculative neighbors. A matching higher-resolution original is needed for genuine 1080p detail.
 
 Recommended next steps, in priority order:
 
-1. Preload and decode the next landing slide while the current slide is visible. Keep the existing previous image visible until the incoming full-quality image is ready. Start this work near the viewport, rather than immediately downloading every lower-page image.
+1. **Implemented:** preload and decode the next landing slide while the carousel is visible, at low priority. Keep the existing image visible until the incoming full-quality image is ready. Reduced motion and data-saving preferences skip speculative loading.
 2. Verify actual cache headers on the deployed host. The repository has configurations for hosts that recognize `_headers` and an nginx example; localhost does not prove either is enabled in production.
 3. For sharper large-screen landing imagery, export genuinely higher-resolution source images at 2160px or 2560px wide, alongside smaller responsive variants with `srcset` and `sizes`. Upscaling an existing image does not restore real detail.
 4. For a sharper fullscreen film, export from a genuine 1080p or higher original. Keep smaller frames for mobile/data-saving connections; load the current detailed frame before speculative neighbors. Evaluate video delivery if future clips become longer or substantially larger.
 5. Measure cold-cache and warm-cache behavior with network throttling on the deployed URL. Caching improves repeat visits; it does not remove the download time of a first visit or guarantee zero lag.
 
-No production cache configuration changes were made as part of this report.
+After the hosting platform was confirmed, Vercel-specific browser cache rules and build settings were added in `vercel.json`, with Node 24 selected in `package.json`. They take effect on the next Vercel deployment. See [the Vercel deployment notes](vercel-deployment.md). The deployed cache headers still need verification.
 
 ## Cache findings
 
-`public/_headers` currently declares one-year caching for built JavaScript/CSS, fonts, and film frames, and 30-day caching for process and product media. `deploy/nginx-cache.conf` provides similar rules.
+The original alternative-host configuration in `public/_headers` declares one-year caching for built JavaScript/CSS, fonts, and film frames, and 30-day caching for process and product media. `deploy/nginx-cache.conf` provides similar rules. These files do not configure Vercel. The new `vercel.json` covers hero media and avoids overlapping image, frame, and HTML rules; the findings below refer to the original alternative-host files.
 
 - **Missing hero rule:** `/work/` is absent from `_headers`, so the gallery relies on host defaults.
 - **Overlapping film rules:** `/process/frames/*` also matches `/process/*`. Cloudflare combines repeated headers, so these can produce conflicting `max-age` values. Use mutually exclusive image and frame patterns. [Cloudflare header behavior](https://developers.cloudflare.com/pages/configuration/headers/)
 - **HTML coverage:** `/process/*` can also match `/process/` or `/process/index.html`. HTML should revalidate rather than inherit a month-long image cache policy.
 - **Asset versioning:** One-year `immutable` caching should use URLs that change when content changes. Frame and font names currently do not contain content hashes. Use versioned directories or names when replacing those files. The revised slideshow images already have versioned filenames. [MDN Cache-Control guidance](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control)
-- **Host verification:** `_headers` works on supported static hosts; it does not configure every hosting platform or responses from Cloudflare Pages Functions automatically. The deployment host and public production URL were not established in this audit. [Cloudflare Pages headers](https://developers.cloudflare.com/pages/configuration/headers/)
+- **Host verification:** `_headers` works on supported static hosts; it does not configure every hosting platform or responses from Cloudflare Pages Functions automatically. The host has now been confirmed as Vercel; its public production URL has not been provided. [Cloudflare Pages headers](https://developers.cloudflare.com/pages/configuration/headers/)
 
 ## SEO and AI search readiness
 

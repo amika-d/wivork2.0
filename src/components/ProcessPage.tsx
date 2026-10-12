@@ -42,23 +42,26 @@ export default function ProcessPage() {
     let frame = 0;
     let currentChapter = -1;
     const detailed = new Map<number, HTMLImageElement>();
-    const previews = new Map<number, HTMLImageElement>();
     const pending = new Set<number>();
+    let lastDetailed: HTMLImageElement | undefined;
     // A small LRU cache avoids decoding all 481 frames into memory at once.
     const cacheLimit = 18;
     function draw() {
       const exact = detailed.get(frame);
       if (exact) { detailed.delete(frame); detailed.set(frame, exact); }
-      let picture = exact;
+      let picture = exact || lastDetailed;
       if (!picture) {
         let distance = Infinity;
-        for (const [index, image] of [...previews, ...detailed]) {
+        for (const [index, image] of detailed) {
           if (Math.abs(index - frame) < distance) {
             distance = Math.abs(index - frame); picture = image;
           }
         }
       }
       if (!picture) return;
+      // Keep a decoded detailed frame on screen while the next one downloads.
+      // A thumbnail fallback would visibly reduce resolution during scrubbing.
+      lastDetailed = picture;
       const scale = Math.max(surface.width / picture.naturalWidth, surface.height / picture.naturalHeight);
       const width = picture.naturalWidth * scale;
       const height = picture.naturalHeight * scale;
@@ -67,19 +70,22 @@ export default function ProcessPage() {
       context!.drawImage(picture, (surface.width - width) / 2, (surface.height - height) / 2, width, height);
       setReady(true);
     }
-    function loadFrame(index: number) {
-      if (disposed || detailed.has(index) || pending.has(index) || pending.size >= 6) return;
+    function loadFrame(index: number, priority = false) {
+      if (disposed || detailed.has(index) || pending.has(index) || pending.size >= (priority ? 7 : 4)) return;
       pending.add(index);
       const picture = new Image();
       picture.decoding = 'async';
-      picture.onload = () => {
+      picture.fetchPriority = priority ? 'high' : 'low';
+      picture.onload = async () => {
+        try { await picture.decode(); }
+        catch { pending.delete(index); return; }
         pending.delete(index);
         if (disposed) return;
         detailed.set(index, picture);
         while (detailed.size > cacheLimit) detailed.delete(detailed.keys().next().value!);
         draw();
         // Catch up if a fast scroll changed the target while this frame loaded.
-        if (!detailed.has(frame)) loadFrame(frame);
+        if (!detailed.has(frame)) loadFrame(frame, true);
       };
       picture.onerror = () => { pending.delete(index); };
       picture.src = framePath(index);
@@ -94,7 +100,7 @@ export default function ProcessPage() {
       const nextChapter = motion.matches ? 3 : chapters.reduce((result, entry, index) => progress >= entry.progress ? index : result, 0);
       if (nextChapter !== currentChapter) { currentChapter = nextChapter; setChapter(nextChapter); }
       draw();
-      loadFrame(frame);
+      loadFrame(frame, true);
       if (!motion.matches) {
         for (const offset of [-2, -1, 1, 2]) loadFrame(Math.min(LAST_FRAME, Math.max(0, frame + offset)));
       }
@@ -114,15 +120,6 @@ export default function ProcessPage() {
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', resize);
     motion.addEventListener('change', motionChanged);
-    // Low-resolution samples cover the entire clip while detailed frames load.
-    if (!motion.matches) {
-      for (let sample = 0; sample <= 19; sample++) {
-        const image = new Image();
-        image.decoding = 'async';
-        image.onload = () => { if (!disposed) { previews.set(sample * 24, image); schedule(); } };
-        image.src = `/process/t_${String(sample).padStart(2, '0')}.webp`;
-      }
-    }
     resize();
     schedule();
     // Warm the HTTP cache with every frame once the page is idle so scrubbing never waits on the network.
@@ -135,6 +132,7 @@ export default function ProcessPage() {
       const next = () => {
         while (!disposed && inflight < 3 && warmed < TOTAL_FRAMES) {
           const probe = new Image();
+          probe.fetchPriority = 'low';
           inflight++;
           probe.onload = probe.onerror = () => { inflight--; next(); };
           probe.src = framePath(warmed++);
@@ -151,7 +149,8 @@ export default function ProcessPage() {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', resize);
       motion.removeEventListener('change', motionChanged);
-      detailed.clear(); previews.clear();
+      detailed.clear();
+      lastDetailed = undefined;
     };
   }, []);
 
