@@ -1,10 +1,10 @@
-.wk-header.home-header{position:sticky;top:0;z-index:50;background:#111e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #ffffff14;color:#fff}
+.wk-header.home-header{position:sticky;top:0;z-index:50;background:#111e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0;color:#fff}
 .home-header .wk-logo img{filter:brightness(0) invert(1)}
 .home-header .wk-nav{gap:6px}.home-header .wk-nav a{padding:9px 16px;border-radius:30px;color:#fffb;transition:background .2s,color .2s}.home-header .wk-nav a:hover{opacity:1;background:#ffffff14;color:#fff}
 .home-header .wk-menu{color:#fff}
 @media(max-width:600px){.home-header .wk-nav.open{background:#111}}
 /* Light variant of the shared header (home page) */
-.wk-header.home-header.is-light{background:#ffffffeb;border-bottom:1px solid #0a0a0a12;color:#0a0a0a}
+.wk-header.home-header.is-light{background:#ffffffeb;border-bottom:0;color:#0a0a0a}
 .home-header.is-light .wk-nav a{color:#0a0a0ab3}.home-header.is-light .wk-nav a:hover{background:#0a0a0a0d;color:#0a0a0a}
 .home-header.is-light .wk-nav a[aria-current=page]{background:#0a0a0a0f;color:#0a0a0a}
 .home-header.is-light .wk-menu{color:#0a0a0a}

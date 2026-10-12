@@ -15,6 +15,6 @@ export default function ProductShowcase() {
         </div>
       </div>
     </article>)}</div>
-    <p className="wk-product-note">Actual wivorK pieces · Photos refined for presentation</p>
+    <p className="wk-product-note">Actual wivork pieces · Photos refined for presentation</p>
   </section>;
 }

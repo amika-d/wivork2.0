@@ -9,7 +9,7 @@
 - The closing banner uses the requested black-outfit miniature. The logo has a faint shadow. Footer colors and content are preserved, with consistent 16px corners. The blanket AI-generated footer label is removed.
 - Product and process panels use distinct ash and white backgrounds. Their rounded outer edges expand and contract as they pass through the center of the viewport in either scroll direction.
 - Mobile spacing, button wrapping, process chapter labels, and navigation are improved.
-- The Packages page keeps its dark background and dark navigation, with a light single-person card and dark couple card. Shorter descriptions and three inclusions avoid repeating size and price information. Existing sizes and prices are retained; process explanations are condensed and spaced consistently.
+- The Packages page keeps its dark background and dark navigation, with a light single-person card and dark couple card. Selecting Portrait busts changes the sculpting, printing, and painting illustrations to upper-body busts. Shorter descriptions and three inclusions avoid repeating size and price information. Existing sizes and prices are retained; process explanations are condensed and spaced consistently. Process photography uses portrait crops with explicit sizing to prevent tall letterboxed image boxes.
 - Landing product photographs are rounded independently, with the descriptions and actions on the pale section background.
 
 ## Production image quality and loading
@@ -59,6 +59,6 @@ Recommended content: a clear business description mentioning custom portrait min
 
 ## Verification
 
-Browser checks covered the home, packages, and process pages at widths from 320px to 1920px: no horizontal overflow or broken loaded images were observed. Slideshow auto-advance, hover pause, arrows, step selection, mobile navigation, and reduced-motion behavior passed before the final imagery and dissolve refinements. The panel animation was subsequently changed, at the user’s request, to expand and contract while scrolling in either direction. Final verification results are reported with the handoff.
+The final production build and `git diff --check` passed. Browser checks covered the home, packages, and process pages at 320px, 390px, 768px, and 1920px, with additional earlier checks at 375px and 1440px. No horizontal overflow or broken loaded images were observed. Auto-slide with dissolve, continued playback on hover, arrows, step selection, mobile navigation, and reduced-motion behavior passed with no browser errors. Separate final checks verified accurate prices and bust-specific imagery at 320px, 768px, and 1440px, distinct ash/white section backgrounds, and reversible panel expansion.
 
 Production CDN behavior, live search indexing, and performance on an actual customer's network remain unverified without the deployed site URL.

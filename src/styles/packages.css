@@ -73,3 +73,11 @@ body:has(.pk-page){--wk-page:#111;--wk-surface:#1b1b1b;--wk-ink:#fff;--wk-muted:
 .pk-step-help:hover{color:var(--wk-brand);border-color:var(--wk-brand)}
 @media(max-width:800px){.pk-step{gap:36px;margin-bottom:56px}}
 @media(max-width:600px){.pk-step{gap:24px;margin-bottom:52px}.pk-step-copy p{font-size:15px}}
+
+/* Portrait process frames: explicit height prevents intrinsic image dimensions
+   from creating tall letterboxed containers. Keep the action in the crop. */
+.pk-step{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:96px}
+.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,420px)}
+.pk-step-image img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%}
+@media(max-width:800px){.pk-step,.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px}}
+@media(max-width:600px){.pk-step,.pk-step.flip{grid-template-columns:1fr;gap:24px}.pk-step-image{width:100%;max-width:400px;margin-inline:auto}}

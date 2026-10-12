@@ -14,7 +14,7 @@
 /* Dark /process page: header, intro, film, closing section and footer share one near-black */
 body:has(.wk-process-page){background:#111}
 .wk-process-page{background:#111;color:#fff}
-.wk-header.process-header{position:sticky;top:0;z-index:50;background:#111e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid #ffffff14;color:#fff}
+.wk-header.process-header{position:sticky;top:0;z-index:50;background:#111e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0;color:#fff}
 .process-header .wk-logo img{filter:brightness(0) invert(1)}
 .process-header .wk-nav{gap:6px}.process-header .wk-nav a{padding:9px 16px;border-radius:30px;color:#fffb;text-decoration:none;transition:background .2s,color .2s}.process-header .wk-nav a:hover{opacity:1;background:#ffffff14;color:#fff}.process-header .wk-nav a[aria-current=page]{color:#fff;background:#ffffff1c;text-decoration:none}
 .process-header .wk-menu{color:#fff}
