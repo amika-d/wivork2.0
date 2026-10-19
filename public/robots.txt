@@ -18,4 +18,4 @@ User-agent: Google-Extended
 User-agent: Applebot-Extended
 Allow: /
 
-Sitemap: https://wivork.com/sitemap.xml
+Sitemap: https://www.wivork.com/sitemap.xml
