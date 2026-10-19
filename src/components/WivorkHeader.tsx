@@ -10,7 +10,7 @@ const links = [
 export default function WivorkHeader({ current, light = false }: { current?: 'process' | 'packages'; light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return <header className={`wk-header home-header process-header${light ? ' is-light' : ''}`}>
-    <a className="wk-logo" href="/" aria-label="wivorK home"><img src="/wivork/logo.png" alt="wivorK" width="154" height="18"/></a>
+    <a className="wk-logo" href="/" aria-label="wivork home"><img src="/wivork/logo.png" alt="wivork" width="154" height="18"/></a>
     <nav className={menuOpen ? 'wk-nav open' : 'wk-nav'} aria-label="Main navigation">
       {links.map((link) => <a key={link.key} href={link.href} aria-current={link.key === current ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{link.label}</a>)}
     </nav>

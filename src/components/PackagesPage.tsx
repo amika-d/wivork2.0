@@ -1,3 +1,4 @@
+import PricingSection from './PricingSection';
 import { useState } from 'react';
 import '../styles/packages.css';
 import '../styles/home-dark.css';
@@ -6,18 +7,7 @@ import WivorkFooter from './WivorkFooter';
 import { useLenis } from '../lib/useLenis';
 
 const phone = '94722227440';
-const order = (name: string, price: string) => `https://wa.me/${phone}?text=${encodeURIComponent(`Hi wivorK, I'd like to order the ${name} (${price}).`)}`;
 
-const groups = [
-  { id: 'signature', eyebrow: 'Signature miniatures', title: 'Full-figure, 18cm', note: 'Listed prices are for our standard 18cm height. Pricing may vary depending on requested custom sizes.', packages: [
-    { name: 'Single Miniature', size: '18cm', price: 'Rs. 10,000', text: 'A full-length portrait of one person, made from your photos.', featured: true },
-    { name: 'Couple Miniature', size: '18cm', price: 'Rs. 20,000', text: 'Two full-length portraits, connected in one personal piece.' },
-  ] },
-  { id: 'busts', eyebrow: 'Portrait busts', title: 'Compact, 5cm', note: 'Listed prices are for our standard 5cm bust height. Pricing may vary depending on requested custom sizes.', packages: [
-    { name: 'Single Portrait Bust', size: '5cm', price: 'Rs. 1,800', text: 'An upper-body portrait of one person, made from your photos.' },
-    { name: 'Couple Portrait Bust', size: '5cm', price: 'Rs. 3,500', text: 'Two upper-body portraits, together on a shared display base.' },
-  ] },
-];
 const steps = [
   { title: 'Photo submission', image: '/process/reference-upload-woman-v3.webp', alt: 'A phone sending front and side reference photographs of a woman', text: 'Send clear, well-lit front and side photos. In the front view, keep your face straight towards the camera.', help: true },
   { title: 'Digital 3D sculpting', image: '/process/digital-sculpting-v2.webp', bustImage: '/process/bust-sculpting-v1.webp', bustAlt: 'An artist digitally sculpting an upper-body portrait bust', alt: 'An artist sculpting a portrait of a woman in a cream sari', text: 'We sculpt your likeness in 3D, refining facial features, hairstyle, and outfit.' },
@@ -38,29 +28,11 @@ function WhatsAppIcon() {
 export default function PackagesPage() {
   useLenis();
   const [tab, setTab] = useState(0);
-  const group = groups[tab];
   return <>
     <WivorkHeader current="packages"/>
     <main className="pk-page">
       <section className="pk-hero" aria-labelledby="packages-title"><div><span className="pk-eyebrow">PERSONALLY YOURS</span><h1 id="packages-title">Personal pieces.<br/>Clear, simple pricing.</h1></div><div className="pk-hero-copy"><p>A little likeness, made just for you. Choose a full-length miniature or a portrait bust, for yourself or someone you love.</p><a href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Find your perfect piece <span aria-hidden="true">↗</span></a></div></section>
-      <section className="pk-group" id="pricing" aria-labelledby="pricing-title">
-        <div className="pk-group-head"><span>Choose your size</span><h2 id="pricing-title">{group.title}</h2></div>
-        <div className="pk-tabs" role="tablist" aria-label="Package size">{groups.map((item, index) => <button key={item.id} role="tab" id={`tab-${item.id}`} aria-selected={tab === index} aria-controls="pk-panel" onClick={() => setTab(index)}>{item.eyebrow}</button>)}</div>
-        <div id="pk-panel" role="tabpanel" aria-labelledby={`tab-${group.id}`} key={group.id}>
-          <div className="pk-cards">{group.packages.map((item, index) => <article className={`pk-card${index === 1 ? ' featured' : ''}`} key={item.name}>
-            <span className="pk-card-detail">{index === 1 ? 'A MOMENT TOGETHER' : 'A LITTLE OF YOU'}</span>
-            <h3>{item.name}</h3>
-            <p>{item.text}</p>
-            <ul className="pk-features">{['Custom digital sculpting', 'Resin printed and hand-painted', 'Unlimited sculpting revisions'].map(feature => <li key={feature}><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m3 8 3 3 7-7"/></svg>{feature}</li>)}</ul>
-            <div className="pk-card-foot">
-              <div className="pk-price"><small>One-time · {item.size}</small><strong>{item.price}</strong></div>
-              <a className="wk-primary pk-wa" href={order(item.name, item.price)} target="_blank" rel="noreferrer">Start your order <span aria-hidden="true">↗</span></a>
-            </div>
-          </article>)}</div>
-          <p className="pk-note">* {group.note}</p>
-        </div>
-        <a className="pk-ask" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer"><WhatsAppIcon/>Not sure which one? Chat with us</a>
-      </section>
+      <PricingSection tab={tab} onTabChange={setTab}/>
       <section className="pk-process" aria-labelledby="pk-process-title">
         <div className="pk-group-head"><span>Our process</span><h2 id="pk-process-title">From photo to keepsake</h2></div>
         {steps.map((step, index) => <article className={`pk-step${index % 2 ? ' flip' : ''}`} key={step.title}>

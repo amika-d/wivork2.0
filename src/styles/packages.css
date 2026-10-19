@@ -81,3 +81,6 @@ body:has(.pk-page){--wk-page:#111;--wk-surface:#1b1b1b;--wk-ink:#fff;--wk-muted:
 .pk-step-image img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%}
 @media(max-width:800px){.pk-step,.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px}}
 @media(max-width:600px){.pk-step,.pk-step.flip{grid-template-columns:1fr;gap:24px}.pk-step-image{width:100%;max-width:400px;margin-inline:auto}}
+
+.home-pricing{background:#181818;color:#fff;margin:32px;border-radius:16px;padding:56px max(24px,calc((100% - 1180px) / 2 - 32px)) 48px;scroll-margin-top:90px}
+@media(max-width:600px){.home-pricing{margin:24px 16px;padding:40px 20px}}

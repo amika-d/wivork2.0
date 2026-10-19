@@ -1,4 +1,4 @@
-# wivorK site audit — 12 October 2026
+# wivork site audit — 12 October 2026
 
 ## Completed visual changes
 

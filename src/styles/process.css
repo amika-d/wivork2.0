@@ -32,3 +32,26 @@ body:has(.wk-process-page){background:#111}
 .process-intro .process-discover{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:450;line-height:1.5;letter-spacing:.2px;padding:8px 0;border-bottom:1px solid #f4a95080;color:#ffffffe0;transition:color .2s,border-color .2s}
 .process-discover svg{color:var(--wk-brand)}
 .process-intro .process-discover:hover{color:#fff;border-color:var(--wk-brand)}
+
+/* Cover the film while its compressed frames are buffered. */
+.process-loader{position:absolute;inset:0;z-index:10;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
+.process-loader>img{width:220px;max-width:70%;height:auto}
+.process-loader p{font-size:16px;color:#ffffffcc;margin:8px 0}
+.process-loader-track{width:min(280px,80%);height:3px;background:#ffffff24;overflow:hidden;border-radius:3px}
+.process-loader-track span{display:block;width:100%;height:100%;background:var(--wk-brand,#f4a950);transform-origin:left;transition:transform .2s linear}
+.process-loader>span{font-size:12px;color:#ffffff99;font-variant-numeric:tabular-nums}
+.process-loader button{margin-top:12px;min-height:44px;padding:10px 16px;background:none;border:1px solid #ffffff30;border-radius:24px;color:#ffffffcc;font:inherit;font-size:13px;cursor:pointer}
+.process-loader button:hover{border-color:var(--wk-brand);color:#fff}
+@media(prefers-reduced-motion:reduce){.process-loader-track span{transition:none}}
+
+.process-static .process-sticky{height:auto;min-height:0}
+.process-static .process-sticky>:not(.process-fallback){display:none}
+.process-static .process-sticky:before,.process-static .process-sticky:after{display:none}
+.process-fallback{position:relative;padding:48px 24px;max-width:1180px;margin:auto}
+.process-fallback>h2{text-align:center;font-size:32px;margin:0 0 32px}
+.process-fallback>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.process-fallback img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:16px;margin-bottom:20px}
+.process-fallback article>span{color:var(--wk-brand);font-size:13px}
+.process-fallback h3{font-size:24px;margin:8px 0}
+.process-fallback p{font-size:15px;line-height:1.6;color:#ffffffb3;margin:0}
+@media(max-width:600px){.process-fallback>div{grid-template-columns:1fr}}

@@ -1,3 +1,4 @@
+import PricingSection from './PricingSection';
 import { useEffect, useRef } from 'react';
 import '../styles/landing-sections.css';
 import WivorkFooter from './WivorkFooter';
@@ -57,12 +58,13 @@ export default function LandingSections() {
         <div className="wk-making-toolbar"><SlidePagination labels={services.map(item => item.title)} selected={active} onSelect={setActive} playing={playing}/>{!reduced && <button className="wk-slideshow-toggle" onClick={() => setPaused(!paused)} aria-label={paused ? 'Play making slideshow' : 'Pause making slideshow'}>{paused ? <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m5 3 8 5-8 5Z"/></svg> : <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg>}</button>}</div>
         <div className="wk-making-details">
           <div className="wk-making-description" aria-live={paused || reduced ? 'polite' : 'off'} aria-atomic="true"><span className="wk-step-count">STEP 0{active + 1} OF 04</span><h3>{services[active].title}</h3><p>{services[active].detail}</p></div>
-          <div className="wk-making-actions"><a className="wk-primary" href={`${contact}?text=${encodeURIComponent('Hi wivorK, I’d like to send reference photos for a custom miniature.')}`} target="_blank" rel="noreferrer">Send your photos ↗</a><a className="wk-secondary" href="/process">See the full process →</a></div>
+          <div className="wk-making-actions"><a className="wk-primary" href={`${contact}?text=${encodeURIComponent('Hi wivork, I’d like to send reference photos for a custom miniature.')}`} target="_blank" rel="noreferrer">Send your photos ↗</a><a className="wk-secondary" href="/process">See the full process →</a></div>
         </div>
       </div>
     </section>
 
-    <section className="wk-contact-banner" id="contact" aria-labelledby="contact-title"><img src="/wivork/products/black-outfit-cutout.webp" alt="A wivorK hand-painted miniature in a black outfit with a tan backpack on a textured base" loading="lazy"/><div className="wk-contact-copy"><span className="wk-banner-tag">Made for you</span><h2 id="contact-title">Your imagination.<br/><span>Made real.</span></h2><p>Start with a photo. We’ll help with the rest.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Let’s create on WhatsApp ↗</a></div></section>
+    <section className="wk-contact-banner" id="contact" aria-labelledby="contact-title"><img src="/wivork/products/black-outfit-cutout.webp" alt="A wivork hand-painted miniature in a black outfit with a tan backpack on a textured base" loading="lazy"/><div className="wk-contact-copy"><span className="wk-banner-tag">Made for you</span><h2 id="contact-title">Your imagination.<br/><span>Made real.</span></h2><p>Start with a photo. We’ll help with the rest.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Let’s create on WhatsApp ↗</a></div></section>
+    <PricingSection embedded/>
     <WivorkFooter backHref="#hero-title"/>
   </div>;
 }
