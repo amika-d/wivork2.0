@@ -4,7 +4,7 @@ import '../styles/packages.css';
 const phone = '94722227440';
 const order = (name: string, price: string) => `https://wa.me/${phone}?text=${encodeURIComponent(`Hi wivork, I'd like to order the ${name} (${price}).`)}`;
 
-const groups = [
+export const groups = [
   { id: 'signature', eyebrow: 'Signature miniatures', title: 'Full-figure, 18cm', note: 'Listed prices are for our standard 18cm height. Pricing may vary depending on requested custom sizes.', packages: [
     { name: 'Single Miniature', size: '18cm', price: 'Rs. 10,000', text: 'A full-length portrait of one person, made from your photos.', featured: true },
     { name: 'Couple Miniature', size: '18cm', price: 'Rs. 20,000', text: 'Two full-length portraits, connected in one personal piece.' },

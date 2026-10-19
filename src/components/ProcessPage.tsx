@@ -3,11 +3,11 @@ import '../styles/process.css';
 import '../styles/home-dark.css';
 import WivorkFooter from './WivorkFooter';
 import WivorkHeader from './WivorkHeader';
+import LoadingSplash from './LoadingSplash';
 import { useLenis } from '../lib/useLenis';
 import { canDecodeFrames, createFrameDecoder } from '../lib/frameDecoder';
+import { LAST_FRAME, TOTAL_FRAMES, framePath, keyframes as keyframeIndices, pickFrameSet } from '../lib/film';
 
-const TOTAL_FRAMES = 241;
-const LAST_FRAME = TOTAL_FRAMES - 1;
 const contact = 'https://wa.me/94722227440';
 const chapters = [
   { title: 'Your photograph', text: 'Every miniature begins with a moment worth keeping.', progress: 0 },
@@ -15,10 +15,6 @@ const chapters = [
   { title: '3D printed', text: 'The digital sculpture becomes something you can hold.', progress: .4 },
   { title: 'Painted by hand', text: 'Color and careful finishing bring your miniature to life.', progress: .58 },
 ];
-// Portrait screens only ever show the middle of the 16:9 film, so they get a cropped 540 × 720 set.
-type FrameSet = 'd' | 'm';
-const pickFrameSet = (): FrameSet => window.matchMedia('(max-aspect-ratio: 1/1)').matches ? 'm' : 'd';
-const framePath = (set: FrameSet, frame: number) => `/process/film/${set}/f_${String(frame).padStart(3, '0')}.webp`;
 export function progressToFrame(progress: number) {
   return Math.round(Math.min(1, Math.max(0, (progress - .04) / .92)) * LAST_FRAME);
 }
@@ -177,8 +173,7 @@ export default function ProcessPage() {
     async function preload() {
       const requested = generation;
       // Decode a sparse set of keyframes first so every stage is available before detail loads.
-      const count = motion.matches ? 1 : set === 'm' ? 9 : 17;
-      const indices = motion.matches ? [LAST_FRAME] : Array.from({ length: count }, (_, index) => Math.round(index * LAST_FRAME / (count - 1)));
+      const indices = motion.matches ? [LAST_FRAME] : keyframeIndices(set);
       let completed = 0;
       await Promise.all(indices.map(async index => {
         try {
@@ -236,13 +231,7 @@ export default function ProcessPage() {
   return <>
     <WivorkHeader current="process"/>
     <main className="wk-process-page">
-      <div className={`process-loader${loading ? '' : ' is-done'}`} role="status" aria-live="polite" aria-hidden={!loading}>
-        <img src="/wivork/logo.png" alt="Wivork" width="154" height="18"/>
-        <p>Preparing your miniature’s journey</p>
-        <div className="process-loader-track" role="progressbar" aria-label="Loading animation" aria-valuenow={loadProgress} aria-valuemin={0} aria-valuemax={100}><span style={{ transform: `scaleX(${loadProgress / 100})` }}/></div>
-        <span>{loadProgress}%</span>
-        <button onClick={() => setLoading(false)} tabIndex={loading ? 0 : -1}>Continue while loading →</button>
-      </div>
+      <LoadingSplash loading={loading} progress={loadProgress} message="Preparing your miniature’s journey" onSkip={() => setLoading(false)}/>
       <section className="process-intro"><p>THE WIVORK PROCESS</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a resin print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
       <section className={`process-scroll${reduced || fallback ? ' reduced-motion' : ''}${fallback ? ' process-static' : ''}`} id="process-film" ref={root} aria-label="Scroll through the miniature-making process">
         <div className="process-sticky" aria-busy={loading} ref={stage} data-side={chapter % 2 === 0 ? 'left' : 'right'}>

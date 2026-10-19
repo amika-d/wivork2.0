@@ -4,11 +4,13 @@ import '../styles/home-dark.css';
 import WivorkHeader from './WivorkHeader';
 import WivorkFooter from './WivorkFooter';
 import InfiniteMenu from './InfiniteMenu';
+import LoadingSplash from './LoadingSplash';
 import { useLenis } from '../lib/useLenis';
 
 const contact = 'https://wa.me/94722227440';
 const ask = (piece: string) => `${contact}?text=${encodeURIComponent(`Hi wivork, I’d love a miniature like the ${piece} in your gallery.`)}`;
 const items = [
+  { image: '/work/hero-16x9/uncle-studio-v1.webp', title: 'Uncle', description: 'A portrait bust in a dark suit and red tie, painted by hand.', alt: 'Hand-painted portrait bust of a man with a moustache, dark suit and red patterned tie on a gray oval base' },
   { image: '/wivork/products/couple-bust.webp', title: 'Couple bust', description: 'Two people sculpted together on one oval base.', alt: 'Hand-painted portrait bust of a couple on a teal oval base' },
   { image: '/work/hero-16x9/thihara-2-5-blur-landscape.webp', title: 'White sari', description: 'A portrait miniature with a brooch, painted by hand.', alt: 'Hand-painted miniature of a woman in a white sari with a brooch' },
   { image: '/work/hero-16x9/yellow-sari-studio-v2.webp', title: 'Yellow sari', description: 'Patterned borders, picked out one stroke at a time.', alt: 'Hand-painted miniature of a woman in a yellow sari' },
@@ -70,7 +72,30 @@ export default function GalleryPage() {
       window.__lenis?.start();
     };
   }, [selected]);
-  const isBust = selected?.title === 'Couple bust';
+  const isBust = selected?.title === 'Couple bust' || selected?.title === 'Uncle';
+  const [loading, setLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+  useEffect(() => {
+    // Hold the splash until every gallery photo is downloaded, so the sphere or slider appears complete.
+    let cancelled = false;
+    let done = 0;
+    const timeout = window.setTimeout(() => setLoading(false), 8000);
+    const images = items.map(item => {
+      const image = new Image();
+      image.onload = image.onerror = () => {
+        if (cancelled) return;
+        setLoadProgress(Math.round(++done / items.length * 100));
+        if (done === items.length) { clearTimeout(timeout); setLoading(false); }
+      };
+      image.src = item.image;
+      return image;
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+      for (const image of images) image.onload = image.onerror = null;
+    };
+  }, []);
   // Server render and phones get the slider; desktop upgrades to the sphere once mounted.
   const [sphere, setSphere] = useState(false);
   useEffect(() => {
@@ -81,11 +106,12 @@ export default function GalleryPage() {
     return () => query.removeEventListener('change', update);
   }, []);
   return <>
+    <LoadingSplash loading={loading} progress={loadProgress} message="Gathering our creations" onSkip={() => setLoading(false)}/>
     <WivorkHeader current="creations"/>
     <main className="wk-gallery-page">
       <section className="gl-intro"><p>OUR CREATIONS</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
       {sphere
-        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures"><InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/></section>
+        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading}>{!loading && <InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
         : <section className="gl-mobile" aria-label="Gallery of wivork miniatures"><GallerySlider onSelect={setSelected}/></section>}
     </main>
     <dialog ref={dialog} className="gl-modal" aria-labelledby="gl-modal-title" onCancel={() => setSelected(null)} onClose={() => setSelected(null)} onClick={event => { if (event.target === event.currentTarget) setSelected(null); }}>

@@ -1,17 +1,13 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import App from '../components/App';
-import '../styles/local.css';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Your moments, made real. Custom 3D miniatures, carefully modeled, printed, and hand-painted by wivork." />
-    <meta name="theme-color" content="#ffffff" />
-    <title>wivork — Your moments. Made real.</title>
-    <link rel="icon" type="image/png" href="/wivork/favicon.png" />
-    <link rel="preload" href="/fonts/SanaSans-Variable.woff2" as="font" type="font/woff2" crossorigin />
-  </head>
-  <body><App client:load /></body>
-</html>
+<BaseLayout
+  title="Custom 3D Miniatures from Your Photos | wivork Sri Lanka"
+  description="Turn the people you love into hand-painted 3D miniatures and portrait busts. Sculpted from your photos, resin-printed and painted by hand in Sri Lanka."
+  image="/og/home.jpg"
+  imageAlt="A hand-painted wivork portrait bust of a smiling couple on a teal oval base"
+  themeColor="#ffffff"
+>
+  <App client:load />
+</BaseLayout>

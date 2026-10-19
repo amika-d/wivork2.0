@@ -1,0 +1,21 @@
+# Search engines and AI assistants are welcome to read and cite wivork.
+User-agent: *
+Allow: /
+
+# AI search and answer crawlers (named so the intent is explicit).
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Allow: /
+
+# AI training crawlers are allowed too.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://wivork.com/sitemap.xml

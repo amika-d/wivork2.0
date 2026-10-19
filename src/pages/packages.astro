@@ -1,17 +1,33 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import PackagesPage from '../components/PackagesPage';
-import '../styles/local.css';
+import { groups } from '../components/PricingSection';
+
+// Product data for search engines and AI answers, generated from the same list as the pricing cards.
+const site = Astro.site!;
+const products = groups.flatMap(group => group.packages.map(item => ({
+  '@type': 'Product',
+  name: `${item.name} (${item.size})`,
+  description: item.text,
+  image: new URL(group.id === 'busts' ? '/wivork/products/couple-bust.webp' : '/wivork/products/signature-miniature.webp', site).href,
+  brand: { '@type': 'Brand', name: 'wivork' },
+  offers: {
+    '@type': 'Offer',
+    price: item.price.replace(/[^\d]/g, ''),
+    priceCurrency: 'LKR',
+    availability: 'https://schema.org/InStock',
+    url: new URL('/packages', site).href,
+    seller: { '@id': new URL('/#organization', site).href },
+  },
+})));
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="wivork pricing packages: single and couple miniatures and portrait busts, 3D sculpted, printed and hand-painted." />
-    <meta name="theme-color" content="#111111" />
-    <title>Packages — wivork</title>
-    <link rel="icon" type="image/png" href="/wivork/favicon.png" />
-    <link rel="preload" href="/fonts/SanaSans-Variable.woff2" as="font" type="font/woff2" crossorigin />
-  </head>
-  <body id="top"><PackagesPage client:load /></body>
-</html>
+<BaseLayout
+  title="Miniature & Portrait Bust Prices in Sri Lanka | wivork"
+  description="Custom portrait busts from Rs. 1,800 and full-figure 18cm miniatures from Rs. 10,000. Single or couple, sculpted from your photos and hand-painted."
+  image="/og/packages.jpg"
+  imageAlt="A hand-painted wivork miniature of a woman in a red sari with a gold handbag"
+  bodyId="top"
+  schema={products}
+>
+  <PackagesPage client:load />
+</BaseLayout>

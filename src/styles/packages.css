@@ -82,5 +82,20 @@ body:has(.pk-page){--wk-page:#111;--wk-surface:#1b1b1b;--wk-ink:#fff;--wk-muted:
 @media(max-width:800px){.pk-step,.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px}}
 @media(max-width:600px){.pk-step,.pk-step.flip{grid-template-columns:1fr;gap:24px}.pk-step-image{width:100%;max-width:400px;margin-inline:auto}}
 
-.home-pricing{background:#181818;color:#fff;margin:32px;border-radius:16px;padding:56px max(24px,calc((100% - 1180px) / 2 - 32px)) 48px;scroll-margin-top:90px}
+.home-pricing{background:var(--wk-surface,#efefed);color:#0a0a0a;margin:32px;border-radius:16px;padding:56px max(24px,calc((100% - 1180px) / 2 - 32px)) 48px;scroll-margin-top:90px}
 @media(max-width:600px){.home-pricing{margin:24px 16px;padding:40px 20px}}
+
+/* Home pricing follows the pale product panels. */
+.home-pricing .pk-group-head span{color:#75501f}
+.home-pricing .pk-group-head h2{font-size:clamp(36px,4vw,56px);letter-spacing:-2px}
+.home-pricing .pk-tabs{background:#0a0a0a08}
+.home-pricing .pk-tabs button{color:#0a0a0ab3}
+.home-pricing .pk-tabs button:hover{color:#0a0a0a}
+.home-pricing .pk-tabs button[aria-selected=true]{color:#0a0a0a}
+.home-pricing .pk-card,.home-pricing .pk-card.featured{--pk-ink:#0a0a0a;--pk-muted:#0a0a0ab3;--pk-line:#0a0a0a14;background:#fff;border:1px solid #0a0a0a0a}
+.home-pricing .pk-card .wk-primary{background:var(--wk-brand,#f4a950);color:#0a0a0a}
+.home-pricing .pk-card .wk-primary:hover{background:var(--wk-brand-hover,#ffba68)}
+.home-pricing .pk-note{color:#0a0a0a99}
+.home-pricing .pk-ask{color:#0a0a0ab3;border-color:#0a0a0a33}
+.home-pricing .pk-ask:hover{color:#0a0a0a;border-color:#0a0a0a}
+@media(max-width:600px){.home-pricing .pk-group-head h2{letter-spacing:-1.4px}}

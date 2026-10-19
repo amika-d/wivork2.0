@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import LandingSections from './LandingSections';
 import WivorkHeader from './WivorkHeader';
 import '../styles/home-dark.css';
 import { useLenis } from '../lib/useLenis';
+import { prefetchProcess } from '../lib/prefetchProcess';
 import { products, workCollections } from '../data/products';
 import { useSlideshow } from '../lib/useSlideshow';
 import SlideArrow from './SlideArrow';
@@ -11,6 +13,7 @@ import SlidePagination from './SlidePagination';
 const collections = [...products, ...workCollections];
 export default function App() {
   useLenis();
+  useEffect(prefetchProcess, []);
   const { selected, setSelected, paused, setPaused, reduced, playing, bindings } = useSlideshow(collections.map(item => item.image));
   return <div className="wivork-page">
     <WivorkHeader light/>

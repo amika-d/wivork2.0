@@ -1,17 +1,13 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 import GalleryPage from '../components/GalleryPage';
-import '../styles/local.css';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A gallery of wivork miniatures: hand-painted portrait figures and busts made from your photos." />
-    <meta name="theme-color" content="#111111" />
-    <title>Gallery — wivork</title>
-    <link rel="icon" type="image/png" href="/wivork/favicon.png" />
-    <link rel="preload" href="/fonts/SanaSans-Variable.woff2" as="font" type="font/woff2" crossorigin />
-  </head>
-  <body id="top"><GalleryPage client:load /></body>
-</html>
+<BaseLayout
+  title="Hand-Painted Miniature Gallery: Our Creations | wivork"
+  description="Browse wivork's custom miniatures and portrait busts: saris, couples and everyday outfits, each sculpted from photos and painted by hand in Sri Lanka."
+  image="/og/gallery.jpg"
+  imageAlt="A hand-painted wivork miniature of a woman in a yellow sari"
+  bodyId="top"
+>
+  <GalleryPage client:load />
+</BaseLayout>
