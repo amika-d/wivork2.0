@@ -2,12 +2,12 @@ import { useState } from 'react';
 
 const contact = 'https://wa.me/94722227440';
 const links = [
-  { key: 'creations', href: '/#collection', label: 'Our creations' },
+  { key: 'creations', href: '/gallery', label: 'Our creations' },
   { key: 'process', href: '/process', label: 'How it’s made' },
   { key: 'packages', href: '/packages', label: 'Packages' },
 ];
 
-export default function WivorkHeader({ current, light = false }: { current?: 'process' | 'packages'; light?: boolean }) {
+export default function WivorkHeader({ current, light = false }: { current?: 'creations' | 'process' | 'packages'; light?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false);
   return <header className={`wk-header home-header process-header${light ? ' is-light' : ''}`}>
     <a className="wk-logo" href="/" aria-label="wivork home"><img src="/wivork/logo.png" alt="wivork" width="154" height="18"/></a>

@@ -10,7 +10,7 @@ export default function WivorkFooter({ theme = 'light', backHref = '#top', backL
         <p>Your moments, sculpted, printed and painted by hand into miniatures you can keep.</p>
         <a className="wf-cta" href={contact} target="_blank" rel="noreferrer">Create your miniature ↗</a>
       </div>
-      <nav aria-label="Explore"><h3>Explore</h3><a href="/#collection">Our creations</a><a href="/process">How it’s made</a><a href="/packages">Packages</a></nav>
+      <nav aria-label="Explore"><h3>Explore</h3><a href="/gallery">Our creations</a><a href="/process">How it’s made</a><a href="/packages">Packages</a></nav>
       <nav aria-label="Contact"><h3>Contact</h3><a href={contact} target="_blank" rel="noreferrer">WhatsApp ↗</a><a href="/">Back to home</a></nav>
     </div>
     <img className="wf-mark" src="/wivork/symbol.png" alt="" aria-hidden="true" loading="lazy"/>

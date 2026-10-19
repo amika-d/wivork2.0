@@ -4,8 +4,9 @@ import '../styles/home-dark.css';
 import WivorkFooter from './WivorkFooter';
 import WivorkHeader from './WivorkHeader';
 import { useLenis } from '../lib/useLenis';
+import { canDecodeFrames, createFrameDecoder } from '../lib/frameDecoder';
 
-const TOTAL_FRAMES = 481;
+const TOTAL_FRAMES = 241;
 const LAST_FRAME = TOTAL_FRAMES - 1;
 const contact = 'https://wa.me/94722227440';
 const chapters = [
@@ -14,7 +15,10 @@ const chapters = [
   { title: '3D printed', text: 'The digital sculpture becomes something you can hold.', progress: .4 },
   { title: 'Painted by hand', text: 'Color and careful finishing bring your miniature to life.', progress: .58 },
 ];
-const framePath = (frame: number) => `/process/frames/f_${String(frame).padStart(4, '0')}.webp`;
+// Portrait screens only ever show the middle of the 16:9 film, so they get a cropped 540 × 720 set.
+type FrameSet = 'd' | 'm';
+const pickFrameSet = (): FrameSet => window.matchMedia('(max-aspect-ratio: 1/1)').matches ? 'm' : 'd';
+const framePath = (set: FrameSet, frame: number) => `/process/film/${set}/f_${String(frame).padStart(3, '0')}.webp`;
 export function progressToFrame(progress: number) {
   return Math.round(Math.min(1, Math.max(0, (progress - .04) / .92)) * LAST_FRAME);
 }
@@ -38,81 +42,85 @@ export default function ProcessPage() {
     const sticky = stage.current;
     const surface = canvas.current;
     const context = surface.getContext('2d');
-    if (!context) { setLoading(false); setFallback(true); return; }
+    if (!context || !canDecodeFrames()) { setLoading(false); setFallback(true); return; }
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
+    const decoder = createFrameDecoder();
     let disposed = false;
     let scheduled = 0;
     let frame = 0;
     let targetFrame = 0;
-    let renderedPicture: HTMLImageElement | undefined;
-    const frameUrls = new Map<number, string>();
-    const controller = new AbortController();
     let currentChapter = -1;
-    const detailed = new Map<number, HTMLImageElement>();
-    const overview = new Map<number, HTMLImageElement>();
+    let set = pickFrameSet();
+    // Bumped whenever the frame set changes, so results for the old set are dropped.
+    let generation = 0;
+    let rendered: ImageBitmap | undefined;
+    // Keyframes stay decoded so every part of the film has something to show; the rest is a small LRU.
+    const keyframes = new Map<number, ImageBitmap>();
+    const cache = new Map<number, ImageBitmap>();
     const pending = new Set<number>();
-    let lastDetailed: HTMLImageElement | undefined;
-    // A small LRU cache avoids decoding all 481 frames into memory at once.
-    const cacheLimit = 24;
+    const cacheLimit = () => set === 'm' ? 40 : 30;
+
+    function shownFrame(picture: ImageBitmap) {
+      for (const [index, image] of cache) if (image === picture) return index;
+      for (const [index, image] of keyframes) if (image === picture) return index;
+    }
     function draw() {
-      const exact = detailed.get(frame);
-      if (exact) { detailed.delete(frame); detailed.set(frame, exact); }
-      let picture = exact;
-      if (!picture) {
+      let picture = cache.get(frame);
+      if (picture) { cache.delete(frame); cache.set(frame, picture); }
+      else {
+        // Show the closest decoded frame while the exact one is on its way.
         let distance = Infinity;
-        for (const [index, image] of [...overview, ...detailed]) {
-          if (Math.abs(index - frame) < distance) {
-            distance = Math.abs(index - frame); picture = image;
-          }
+        for (const source of [keyframes, cache]) for (const [index, image] of source) {
+          if (Math.abs(index - frame) < distance) { distance = Math.abs(index - frame); picture = image; }
         }
       }
-      picture ||= lastDetailed;
-      if (!picture || picture === renderedPicture) return;
-      renderedPicture = picture;
-      // Keep a decoded detailed frame on screen while the next one downloads.
-      // A thumbnail fallback would visibly reduce resolution during scrubbing.
-      lastDetailed = picture;
-      const scale = Math.max(surface.width / picture.naturalWidth, surface.height / picture.naturalHeight);
-      const width = picture.naturalWidth * scale;
-      const height = picture.naturalHeight * scale;
+      if (!picture || picture === rendered) return;
+      rendered = picture;
+      const scale = Math.max(surface.width / picture.width, surface.height / picture.height);
+      const width = picture.width * scale;
+      const height = picture.height * scale;
       context!.fillStyle = '#111';
       context!.fillRect(0, 0, surface.width, surface.height);
       context!.drawImage(picture, (surface.width - width) / 2, (surface.height - height) / 2, width, height);
       setReady(true);
-      const shownIndex = [...overview, ...detailed].find(([, image]) => image === picture)?.[0];
+      const shownIndex = shownFrame(picture);
       if (shownIndex !== undefined) {
+        // Exposed for checking in devtools whether the film keeps up with scrolling.
+        surface.dataset.frame = `${shownIndex}/${targetFrame}`;
         const shownProgress = shownIndex / LAST_FRAME * .92 + .04;
         const nextChapter = chapters.reduce((result, entry, index) => shownProgress >= entry.progress ? index : result, 0);
         if (nextChapter !== currentChapter) { currentChapter = nextChapter; setChapter(nextChapter); }
       }
     }
+    function store(index: number, bitmap: ImageBitmap) {
+      cache.set(index, bitmap);
+      while (cache.size > cacheLimit()) {
+        const [oldest, image] = cache.entries().next().value!;
+        cache.delete(oldest);
+        if (image !== rendered && ![...keyframes.values()].includes(image)) image.close();
+      }
+    }
     function loadFrame(index: number, priority = false) {
-      if (disposed || detailed.has(index) || pending.has(index) || pending.size >= (priority ? 7 : 4)) return;
+      if (disposed || cache.has(index) || pending.has(index) || pending.size >= (priority ? 6 : 4)) return;
       pending.add(index);
-      const picture = new Image();
-      picture.decoding = 'async';
-      picture.fetchPriority = priority ? 'high' : 'low';
-      picture.onload = async () => {
-        try { await picture.decode(); }
-        catch { pending.delete(index); return; }
-        pending.delete(index);
-        if (disposed) return;
-        detailed.set(index, picture);
-        while (detailed.size > cacheLimit) detailed.delete(detailed.keys().next().value!);
+      const requested = generation;
+      decoder.load(framePath(set, index), true).then(bitmap => {
+        if (disposed || requested !== generation || !bitmap) { bitmap?.close(); return; }
+        store(index, bitmap);
         draw();
-        // Catch up if a fast scroll changed the target while this frame loaded.
-        if (!detailed.has(frame)) loadFrame(frame, true);
+      }, () => {}).finally(() => {
+        if (requested !== generation) return;
+        pending.delete(index);
+        // Catch up if a fast scroll moved the target while this frame loaded.
+        if (!disposed && !cache.has(frame)) loadFrame(frame, true);
         bufferFrames();
-      };
-      picture.onerror = () => { pending.delete(index); };
-      picture.src = frameUrls.get(index) || framePath(index);
+      });
     }
     function bufferFrames() {
       if (motion.matches) return;
       const direction = targetFrame >= frame ? 1 : -1;
-      for (let offset = 1; offset <= 10; offset++) {
-        loadFrame(Math.min(LAST_FRAME, Math.max(0, frame + offset * direction)));
-      }
+      for (let offset = 1; offset <= 8; offset++) loadFrame(Math.min(LAST_FRAME, Math.max(0, frame + offset * direction)));
       loadFrame(Math.min(LAST_FRAME, Math.max(0, frame - direction)));
     }
     function update() {
@@ -130,14 +138,27 @@ export default function ProcessPage() {
       if (frame !== targetFrame) schedule();
     }
     function schedule() { if (!scheduled && !disposed) scheduled = requestAnimationFrame(update); }
+    function clearFrames() {
+      generation++;
+      pending.clear();
+      for (const image of new Set([...cache.values(), ...keyframes.values()])) image.close();
+      cache.clear();
+      keyframes.clear();
+      rendered = undefined;
+    }
     function resize() {
       const bounds = surface.getBoundingClientRect();
       const ratio = Math.min(window.devicePixelRatio || 1, window.innerWidth <= 600 ? 1 : 1.5);
-      renderedPicture = undefined;
+      rendered = undefined;
       surface.width = Math.max(1, Math.round(bounds.width * ratio));
       surface.height = Math.max(1, Math.round(bounds.height * ratio));
+      // Rotating a phone switches between the portrait and landscape frame sets.
+      const nextSet = pickFrameSet();
+      if (nextSet !== set) { set = nextSet; clearFrames(); void preload(); }
       schedule();
     }
+    // iOS can discard canvas pixels while the tab is in the background; repaint on return.
+    function repaint() { if (!document.hidden) { rendered = undefined; schedule(); } }
     function motionChanged() { setReduced(motion.matches); schedule(); }
     setReduced(motion.matches);
     const resizeObserver = new ResizeObserver(resize);
@@ -145,80 +166,61 @@ export default function ProcessPage() {
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', resize);
     motion.addEventListener('change', motionChanged);
+    document.addEventListener('visibilitychange', repaint);
+    window.addEventListener('pageshow', repaint);
+
+    const timeout = window.setTimeout(() => {
+      if (disposed) return;
+      setLoading(false);
+      if (!keyframes.size && !cache.size) setFallback(true);
+    }, 8000);
+    async function preload() {
+      const requested = generation;
+      // Decode a sparse set of keyframes first so every stage is available before detail loads.
+      const count = motion.matches ? 1 : set === 'm' ? 9 : 17;
+      const indices = motion.matches ? [LAST_FRAME] : Array.from({ length: count }, (_, index) => Math.round(index * LAST_FRAME / (count - 1)));
+      let completed = 0;
+      await Promise.all(indices.map(async index => {
+        try {
+          const bitmap = await decoder.load(framePath(set, index), true);
+          if (disposed || requested !== generation || !bitmap) { bitmap?.close(); return; }
+          keyframes.set(index, bitmap);
+          draw();
+        } catch { /* a missing keyframe just leaves a wider gap */ }
+        if (requested !== generation) return;
+        setLoadProgress(Math.round(++completed / indices.length * 100));
+      }));
+      if (disposed || requested !== generation) return;
+      clearTimeout(timeout);
+      setLoading(false);
+      setFallback(!keyframes.size && !cache.size);
+      schedule();
+      // Warm the worker's compressed cache, nearest frames first, so later decodes need no network.
+      if (motion.matches || saveData) return;
+      const order = Array.from({ length: TOTAL_FRAMES }, (_, index) => index).sort((a, b) => Math.abs(a - frame) - Math.abs(b - frame));
+      let next = 0;
+      async function warm() {
+        while (!disposed && requested === generation && next < order.length) {
+          try { await decoder.load(framePath(set, order[next++]), false); } catch { /* retried on demand */ }
+        }
+      }
+      await Promise.all([warm(), warm()]);
+    }
     resize();
     schedule();
-    // Decode a sparse overview first so every stage is available before detail loads.
-    const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData;
-    const overviewCount = window.innerWidth <= 600 ? 9 : 17;
-    const overviewFrames = motion.matches ? [LAST_FRAME] : Array.from({ length: overviewCount }, (_, index) => Math.round(index * LAST_FRAME / (overviewCount - 1)));
-    let completed = 0;
-    let overviewCursor = 0;
-    let timeout = window.setTimeout(() => {
-      if (disposed) return;
-      setLoading(false);
-      if (!overview.size && !detailed.size) setFallback(true);
-    }, 8000);
-    async function fetchFrame(index: number) {
-      const response = await fetch(framePath(index), { signal: AbortSignal.any([controller.signal, AbortSignal.timeout(6000)]) });
-      if (!response.ok) throw new Error('Frame unavailable');
-      const blob = await response.blob();
-      if (disposed) return;
-      const url = URL.createObjectURL(blob);
-      frameUrls.set(index, url);
-      return url;
-    }
-    async function preloadOverview() {
-      while (!disposed && overviewCursor < overviewFrames.length) {
-        const index = overviewFrames[overviewCursor++];
-        try {
-          const url = await fetchFrame(index);
-          if (!url || disposed) return;
-          const image = new Image();
-          image.src = url;
-          await image.decode();
-          if (disposed) return;
-          overview.set(index, image);
-          draw();
-        } catch {
-          if (disposed) return;
-        }
-        completed++;
-        setLoadProgress(Math.round(completed / overviewFrames.length * 100));
-      }
-    }
-    async function preloadDetails() {
-      if (motion.matches || saveData || disposed) return;
-      let nextIndex = 0;
-      async function worker() {
-        while (!disposed && nextIndex < TOTAL_FRAMES) {
-          const index = nextIndex++;
-          if (frameUrls.has(index)) continue;
-          try { await fetchFrame(index); } catch { if (disposed) return; }
-        }
-      }
-      await Promise.all(Array.from({ length: 3 }, worker));
-    }
-    Promise.all(Array.from({ length: 4 }, preloadOverview)).then(() => {
-      if (disposed) return;
-      clearTimeout(timeout);
-      setLoading(false);
-      setFallback(!overview.size && !detailed.size);
-      schedule();
-      void preloadDetails();
-    });
+    void preload();
     return () => {
       clearTimeout(timeout);
-      controller.abort();
-      for (const url of frameUrls.values()) URL.revokeObjectURL(url);
       disposed = true;
       cancelAnimationFrame(scheduled);
       resizeObserver.disconnect();
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', resize);
       motion.removeEventListener('change', motionChanged);
-      detailed.clear();
-      overview.clear();
-      lastDetailed = undefined;
+      document.removeEventListener('visibilitychange', repaint);
+      window.removeEventListener('pageshow', repaint);
+      decoder.dispose();
+      clearFrames();
     };
   }, []);
 
@@ -251,7 +253,7 @@ export default function ProcessPage() {
               <span>0{index + 1}</span><h3>{entry.title}</h3><p>{entry.text}</p>
             </article>)}</div>
           </div>}
-          <img className="process-poster" src="/process/frames/f_0000.webp" alt="A portrait photograph at the beginning of the miniature-making process" style={{opacity: ready ? 0 : 1}}/>
+          <picture><source media="(max-aspect-ratio: 1/1)" srcSet="/process/film/m/f_000.webp"/><img className="process-poster" src="/process/film/d/f_000.webp" alt="A portrait photograph at the beginning of the miniature-making process" style={{opacity: ready ? 0 : 1}}/></picture>
           <canvas ref={canvas} aria-label="Your photograph transforms into a digital sculpture, a resin print, and a painted miniature" role="img"/>
           <div className="process-scrim process-scrim-left" aria-hidden="true"/><div className="process-scrim process-scrim-right" aria-hidden="true"/>
           {chapters.map((entry, index) => <article key={entry.title} className={`process-chapter ${index % 2 === 0 ? 'is-left' : 'is-right'}`} data-active={index === chapter} aria-hidden={index !== chapter}>

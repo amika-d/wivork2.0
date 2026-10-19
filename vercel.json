@@ -59,6 +59,15 @@
       ]
     },
     {
+      "source": "/process/film/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    },
+    {
       "source": "/home/:path*",
       "headers": [
         {
@@ -105,6 +114,15 @@
     },
     {
       "source": "/packages",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/gallery",
       "headers": [
         {
           "key": "Cache-Control",
