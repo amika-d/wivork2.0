@@ -4,7 +4,6 @@ export function useSlideshow(images: readonly string[], delay = 5500) {
   const count = images.length;
   const [selected, setSelected] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false);
   const [tabVisible, setTabVisible] = useState(true);
   const [reduced, setReduced] = useState(false);
@@ -47,20 +46,18 @@ export function useSlideshow(images: readonly string[], delay = 5500) {
   }, [nextSrc, visible, tabVisible, reduced]);
 
   useEffect(() => {
-    if (paused || focused || reduced || !visible || !tabVisible) return;
+    if (paused || reduced || !visible || !tabVisible) return;
     const timer = window.setTimeout(() => setSelected(value => (value + 1) % count), delay);
     return () => window.clearTimeout(timer);
-  }, [selected, paused, focused, reduced, visible, tabVisible, count, delay]);
+  }, [selected, paused, reduced, visible, tabVisible, count, delay]);
 
   return {
     selected, setSelected, paused, setPaused, reduced,
-    playing: !paused && !focused && !reduced && visible && tabVisible,
+    playing: !paused && !reduced && visible && tabVisible,
     bindings: {
       ref,
-      onFocus: (event: FocusEvent<HTMLDivElement>) => setFocused(event.target.matches(':focus-visible')),
-      onBlur: (event: FocusEvent<HTMLDivElement>) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false);
-      },
+      // Keyboard focus pauses visibly, so the toggle shows Play and can resume it.
+      onFocus: (event: FocusEvent<HTMLDivElement>) => { if (event.target.matches(':focus-visible')) setPaused(true); },
     },
   };
 }

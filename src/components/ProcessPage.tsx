@@ -234,6 +234,13 @@ export default function ProcessPage() {
   return <>
     <WivorkHeader current="process"/>
     <main className="wk-process-page">
+      <div className={`process-loader${loading ? '' : ' is-done'}`} role="status" aria-live="polite" aria-hidden={!loading}>
+        <img src="/wivork/logo.png" alt="Wivork" width="154" height="18"/>
+        <p>Preparing your miniature’s journey</p>
+        <div className="process-loader-track" role="progressbar" aria-label="Loading animation" aria-valuenow={loadProgress} aria-valuemin={0} aria-valuemax={100}><span style={{ transform: `scaleX(${loadProgress / 100})` }}/></div>
+        <span>{loadProgress}%</span>
+        <button onClick={() => setLoading(false)} tabIndex={loading ? 0 : -1}>Continue while loading →</button>
+      </div>
       <section className="process-intro"><p>THE WIVORK PROCESS</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a resin print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
       <section className={`process-scroll${reduced || fallback ? ' reduced-motion' : ''}${fallback ? ' process-static' : ''}`} id="process-film" ref={root} aria-label="Scroll through the miniature-making process">
         <div className="process-sticky" aria-busy={loading} ref={stage} data-side={chapter % 2 === 0 ? 'left' : 'right'}>
@@ -243,13 +250,6 @@ export default function ProcessPage() {
               <img src={['/process/reference-upload-woman-v3.webp', '/process/digital-sculpting-v2.webp', '/process/3d-printing-v2.webp', '/process/hand-painting-woman-v4.webp'][index]} alt="" loading="lazy" width="1280" height="720"/>
               <span>0{index + 1}</span><h3>{entry.title}</h3><p>{entry.text}</p>
             </article>)}</div>
-          </div>}
-          {loading && <div className="process-loader" role="status" aria-live="polite">
-            <img src="/wivork/logo.png" alt="Wivork" width="154" height="18"/>
-            <p>Preparing your miniature’s journey</p>
-            <div className="process-loader-track" role="progressbar" aria-label="Loading animation" aria-valuenow={loadProgress} aria-valuemin={0} aria-valuemax={100}><span style={{ transform: `scaleX(${loadProgress / 100})` }}/></div>
-            <span>{loadProgress}%</span>
-            <button onClick={() => setLoading(false)}>Continue while loading →</button>
           </div>}
           <img className="process-poster" src="/process/frames/f_0000.webp" alt="A portrait photograph at the beginning of the miniature-making process" style={{opacity: ready ? 0 : 1}}/>
           <canvas ref={canvas} aria-label="Your photograph transforms into a digital sculpture, a resin print, and a painted miniature" role="img"/>

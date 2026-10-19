@@ -33,8 +33,9 @@ body:has(.wk-process-page){background:#111}
 .process-discover svg{color:var(--wk-brand)}
 .process-intro .process-discover:hover{color:#fff;border-color:var(--wk-brand)}
 
-/* Cover the film while its compressed frames are buffered. */
-.process-loader{position:absolute;inset:0;z-index:10;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
+/* Full-screen splash until the key frames are decoded, then fade away. */
+.process-loader{position:fixed;inset:0;z-index:100;transition:opacity .6s ease,visibility 0s;background:#111;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:24px;text-align:center}
+.process-loader.is-done{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .6s ease,visibility 0s .6s}
 .process-loader>img{width:220px;max-width:70%;height:auto}
 .process-loader p{font-size:16px;color:#ffffffcc;margin:8px 0}
 .process-loader-track{width:min(280px,80%);height:3px;background:#ffffff24;overflow:hidden;border-radius:3px}
@@ -42,7 +43,7 @@ body:has(.wk-process-page){background:#111}
 .process-loader>span{font-size:12px;color:#ffffff99;font-variant-numeric:tabular-nums}
 .process-loader button{margin-top:12px;min-height:44px;padding:10px 16px;background:none;border:1px solid #ffffff30;border-radius:24px;color:#ffffffcc;font:inherit;font-size:13px;cursor:pointer}
 .process-loader button:hover{border-color:var(--wk-brand);color:#fff}
-@media(prefers-reduced-motion:reduce){.process-loader-track span{transition:none}}
+@media(prefers-reduced-motion:reduce){.process-loader,.process-loader.is-done,.process-loader-track span{transition:none}}
 
 .process-static .process-sticky{height:auto;min-height:0}
 .process-static .process-sticky>:not(.process-fallback){display:none}
