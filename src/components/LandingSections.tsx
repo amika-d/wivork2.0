@@ -46,7 +46,7 @@ export default function LandingSections() {
 
 
     <section className="wk-product-panel wk-making-panel" id="process" aria-labelledby="making-title">
-      <div className="wk-panel-heading"><h2 id="making-title">How it’s made</h2><p>From your reference photos to a hand-painted miniature.<br/>A little care at every step.</p></div>
+      <div className="wk-panel-heading"><h2 id="making-title">How it’s made</h2><p>From your reference photos to a hand-painted miniature.{' '}<br/>A little care at every step.</p></div>
       <div className="wk-making-carousel" {...bindings} role="region" aria-roledescription="carousel" aria-label="How your miniature is made">
         <div className="wk-feature-row wk-service-selector" aria-label="Choose a making step">{services.map((service, index) => <button className={`wk-feature${active === index ? ' active' : ''}`} key={service.title} aria-pressed={active === index} aria-controls="making-image" onClick={() => setActive(index)}><Icon type={service.icon}/><span className="wk-feature-title">{service.title}</span><span className="wk-feature-description">{service.description}</span></button>)}</div>
         <div className="wk-making-visual" id="making-image">
@@ -65,6 +65,6 @@ export default function LandingSections() {
 
     <section className="wk-contact-banner" id="contact" aria-labelledby="contact-title"><img src="/wivork/products/black-outfit-cutout.webp" alt="A wivork hand-painted miniature in a black outfit with a tan backpack on a textured base" loading="lazy"/><div className="wk-contact-copy"><span className="wk-banner-tag">Made for you</span><h2 id="contact-title">Your imagination.<br/><span>Made real.</span></h2><p>Start with a photo. We’ll help with the rest.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Let’s create on WhatsApp ↗</a></div></section>
     <PricingSection embedded/>
-    <WivorkFooter backHref="#hero-title"/>
+    <WivorkFooter theme="dark" backHref="#hero-title"/>
   </div>;
 }

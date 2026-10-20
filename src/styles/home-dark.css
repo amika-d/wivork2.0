@@ -3,12 +3,6 @@
 .home-header .wk-nav{gap:6px}.home-header .wk-nav a{padding:9px 16px;border-radius:30px;color:#fffb;transition:background .2s,color .2s}.home-header .wk-nav a:hover{opacity:1;background:#ffffff14;color:#fff}
 .home-header .wk-menu{color:#fff}
 @media(max-width:600px){.home-header .wk-nav.open{background:#111}}
-/* Light variant of the shared header (home page) */
-.wk-header.home-header.is-light{background:#ffffffeb;border-bottom:0;color:#0a0a0a}
-.home-header.is-light .wk-nav a{color:#0a0a0ab3}.home-header.is-light .wk-nav a:hover{background:#0a0a0a0d;color:#0a0a0a}
-.home-header.is-light .wk-nav a[aria-current=page]{background:#0a0a0a0f;color:#0a0a0a}
-.home-header.is-light .wk-menu{color:#0a0a0a}
-@media(max-width:600px){.home-header.is-light .wk-nav.open{background:#fff}}
 /* Brand-coloured navbar logo (mask the PNG so the colour is exact) */
 .home-header .wk-logo,.process-header .wk-logo{position:relative}
 .home-header .wk-logo img,.process-header .wk-logo img{visibility:hidden}
@@ -44,16 +38,49 @@
 .wivork-page .wk-photo::after,.wivork-page .wk-image-caption,.wivork-page .wk-image-index{z-index:2}
 @media(max-width:600px){.wivork-page .wk-photo{aspect-ratio:5/4}.wivork-page .wk-photo>img:not(.wk-photo-bg){object-fit:cover}}
 
-/* A faint shadow helps the amber logo stand out on the light header. */
-.home-header.is-light .wk-logo::after{filter:drop-shadow(0 1px 1px #8a521530)}
 /* Dissolve the photographs without a zoom or a blank frame between slides. */
 .wivork-page .wk-photo>img,.wivork-page .wk-making-visual>img{animation:none}
-/* Let the photographs stand alone; keep product information on the pale panel. */
+/* Let the photographs stand alone, with product information below them. */
 .wivork-page .wk-real-product{background:transparent;border-radius:0;outline:0;overflow:visible}
 .wivork-page .wk-real-product-image{border-radius:16px;background:#333}
 .wivork-page .wk-real-product-image:after{display:none}
-.wivork-page .wk-real-product-copy{padding:26px 4px 32px;color:#0a0a0a}
-.wivork-page .wk-real-product-copy h3{color:#0a0a0a}
-.wivork-page .wk-real-product-copy p{color:#0a0a0ab3}
-.wivork-page .wk-real-product-price{color:#0a0a0ab3}
+.wivork-page .wk-real-product-copy{padding:26px 4px 32px}
 @media(max-width:600px){.wivork-page .wk-real-product-copy{padding:22px 0 26px}}
+
+/* The home page shares the dark look of the creations page. */
+body:has(.wivork-page){--wk-page:#111;--wk-surface:#191919;--wk-ink:#fff;--wk-muted:#ffffffb3;background:#111;color:#fff}
+.wivork-page{background:#111;color:#fff}
+.wivork-page .wk-primary,.wivork-page .wk-contact{color:#0a0a0a}
+.wivork-page .wk-eyebrow{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:var(--wk-brand)}
+.wivork-page .wk-description,.wivork-page .wk-panel-heading>p,.wivork-page .wk-making-description p,.wivork-page .wk-real-product-copy p{color:#ffffffb3}
+.wivork-page .wk-feature-description,.wivork-page .wk-real-product-price{color:#ffffffa0}
+.wivork-page .wk-sana-sections,.wivork-page .wk-real-product-copy h3{color:#fff}
+.wivork-page .wk-making-panel{background:transparent}
+.wivork-page .wk-service-selector .wk-feature:hover{background:#ffffff0a}
+.wivork-page .wk-service-selector .wk-feature.active{background:#ffffff0d}
+.wivork-page .wk-step-count{color:#ffffff80}
+.wivork-page .wk-secondary{border-color:#ffffff40}
+.wivork-page .wk-secondary:hover{border-color:var(--wk-brand);color:var(--wk-brand)}
+.wivork-page .wk-slide-pagination,.wivork-page .wk-gallery-footer .wk-slideshow-toggle,.wivork-page .wk-making-toolbar .wk-slideshow-toggle{background:#ffffff14;color:#fff}
+.wivork-page .wk-slide-indicator{background:#ffffff40}
+.wivork-page .wk-slide-progress{background:#fff}
+.wivork-page .wk-banner-tag{background:#ffffff14;color:#fff}
+.wivork-page .wk-contact-banner{border:1px solid #ffffff12}
+.wivork-page .pk-card:not(.featured) .wk-primary{color:#fff}
+.wivork-page .wk-image-caption{text-shadow:0 1px 12px #000c}
+
+/* Hero carousel: a full-bleed stage, with captions in the same type as our cards. */
+.wk-hero-stage{position:relative;height:clamp(420px,66svh,700px);margin:36px -32px 0;color:#fff}
+.wk-hero-stage .flex-carousel__caption{gap:10px}
+.wk-hero-stage .flex-carousel__title{flex-direction:column-reverse;gap:6px;font-size:24px;font-weight:450;letter-spacing:-.6px;line-height:1.2}
+.wk-hero-stage .flex-carousel__subtitle{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--wk-brand);opacity:1}
+.wk-hero-stage .flex-carousel__count{font-size:12px;color:#ffffff80;opacity:1}
+.wk-hero-stage .flex-carousel:focus-visible{box-shadow:none;outline:2px solid var(--wk-brand);outline-offset:-2px}
+@media(max-width:950px){.wk-hero-stage{margin-inline:-24px}}
+@media(max-width:600px){.wk-hero-stage{height:clamp(360px,58svh,480px);margin-top:28px}.wk-hero-stage .flex-carousel__title{font-size:20px}}
+/* Clicking the centred piece opens its prices. */
+.wk-hero-stage .flex-carousel{cursor:pointer}
+.wk-hero-stage .flex-carousel[data-dragging]{cursor:grabbing}
+.wivork-page .wk-photo-open{position:absolute;inset:0;z-index:2;padding:0;border:0;background:none;cursor:pointer}
+.wivork-page .wk-photo-open:focus-visible{outline:2px solid var(--wk-brand);outline-offset:-4px}
+.wivork-page .wk-image-caption{pointer-events:none}

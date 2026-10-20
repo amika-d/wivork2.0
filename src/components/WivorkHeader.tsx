@@ -7,9 +7,9 @@ const links = [
   { key: 'packages', href: '/packages', label: 'Packages' },
 ];
 
-export default function WivorkHeader({ current, light = false }: { current?: 'creations' | 'process' | 'packages'; light?: boolean }) {
+export default function WivorkHeader({ current }: { current?: 'creations' | 'process' | 'packages' }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  return <header className={`wk-header home-header process-header${light ? ' is-light' : ''}`}>
+  return <header className="wk-header home-header process-header">
     <a className="wk-logo" href="/" aria-label="wivork home"><img src="/wivork/logo.png" alt="wivork" width="154" height="18"/></a>
     <nav className={menuOpen ? 'wk-nav open' : 'wk-nav'} aria-label="Main navigation">
       {links.map((link) => <a key={link.key} href={link.href} aria-current={link.key === current ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{link.label}</a>)}

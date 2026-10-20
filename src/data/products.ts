@@ -25,40 +25,15 @@ export const products = [
   },
 ];
 
-export const workCollections = [
-  {
-    title: 'Signature miniature',
-    label: 'Portrait in a sari with a brooch',
-    caption: 'A little likeness, made lasting.',
-    image: '/work/hero-16x9/thihara-2-5-blur-landscape.webp',
-    alt: 'Hand-painted portrait miniature of a woman in a white sari with a brooch',
-  },
-  {
-    title: 'Signature miniature',
-    label: 'Portrait in a sari with patterned borders',
-    caption: 'Every detail, thoughtfully crafted.',
-    image: '/work/hero-16x9/yellow-sari-studio-v2.webp',
-    alt: 'Hand-painted miniature figure in a yellow sari',
-  },
-  {
-    title: 'Signature miniature',
-    label: 'Portrait in a sari with floral details',
-    caption: 'A memory you can hold onto.',
-    image: '/work/hero-16x9/blue-sari-studio-v2.webp',
-    alt: 'Hand-painted miniature figure in a blue sari',
-  },
-  {
-    title: 'Signature miniature',
-    label: 'Portrait in casual clothing',
-    caption: 'Made with character in every detail.',
-    image: '/work/hero-16x9/green-shirt-studio-v2.webp',
-    alt: 'Hand-painted miniature figure in a green shirt',
-  },
-  {
-    title: 'Signature miniature',
-    label: 'Portrait with a backpack',
-    caption: 'Personal, precise, and made to last.',
-    image: '/work/hero-16x9/black-jacket-studio-v2.webp',
-    alt: 'Hand-painted portrait miniature in a black outfit with a tan backpack',
-  },
+// Every piece we show, named for the moment it keeps rather than the clothes it wears.
+// `kind` says what the piece is; `bust` picks the bust prices.
+export const creations = [
+  { name: 'Side by Side', kind: 'Couple portrait bust', bust: true, image: '/wivork/products/couple-bust.webp', description: 'Two people, sculpted close together on one oval base.', alt: 'Hand-painted portrait bust of a smiling couple on a teal oval base' },
+  { name: 'Evening in Red', kind: 'Full-length miniature', bust: false, image: '/wivork/products/signature-miniature.webp', description: 'A red sari and a gold handbag, dressed for the occasion.', alt: 'Hand-painted miniature of a woman in a red sari with a gold handbag' },
+  { name: 'Sunday Best', kind: 'Portrait bust', bust: true, image: '/work/hero-16x9/uncle-studio-v1.webp', description: 'A dark suit, a red tie and a familiar moustache.', alt: 'Hand-painted portrait bust of a man with a moustache, dark suit and red patterned tie on a gray oval base' },
+  { name: 'Quiet Grace', kind: 'Full-length miniature', bust: false, image: '/work/hero-16x9/thihara-2-5-blur-landscape.webp', description: 'A white sari, a small brooch and a calm smile.', alt: 'Hand-painted miniature of a woman in a white sari with a brooch' },
+  { name: 'Golden Hour', kind: 'Full-length miniature', bust: false, image: '/work/hero-16x9/yellow-sari-studio-v2.webp', description: 'Patterned borders, picked out one stroke at a time.', alt: 'Hand-painted miniature of a woman in a yellow sari' },
+  { name: 'Monsoon Blue', kind: 'Full-length miniature', bust: false, image: '/work/hero-16x9/blue-sari-studio-v2.webp', description: 'Small white flowers scattered across a blue sari.', alt: 'Hand-painted miniature of a woman in a blue sari' },
+  { name: 'Off Duty', kind: 'Full-length miniature', bust: false, image: '/work/hero-16x9/green-shirt-studio-v2.webp', description: 'Everyday clothes, with character in every detail.', alt: 'Hand-painted miniature of a man in a green shirt and jeans' },
+  { name: 'Wanderer', kind: 'Full-length miniature', bust: false, image: '/work/hero-16x9/black-jacket-studio-v2.webp', description: 'Packed for the trail, standing on rough ground.', alt: 'Hand-painted miniature in a black outfit with a tan backpack on a textured base' },
 ];

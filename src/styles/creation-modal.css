@@ -1,0 +1,26 @@
+/* Price popup for a single creation, shared by the home hero and the gallery. */
+.gl-modal{position:fixed;inset:0;width:min(900px,calc(100% - 48px));max-width:none;max-height:calc(100svh - 48px);margin:auto;padding:0;border:1px solid #ffffff1a;border-radius:24px;background:#1d1d1d;color:#fff;overflow:auto;box-shadow:0 32px 100px #0008;overscroll-behavior:contain}
+.gl-modal::backdrop{background:#000b;backdrop-filter:blur(8px)}
+.gl-modal-content{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.gl-modal-close{position:absolute;right:16px;top:16px;z-index:1;display:grid;place-items:center;width:40px;height:40px;border:1px solid #ffffff26;border-radius:50%;background:#111d;color:#fff;font-size:26px;line-height:1;cursor:pointer}
+.gl-modal-close:hover{background:#333}
+.gl-modal-photo{background:#252525;min-height:480px}
+.gl-modal-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.gl-modal-copy{padding:56px 36px 32px}
+.gl-modal-eyebrow{font-size:10px;letter-spacing:1.7px;color:var(--wk-brand,#f4a950)}
+.gl-modal-copy h2{font-size:36px;line-height:1.08;letter-spacing:-1.3px;font-weight:450;margin:18px 0}
+.gl-modal-copy>p{font-size:14px;line-height:1.65;color:#ffffffad;margin:0}
+.gl-modal-prices{margin:28px 0 20px}
+.gl-modal-prices>div{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;border-top:1px solid #ffffff1a}
+.gl-modal-prices>div:last-child{border-bottom:1px solid #ffffff1a}
+.gl-modal-prices dt{font-size:14px;line-height:1.4}
+.gl-modal-prices small{display:block;margin-top:5px;font-size:11px;color:#ffffff80}
+.gl-modal-prices dd{margin:0;font-size:22px;letter-spacing:-.7px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gl-modal-copy .gl-modal-note{font-size:11px;color:#ffffff80}
+.gl-modal-contact{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:24px;border-radius:30px;background:var(--wk-brand,#f4a950);color:#111;padding:14px 22px;font-size:14px;min-height:48px}
+.gl-modal-contact:hover{background:var(--wk-brand-hover,#ffba68)}
+.gl-modal-packages{display:block;width:fit-content;margin:18px auto 0;font-size:12px;color:#ffffffad}
+.gl-modal-packages:hover{color:var(--wk-brand,#f4a950)}
+.gl-modal :focus-visible{outline:2px solid var(--wk-brand,#f4a950);outline-offset:4px}
+@media(max-width:650px){.gl-modal{width:calc(100% - 24px);max-height:calc(100svh - 24px);border-radius:20px}.gl-modal-content{grid-template-columns:1fr}.gl-modal-photo{min-height:0;height:220px}.gl-modal-photo img{object-fit:contain}.gl-modal-copy{padding:28px 24px}.gl-modal-copy h2{font-size:30px}.gl-modal-prices dd{font-size:21px}}
+.gl-modal-eyebrow{text-transform:uppercase}
