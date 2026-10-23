@@ -197,6 +197,9 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-bento{grid-template-columns:1fr}
  .hl-card-photo{min-height:480px}
  .hl-card{padding:28px}
+ /* Photo tiles keep their media flush to the edges: the caption band and the bust both meet the card's rounded border. */
+ .hl-card-photo{padding:0}
+ .hl-card-dark{padding-bottom:0}
  .hl-card-dark img{width:calc(100% + 56px);margin-inline:-28px}
  .hl-card-photo .hl-tile-copy{padding:120px 24px 26px}
  .hl-steps{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin:0 -16px;padding:0 16px;scrollbar-width:none}

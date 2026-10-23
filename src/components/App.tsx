@@ -11,7 +11,7 @@ import { groups } from '../data/packages';
 
 const contact = 'https://wa.me/94722227440';
 const say = (text: string) => `${contact}?text=${encodeURIComponent(text)}`;
-const sideBySide = creations[0];
+const loveBirds = creations[0];
 const sundayBest = creations[2];
 const quietGrace = creations[3];
 
@@ -146,11 +146,11 @@ export default function App() {
         <p className="hl-lede">Send us a few photos. We sculpt the likeness, 3D print it and paint every detail, ready within a week.</p>
         <a className="hl-dark-button" href="/packages">Create your miniature <span aria-hidden="true">→</span></a>
         <figure className="hl-hero-frame">
-          <img src="/home/v2/hero-couple-window.webp" alt="The Side by Side couple portrait bust, hand-painted, on a sunlit wooden table at home" width="1672" height="941" fetchPriority="high"/>
+          <img src="/home/v2/hero-couple-window.webp" alt="The Love Birds couple portrait bust, hand-painted, on a sunlit wooden table at home" width="1672" height="941" fetchPriority="high"/>
           <div className="hl-hero-stat"><strong>1 week</strong><span>From confirmed order<br/>to finished piece</span></div>
-          <button type="button" className="hl-hero-piece" aria-haspopup="dialog" onClick={() => setPiece(sideBySide)}>
-            <span>{sideBySide.name}</span>
-            <small>{sideBySide.kind} · {groups[1].packages[1].size} · {groups[1].packages[1].price}</small>
+          <button type="button" className="hl-hero-piece" aria-haspopup="dialog" onClick={() => setPiece(loveBirds)}>
+            <span>{loveBirds.name}</span>
+            <small>{loveBirds.kind} · {groups[1].packages[1].size} · {groups[1].packages[1].price}</small>
             <em>See prices <span className="wk-arrow" aria-hidden="true">↗</span></em>
           </button>
         </figure>
@@ -162,10 +162,10 @@ export default function App() {
         <div className="hl-bento">
           <a className="hl-card hl-card-photo" href="/packages">
             <img src="/home/v2/feature-red-sari-ledge.webp" alt="Priyanka’s full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
-            <p className="hl-tile-copy"><strong>Signature miniature.</strong> A full-length likeness, {groups[0].packages[0].size} tall. Made for one person, <span className="hl-nowrap">{groups[0].packages[0].price}</span>.</p>
+            <p className="hl-tile-copy"><strong>Signature Miniature.</strong> A full-length likeness, {groups[0].packages[0].size} tall. Made for one person, <span className="hl-nowrap">{groups[0].packages[0].price}</span>.</p>
           </a>
           <a className="hl-card hl-card-dark" href="/packages">
-            <p className="hl-tile-copy"><strong>Portrait bust.</strong> An upper-body likeness on a small oval base, {groups[1].packages[0].size} tall. <span className="hl-nowrap">{groups[1].packages[0].price}</span>, or <span className="hl-nowrap">{groups[1].packages[1].price}</span> for a couple.</p>
+            <p className="hl-tile-copy"><strong>Portrait Bust.</strong> An upper-body likeness on a small oval base, {groups[1].packages[0].size} tall. <span className="hl-nowrap">{groups[1].packages[0].price}</span>, or <span className="hl-nowrap">{groups[1].packages[1].price}</span> for a couple.</p>
             <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941" loading="lazy"/>
           </a>
           <div className="hl-card hl-card-plain">
