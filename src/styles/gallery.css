@@ -4,7 +4,8 @@ body:has(.wk-gallery-page){--wk-page:#111;--wk-ink:#fff;background:#111;color:#f
 .gl-intro>p:first-child{font-size:13px;color:var(--wk-brand,#f4a950);margin:0 0 18px}
 .gl-intro h1{font-size:clamp(44px,6vw,84px);line-height:1.02;letter-spacing:-.045em;font-weight:500;margin:0 0 22px;text-wrap:balance}
 .gl-intro>p:last-child{max-width:46ch;margin:0 auto;font-size:17px;line-height:1.55;color:#ffffffb3;text-wrap:pretty}
-.gl-sphere{height:min(86svh,860px);min-height:520px}
+/* The sphere's front card and its action button sit near the bottom edge, so leave room before the footer card. */
+.gl-sphere{height:min(86svh,860px);min-height:520px;margin-bottom:72px}
 .gl-sphere .infinite-menu__title{font-weight:500;letter-spacing:-.04em}
 @media(max-width:600px){.gl-intro{padding:44px 24px 8px}.gl-intro h1{font-size:clamp(38px,11vw,48px)}.gl-intro>p:last-child{font-size:16px}.gl-sphere{height:78svh;min-height:480px}}
 

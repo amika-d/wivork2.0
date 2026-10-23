@@ -17,7 +17,7 @@ const goldenHour = creations[4];
 
 const steps = [
   { title: 'You send photos', text: 'Clear front and side views, sent on WhatsApp.', image: '/process/reference-upload-fictional-white-sari-v4.webp', alt: 'Illustrative example of sending front and side reference photos on a phone' },
-  { title: 'We sculpt', text: 'A detailed 3D likeness, revised until it feels right.', image: '/process/digital-sculpting-white-sari-v4.webp', alt: 'Illustrative scene of a miniature being digitally sculpted' },
+  { title: 'We sculpt', text: 'A detailed 3D likeness, revised until it feels right.', image: '/process/digital-sculpting-white-sari-v5.webp', alt: 'Illustrative scene of a miniature being digitally sculpted' },
   { title: 'We print', text: 'High-precision resin brings the model into your hands.', image: '/process/3d-printing-white-sari-v3.webp', alt: 'Illustrative resin printer scene with an unpainted miniature' },
   { title: 'We paint', text: 'Skin, hair and clothing, matched by hand.', image: '/process/hand-painting-white-sari-v5.webp', alt: 'Illustrative scene of an artist hand-painting a miniature' },
 ];
