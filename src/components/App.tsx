@@ -46,7 +46,7 @@ function ScrollWords({ text }: { text: string }) {
 }
 
 // A radio group with one tab stop; arrow keys move the choice, as the ARIA radio pattern expects.
-function Segmented({ label, options, value, onChange }: { label: string; options: string[]; value: number; onChange: (index: number) => void }) {
+function Segmented({ label, options, value, onChange }: { label: string; options: { name: string; detail?: string }[]; value: number; onChange: (index: number) => void }) {
   return <div className="hl-choice">
     <span className="hl-choice-label" id={`choice-${label}`}>{label}</span>
     <div className="hl-toggle" role="radiogroup" aria-labelledby={`choice-${label}`} onKeyDown={event => {
@@ -56,7 +56,7 @@ function Segmented({ label, options, value, onChange }: { label: string; options
       const next = (value + step + options.length) % options.length;
       onChange(next);
       (event.currentTarget.children[next] as HTMLElement).focus();
-    }}>{options.map((option, index) => <button key={option} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option}</button>)}</div>
+    }}>{options.map((option, index) => <button key={option.name} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option.name}{option.detail && <small>{option.detail}</small>}</button>)}</div>
   </div>;
 }
 
@@ -74,10 +74,10 @@ function PriceCard() {
       {item.pictured && <figcaption>{item.pictured}</figcaption>}
     </figure>
     <div className="hl-price-body">
-      <Segmented label="Size" options={[`Signature miniature · ${groups[0].packages[0].size}`, `Portrait bust · ${groups[1].packages[0].size}`]} value={size} onChange={setSize}/>
+      <Segmented label="Size" options={groups.map(option => ({ name: option.eyebrow, detail: option.packages[0].size }))} value={size} onChange={setSize}/>
       {group.packages.length > 1
-        ? <Segmented label="People" options={['One person', 'Two people']} value={people} onChange={setPeople}/>
-        : <div className="hl-choice"><span className="hl-choice-label">People</span><p className="hl-choice-fixed">Made for one person</p></div>}
+        ? <Segmented label="People" options={[{ name: 'One Person' }, { name: 'Two People' }]} value={people} onChange={setPeople}/>
+        : <div className="hl-choice"><span className="hl-choice-label">People</span><p className="hl-choice-fixed">One Person</p></div>}
       <div className="hl-price-result" aria-live="polite" aria-atomic="true">
         <p className="hl-price-label">{item.name} · {item.size}</p>
         <p className="hl-price" key={item.price}>{item.price}</p>

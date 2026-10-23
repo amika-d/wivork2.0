@@ -99,8 +99,9 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-choice-fixed{display:flex;align-items:center;min-height:52px;margin:0;padding:0 20px;border-radius:40px;background:#f1ede7;font-size:14px;color:#111b}
 .hl-choice-label{display:block;margin-bottom:8px;font-size:13px;color:var(--wk-muted)}
 .hl-toggle{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:40px;background:#f1ede7}
-.hl-toggle button{min-height:44px;padding:0 10px;border:0;border-radius:40px;background:none;font-size:14px;color:#111b;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.hl-toggle button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:44px;padding:6px 10px;line-height:1.25;border:0;border-radius:40px;background:none;font-size:14px;color:#111b;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
 .hl-toggle button:hover{color:#111}
+.hl-toggle button small{font-size:12px;color:var(--wk-muted)}
 .hl-toggle button[aria-checked=true]{background:#fff;color:#111;box-shadow:0 1px 3px #11111121,0 0 0 1px #1111110d}
 .hl-price-result{margin-top:auto;padding-top:28px;border-top:1px solid var(--hl-line)}
 .hl-price-label{margin:0 0 6px;font-size:14px;color:var(--wk-muted)}
