@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import '../styles/packages.css';
 import { groups } from '../data/packages';
 
@@ -27,6 +27,35 @@ function PackageCard({ item, index, groupId, label }: { item: Item; index: numbe
           <a className="pk-order-button" href={order(item.name, item.price)} target="_blank" rel="noreferrer">Start your order <span className="wk-arrow" aria-hidden="true">↗</span></a>
         </div>
       </article>;
+}
+
+const allPackages = groups.flatMap(option => option.packages.map((item, index) => ({ item, index, option })));
+
+// Phones: every package in one swipeable row, with arrow buttons and a counter so it reads as a row, not a dead end.
+function PackageScroller() {
+  const track = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const slides = track.current?.children;
+    if (!slides) return;
+    const observer = new IntersectionObserver(entries => {
+      for (const entry of entries) if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.index));
+    }, { root: track.current, threshold: .6 });
+    Array.from(slides).forEach(slide => observer.observe(slide));
+    return () => observer.disconnect();
+  }, []);
+  const go = (index: number) => (track.current?.children[index] as HTMLElement | undefined)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  const count = String(allPackages.length).padStart(2, '0');
+  return <div className="pk-mobile">
+    <div className="pk-group-head"><p className="pk-label">Swipe to compare</p><h2>Every package</h2></div>
+    <div className="pk-scroller" role="list" ref={track}>{allPackages.map(({ item, index, option }, slide) => <div role="listitem" key={item.name} data-index={slide} aria-label={`${slide + 1} of ${allPackages.length}: ${item.name}`}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`}/></div>)}</div>
+    <div className="pk-scroller-nav">
+      <button type="button" onClick={() => go(Math.max(0, active - 1))} disabled={active === 0} aria-label="Previous package">←</button>
+      <span aria-live="polite">{String(active + 1).padStart(2, '0')} / {count}</span>
+      <button type="button" onClick={() => go(Math.min(allPackages.length - 1, active + 1))} disabled={active === allPackages.length - 1} aria-label="Next package">→</button>
+    </div>
+    {groups.map(option => <p className="pk-note" key={option.id}>* {option.note}</p>)}
+  </div>;
 }
 
 export default function PricingSection({ tab: controlledTab, onTabChange }: { tab?: number; onTabChange?: (tab: number) => void }) {
@@ -59,11 +88,7 @@ export default function PricingSection({ tab: controlledTab, onTabChange }: { ta
     </div>
     </div>
     {/* Phones skip the tabs: every package sits in one swipeable row, labelled with its size. */}
-    <div className="pk-mobile">
-      <div className="pk-group-head"><p className="pk-label">Swipe to compare</p><h2>Every package</h2></div>
-      <div className="pk-scroller" role="list">{groups.flatMap(option => option.packages.map((item, index) => <div role="listitem" key={item.name}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`}/></div>))}</div>
-      {groups.map(option => <p className="pk-note" key={option.id}>* {option.note}</p>)}
-    </div>
+    <PackageScroller/>
     <a className="pk-ghost-button pk-ask" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Not sure which one? Chat with us <span className="wk-arrow" aria-hidden="true">↗</span></a>
   </section>;
 }

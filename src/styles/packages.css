@@ -75,6 +75,11 @@ body:has(.pk-page){--wk-page:var(--wk-night);--wk-surface:var(--wk-night-raised)
  .pk-scroller::-webkit-scrollbar{display:none}
  .pk-scroller>div{flex:0 0 86%;display:flex;scroll-snap-align:start}
  .pk-scroller .pk-card{width:100%}
+ .pk-scroller-nav{display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px;font-size:13px;color:#ffffffaa;font-variant-numeric:tabular-nums}
+ .pk-scroller-nav button{width:44px;height:44px;border-radius:50%;border:1px solid #ffffff30;background:none;color:#fff;font-size:16px;cursor:pointer;transition:border-color .2s ease,opacity .2s ease,transform .16s var(--wk-ease-out)}
+ .pk-scroller-nav button:active{transform:scale(.97)}
+ .pk-scroller-nav button:disabled{opacity:.3;cursor:default}
+ .pk-scroller-nav button:not(:disabled):hover{border-color:var(--wk-brand)}
  .pk-mobile .pk-note{margin-top:12px}
  .pk-mobile .pk-note+.pk-note{margin-top:4px}
 }
