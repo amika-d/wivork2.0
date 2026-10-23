@@ -238,7 +238,7 @@ export default function ProcessPage() {
           {fallback && <div className="process-fallback">
             <h2>From photo to keepsake</h2>
             <div>{chapters.map((entry, index) => <article key={entry.title}>
-              <img src={['/process/reference-upload-woman-v3.webp', '/process/digital-sculpting-v2.webp', '/process/3d-printing-v2.webp', '/process/hand-painting-woman-v4.webp'][index]} alt="" loading="lazy" width="1280" height="720"/>
+              <img src={['/process/reference-upload-fictional-white-sari-v4.webp', '/process/digital-sculpting-white-sari-v4.webp', '/process/3d-printing-white-sari-v3.webp', '/process/hand-painting-white-sari-v5.webp'][index]} alt="" loading="lazy" width="1280" height="720"/>
               <span>0{index + 1}</span><h3>{entry.title}</h3><p>{entry.text}</p>
             </article>)}</div>
           </div>}

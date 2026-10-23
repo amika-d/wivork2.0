@@ -1,12 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import App from '../components/App';
+import { faqs } from '../data/faqs';
+
+const faqSchema = { '@type': 'FAQPage', mainEntity: faqs.map(faq => ({ '@type': 'Question', name: faq.question, acceptedAnswer: { '@type': 'Answer', text: faq.answer } })) };
 ---
 <BaseLayout
   title="Custom 3D Miniatures from Your Photos | wivork Sri Lanka"
   description="Turn the people you love into hand-painted 3D miniatures and portrait busts. Sculpted from your photos, resin-printed and painted by hand in Sri Lanka."
   image="/og/home.jpg"
   imageAlt="A hand-painted wivork portrait bust of a smiling couple on a teal oval base"
+  themeColor="#f6f2ec"
+  schema={[faqSchema]}
 >
   <App client:load />
 </BaseLayout>

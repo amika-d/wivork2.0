@@ -1,6 +1,7 @@
 ---
 // Shared <head> for every page: SEO, social share previews and structured data.
 import '../styles/local.css';
+import WhatsAppContact from '../components/WhatsAppContact.astro';
 
 interface Props {
   title: string;
@@ -70,5 +71,5 @@ const graph = {
 
     <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
-  <body id={bodyId}><slot /></body>
+  <body id={bodyId}><slot /><WhatsAppContact /></body>
 </html>

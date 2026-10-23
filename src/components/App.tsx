@@ -1,77 +1,158 @@
 import { useEffect, useRef, useState } from 'react';
-import LandingSections from './LandingSections';
 import WivorkHeader from './WivorkHeader';
-import '../styles/home-dark.css';
+import WivorkFooter from './WivorkFooter';
+import '../styles/home-light.css';
 import { useLenis } from '../lib/useLenis';
 import { prefetchProcess } from '../lib/prefetchProcess';
 import { creations } from '../data/products';
-import { useSlideshow } from '../lib/useSlideshow';
-import SlideArrow from './SlideArrow';
-import CrossfadeImage from './CrossfadeImage';
-import SlidePagination from './SlidePagination';
-import FlexCarousel from './FlexCarousel';
+import { faqs } from '../data/faqs';
 import CreationModal, { type Creation } from './CreationModal';
+import { groups } from '../data/packages';
 
-const collections = creations;
-const flexItems = creations.map(piece => ({ src: piece.image, alt: piece.alt, title: piece.name, subtitle: piece.kind }));
-const photoAspect = 1672 / 941;
+const contact = 'https://wa.me/94722227440';
+const say = (text: string) => `${contact}?text=${encodeURIComponent(text)}`;
+const sideBySide = creations[0];
+const sundayBest = creations[2];
+const goldenHour = creations[4];
 
-// Cards keep our 16:9 studio photos uncropped, so on narrow screens they shrink to fit 80% of the width.
-// The lens grows with the card, so the bend only touches the neighbours and the centred piece stays flat.
-function HeroCarousel({ onSelect }: { onSelect: (piece: Creation) => void }) {
-  const stage = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ cardHeight: .6, lensWidth: .74 });
+const steps = [
+  { title: 'You send photos', text: 'Clear front and side views, sent on WhatsApp.', image: '/process/reference-upload-fictional-white-sari-v4.webp', alt: 'Illustrative example of sending front and side reference photos on a phone' },
+  { title: 'We sculpt', text: 'A detailed 3D likeness, revised until it feels right.', image: '/process/digital-sculpting-white-sari-v4.webp', alt: 'Illustrative scene of a miniature being digitally sculpted' },
+  { title: 'We print', text: 'High-precision resin brings the model into your hands.', image: '/process/3d-printing-white-sari-v3.webp', alt: 'Illustrative resin printer scene with an unpainted miniature' },
+  { title: 'We paint', text: 'Skin, hair and clothing, matched by hand.', image: '/process/hand-painting-white-sari-v5.webp', alt: 'Illustrative scene of an artist hand-painting a miniature' },
+];
+
+// Words brighten as the statement scrolls through the middle of the screen; reduced motion shows it whole.
+function ScrollWords({ text }: { text: string }) {
+  const ref = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
-    const element = stage.current;
-    if (!element) return;
-    const observer = new ResizeObserver(() => {
-      const width = element.clientWidth, height = element.clientHeight;
-      const cardHeight = Math.min(.6, width * .8 / photoAspect / height);
-      const cardWidth = cardHeight * height * photoAspect / width;
-      const round = (value: number) => Math.round(value * 1000) / 1000;
-      setSize({ cardHeight: round(cardHeight), lensWidth: round(Math.max(.74, cardWidth + .22)) });
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
+    const element = ref.current;
+    if (!element || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const words = Array.from(element.querySelectorAll<HTMLSpanElement>('span'));
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const box = element.getBoundingClientRect();
+      const progress = Math.min(Math.max((window.innerHeight * .85 - box.top) / (box.height + window.innerHeight * .35), 0), 1);
+      const lit = progress * words.length;
+      words.forEach((word, index) => { word.style.opacity = String(.2 + .8 * Math.min(Math.max(lit - index, 0), 1)); });
+    };
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { window.removeEventListener('scroll', onScroll); cancelAnimationFrame(frame); };
   }, []);
-  return <div className="wk-hero-stage" ref={stage} id="collection" aria-label="Our creations">
-    <FlexCarousel items={flexItems} preset="liquid" intro="rise" cardHeight={size.cardHeight} lensWidth={size.lensWidth} gap={20} radius={16} bend={.18} reach={.42} dispersion={.3} squeeze={.12} captureWheel={false} focusOnClick={false} onSelect={(index: number) => onSelect(creations[index])} captions/>
-  </div>;
+  return <p ref={ref} className="hl-statement">{text.split(' ').map((word, index) => <span key={index}>{word} </span>)}</p>;
 }
 
-// Browsers without WebGL2 keep the original crossfading slideshow.
-function HeroSlideshow({ onSelect }: { onSelect: (piece: Creation) => void }) {
-  const { selected, setSelected, paused, setPaused, reduced, playing, bindings } = useSlideshow(collections.map(item => item.image));
-  return <div className="wk-collection" id="collection" {...bindings} role="region" aria-roledescription="carousel" aria-label="Our creations">
-    <div className="wk-gallery">
-      <SlideArrow direction="prev" onClick={() => setSelected((selected + collections.length - 1) % collections.length)} label="Previous creation"/>
-      <div className="wk-photo wk-featured"><button className="wk-photo-open" type="button" onClick={() => onSelect(collections[selected])} aria-label={`See prices for ${collections[selected].name}`}/><CrossfadeImage src={collections[selected].image} alt={collections[selected].alt} priority={selected === 0}/><div className="wk-image-caption"><span className="wk-caption-label">{collections[selected].kind}</span><p>{collections[selected].name}</p></div><span className="wk-image-index">0{selected + 1} / 0{collections.length}</span></div>
-      <SlideArrow direction="next" onClick={() => setSelected((selected + 1) % collections.length)} label="Next creation"/>
-    </div>
-    <div className="wk-gallery-footer"><p>Thoughtfully crafted. Personally yours.</p><SlidePagination labels={collections.map(item => item.name)} selected={selected} onSelect={setSelected} playing={playing}/>{!reduced && <button className="wk-slideshow-toggle" onClick={() => setPaused(!paused)} aria-label={paused ? 'Play creations slideshow' : 'Pause creations slideshow'}>{paused ? <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="m5 3 8 5-8 5Z"/></svg> : <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z"/></svg>}</button>}<span>A CREATIVE STUDIO IN SRI LANKA ↗</span></div>
+// A radio group with one tab stop; arrow keys move the choice, as the ARIA radio pattern expects.
+function Segmented({ label, options, value, onChange }: { label: string; options: string[]; value: number; onChange: (index: number) => void }) {
+  return <div className="hl-toggle" role="radiogroup" aria-label={label} onKeyDown={event => {
+    const step = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
+    if (!step) return;
+    event.preventDefault();
+    const next = (value + step + options.length) % options.length;
+    onChange(next);
+    (event.currentTarget.children[next] as HTMLElement).focus();
+  }}>{options.map((option, index) => <button key={option} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option}</button>)}</div>;
+}
+
+// Choosing a size and how many people gives the real package price.
+function PriceCard() {
+  const [size, setSize] = useState(0);
+  const [people, setPeople] = useState(0);
+  const item = groups[size].packages[people];
+  return <div className="hl-price-card">
+    <Segmented label="Size" options={[`Miniature · ${groups[0].packages[0].size}`, `Portrait bust · ${groups[1].packages[0].size}`]} value={size} onChange={setSize}/>
+    <Segmented label="People" options={['One person', 'Two people']} value={people} onChange={setPeople}/>
+    <div aria-live="polite" aria-atomic="true"><p className="hl-price-label">{item.name}</p><p className="hl-price">{item.price}</p></div>
+    <p className="hl-price-note">{item.text} Custom sizes are priced on request.</p>
+    <a className="hl-dark-button" href={say(`Hi wivork, I'd like to order the ${item.name} (${item.price}).`)} target="_blank" rel="noreferrer">Order on WhatsApp <span aria-hidden="true">↗</span></a>
   </div>;
 }
 
 export default function App() {
   useLenis();
   useEffect(prefetchProcess, []);
-  // Server render assumes WebGL2 so most visitors see no swap; the rest fall back once mounted.
-  const [webgl, setWebgl] = useState(true);
   const [piece, setPiece] = useState<Creation | null>(null);
-  useEffect(() => setWebgl(!!document.createElement('canvas').getContext('webgl2')), []);
-  return <div className="wivork-page">
+  return <div className="hl-page">
     <WivorkHeader/>
     <main>
-      <section className="wk-hero" aria-labelledby="hero-title">
-        <div className="wk-eyebrow"><img className="wk-spark" src="/wivork/symbol.png" alt="" width="27" height="12" /> Small figures. Big feelings.</div>
-        <h1 id="hero-title">Your moments.<br/><span>Made real.</span></h1>
-        <p className="wk-description">The people you love. The memories you keep.{' '}<br/>Turn them into beautifully crafted, hand-painted 3D miniatures.</p>
-        <a className="wk-primary" href="/packages">Create your miniature <span>→</span></a>
-        {webgl ? <HeroCarousel onSelect={setPiece}/> : <HeroSlideshow onSelect={setPiece}/>}
+      <section className="hl-hero" aria-labelledby="hero-title">
+        <p className="hl-label">Custom miniatures · Hand-painted in Sri Lanka</p>
+        <h1 id="hero-title">The people you love,{' '}<br/>made small by hand.</h1>
+        <p className="hl-lede">Send us a few photos. We sculpt the likeness, print it in resin and paint every detail, ready within a week.</p>
+        <a className="hl-dark-button" href="/packages">Create your miniature <span aria-hidden="true">→</span></a>
+        <figure className="hl-hero-frame">
+          <img src="/home/v2/hero-couple-window.webp" alt="The Side by Side couple portrait bust, hand-painted, on a sunlit wooden table at home" width="1672" height="941" fetchPriority="high"/>
+          <div className="hl-hero-stat"><strong>1 week</strong><span>From confirmed order<br/>to finished piece</span></div>
+          <button type="button" className="hl-hero-piece" aria-haspopup="dialog" onClick={() => setPiece(sideBySide)}>
+            <span>{sideBySide.name}</span>
+            <small>{sideBySide.kind} · {groups[1].packages[1].size} · {groups[1].packages[1].price}</small>
+            <em>See prices <span aria-hidden="true">↗</span></em>
+          </button>
+        </figure>
       </section>
-      <LandingSections />
-    </main>
-    <CreationModal piece={piece} onClose={() => setPiece(null)}/>
 
+      <section className="hl-section" aria-labelledby="pieces-title">
+        <h2 id="pieces-title" className="hl-visually-hidden">Choose your piece</h2>
+        <ScrollWords text="Every piece starts with a few photos of someone you love, and ends as something you can hold."/>
+        <div className="hl-bento">
+          <a className="hl-card hl-card-photo" href="/packages">
+            <img src="/home/v2/feature-red-sari-ledge.webp" alt="The Evening in Red full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
+            <div><span>Signature miniature</span><h3>A full-length likeness, 18cm tall.</h3><p>{groups[0].packages[0].price} · couple {groups[0].packages[1].price}</p></div>
+          </a>
+          <a className="hl-card hl-card-warm" href="/packages">
+            <span>Portrait bust</span>
+            <h3>An upper-body portrait, 5cm tall.</h3>
+            <p>{groups[1].packages[0].price} · couple {groups[1].packages[1].price}</p>
+            <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941" loading="lazy"/>
+          </a>
+          <div className="hl-card hl-card-plain">
+            <span>Included with every piece</span>
+            <ul>{['Custom digital sculpting', 'Resin printing', 'Hand-painting', 'Unlimited sculpting revisions'].map(item => <li key={item}>{item}</li>)}</ul>
+            <a href="/gallery">See all our creations <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="hl-section" aria-labelledby="steps-title">
+        <div className="hl-section-head"><h2 id="steps-title">From your photos to a piece you can hold.</h2><a className="hl-ghost-button" href="/process">How it’s made <span aria-hidden="true">→</span></a></div>
+        <ol className="hl-steps">{steps.map((step, index) => <li key={step.title}>
+          <img src={step.image} alt={step.alt} width="1672" height="941" loading="lazy"/>
+          <span>0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p>
+        </li>)}</ol>
+      </section>
+
+      <section className="hl-section hl-pricing" id="pricing" aria-labelledby="pricing-title">
+        <div className="hl-pricing-copy">
+          <h2 id="pricing-title">One clear price.<br/>Nothing hidden.</h2>
+          <p>Pick a size and how many people. A 50% non-refundable deposit starts the work; the rest is due before we ship.</p>
+          <a className="hl-ghost-button" href="/packages">All packages and terms <span aria-hidden="true">→</span></a>
+        </div>
+        <PriceCard/>
+      </section>
+
+      <section className="hl-faq" id="faq" aria-labelledby="faq-title">
+        <div className="hl-faq-head"><h2 id="faq-title">Questions, answered.</h2><p>What people ask before they order. Anything else, ask us on WhatsApp.</p></div>
+        <div className="hl-faq-list">{faqs.map((faq, index) => <details key={faq.question} name="faq" open={index === 0}>
+          <summary>{faq.question}<span aria-hidden="true"/></summary>
+          <p>{faq.answer}</p>
+        </details>)}</div>
+      </section>
+
+      <section className="hl-feature" aria-labelledby="feature-title">
+        <img src={goldenHour.image} alt={goldenHour.alt} width="1672" height="941" loading="lazy"/>
+        <div><span>{goldenHour.kind} · 18cm</span><h2 id="feature-title">{goldenHour.name}</h2><p>{goldenHour.description}</p><button type="button" aria-haspopup="dialog" onClick={() => setPiece(goldenHour)}>See prices <span aria-hidden="true">↗</span></button></div>
+      </section>
+
+      <section className="hl-cta" aria-labelledby="cta-title">
+        <h2 id="cta-title">Start with a photo.</h2>
+        <p>Message us on WhatsApp. We’ll help you choose the right photos, size and piece.</p>
+        <a className="hl-dark-button" href={say('Hi wivork, I’d like to create a custom miniature.')} target="_blank" rel="noreferrer">Talk to us on WhatsApp <span aria-hidden="true">↗</span></a>
+      </section>
+    </main>
+    <WivorkFooter theme="dark" backHref="#hero-title"/>
+    <CreationModal piece={piece} onClose={() => setPiece(null)}/>
   </div>;
 }

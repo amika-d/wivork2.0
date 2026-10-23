@@ -2,10 +2,10 @@
 const phone = '94722227440';
 
 const steps = [
-  { title: 'Photo submission', image: '/process/reference-upload-woman-v3.webp', alt: 'A phone sending front and side reference photographs of a woman', text: 'Send clear, well-lit front and side photos. In the front view, keep your face straight towards the camera.', help: true },
-  { title: 'Digital 3D sculpting', image: '/process/digital-sculpting-v2.webp', bustImage: '/process/bust-sculpting-v1.webp', bustAlt: 'An artist digitally sculpting an upper-body portrait bust', alt: 'An artist sculpting a portrait of a woman in a cream sari', text: 'We sculpt your likeness in 3D, refining facial features, hairstyle, and outfit.' },
-  { title: 'Precision 3D printing', image: '/process/3d-printing-v2.webp', bustImage: '/process/bust-printing-v1.webp', bustAlt: 'A resin printer creating an upper-body portrait bust', alt: 'A resin printer creating a portrait miniature of a woman in a sari', text: 'Your digital sculpture is resin printed to capture the fine details.' },
-  { title: 'Artisanal hand-painting', image: '/process/hand-painting-woman-v4.webp', bustImage: '/process/bust-painting-v1.webp', bustAlt: 'An artist hand-painting an upper-body portrait bust', alt: 'An artist hand-painting a portrait miniature of a woman in a cream sari', text: 'We paint each piece by hand, matching skin tones, hair, and clothing.' },
+  { title: 'Photo submission', image: '/process/reference-upload-fictional-white-sari-v4.webp', alt: 'Illustrative phone screen with front and side photos of a fictional woman in a white sari', text: 'Send clear, well-lit front and side photos. In the front view, keep your face straight towards the camera.', help: true },
+  { title: 'Digital 3D sculpting', image: '/process/digital-sculpting-white-sari-v4.webp', bustImage: '/process/bust-sculpting-v1.webp', bustAlt: 'An artist digitally sculpting an upper-body portrait bust', alt: 'Illustrative scene of a white-sari miniature being digitally sculpted', text: 'We sculpt your likeness in 3D, refining facial features, hairstyle, and outfit.' },
+  { title: 'Precision 3D printing', image: '/process/3d-printing-white-sari-v3.webp', bustImage: '/process/bust-printing-v1.webp', bustAlt: 'A resin printer creating an upper-body portrait bust', alt: 'Illustrative resin printer scene with an unpainted white-sari miniature design', text: 'Your digital sculpture is resin printed to capture the fine details.' },
+  { title: 'Artisanal hand-painting', image: '/process/hand-painting-white-sari-v5.webp', bustImage: '/process/bust-painting-v1.webp', bustAlt: 'An artist hand-painting an upper-body portrait bust', alt: 'Illustrative scene of an artist hand-painting a white-sari miniature', text: 'We paint each piece by hand, matching skin tones, hair, and clothing.' },
 ];
 
 export default function PackagesProcessSection({ tab = 0 }: { tab?: number }) {
