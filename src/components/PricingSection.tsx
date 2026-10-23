@@ -11,8 +11,8 @@ export { groups };
 type Item = (typeof groups)[number]['packages'][number];
 
 // One package card; the tabbed desktop view and the phone scroller both render it.
-function PackageCard({ item, index, groupId, label }: { item: Item; index: number; groupId: string; label?: string }) {
-  return <article className={`pk-card${index === 1 ? ' featured' : ''}`}>
+function PackageCard({ item, index, groupId, label, dark = index === 1 }: { item: Item; index: number; groupId: string; label?: string; dark?: boolean }) {
+  return <article className={`pk-card${dark ? ' featured' : ''}`}>
         {/* Cut-out pieces stand on a quiet panel with a contact shadow, so the real paintwork reads as an object on a shelf. */}
         <figure className={`pk-stage pk-stage-${groupId}`} data-count={item.figures.length}>
           {item.figures.map((figure, figureIndex) => <img key={figure.src + figureIndex} src={figure.src} alt={figure.alt} loading="lazy" decoding="async"/>)}
@@ -35,7 +35,7 @@ const allPackages = groups.flatMap(option => option.packages.map((item, index) =
 function PackageList() {
   return <div className="pk-mobile">
     <div className="pk-group-head"><p className="pk-label">Choose your piece</p><h2>Every package</h2></div>
-    <div className="pk-stack" role="list">{allPackages.map(({ item, index, option }) => <div role="listitem" key={item.name}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`}/></div>)}</div>
+    <div className="pk-stack" role="list">{/* Stacked cards alternate light, dark, light so neighbours never share a colour. */}{allPackages.map(({ item, index, option }, position) => <div role="listitem" key={item.name}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`} dark={position % 2 === 1}/></div>)}</div>
     {groups.map(option => <p className="pk-note" key={option.id}>* {option.note}</p>)}
   </div>;
 }
