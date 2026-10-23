@@ -161,7 +161,7 @@ export default function App() {
         <ScrollWords text="Every piece starts with a few photos of someone you love, and ends as something you can hold."/>
         <div className="hl-bento">
           <a className="hl-card hl-card-photo" href="/packages">
-            <img src="/home/v2/feature-red-sari-ledge.webp" alt="The Evening in Red full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
+            <img src="/home/v2/feature-red-sari-ledge.webp" alt="Priyanka’s full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
             <p className="hl-tile-copy"><strong>Signature miniature.</strong> A full-length likeness, {groups[0].packages[0].size} tall. Made for one person, <span className="hl-nowrap">{groups[0].packages[0].price}</span>.</p>
           </a>
           <a className="hl-card hl-card-dark" href="/packages">
@@ -201,11 +201,11 @@ export default function App() {
       </section>
 
       <section className="hl-feature" aria-labelledby="feature-title">
-        <img src="/home/v2/thihara-with-quiet-grace.webp" alt="A smiling customer holding her Quiet Grace miniature, a white-sari figure in a clear display case" width="1122" height="1402" loading="lazy"/>
+        <img src="/home/v2/thihara-with-quiet-grace.webp" alt="Thihara smiling and holding her miniature, a white-sari figure in a clear display case" width="1122" height="1402" loading="lazy"/>
         <div>
           <span>{quietGrace.kind} · {groups[0].packages[0].size}</span>
           <h2 id="feature-title">{quietGrace.name}</h2>
-          <p>{quietGrace.description} Shown here with the person it was made for.</p>
+          <p>{quietGrace.description} Shown here with Thihara, who it was made for.</p>
           <button type="button" aria-haspopup="dialog" onClick={() => setPiece(quietGrace)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button>
         </div>
       </section>
