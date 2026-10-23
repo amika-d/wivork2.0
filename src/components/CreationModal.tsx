@@ -38,7 +38,7 @@ export default function CreationModal({ piece, onClose }: { piece: Creation | nu
           {isBust && <div><dt>Couple portrait bust<small>Two people, one personal piece</small></dt><dd>{groups[1].packages[1].price}</dd></div>}
         </dl>
         <p className="gl-modal-note">Hand-painted · Custom digital sculpting<br/>Prices may vary for custom sizes.</p>
-        <a className="gl-modal-contact" href={ask(piece.name)} target="_blank" rel="noreferrer">Let’s create yours <span aria-hidden="true">↗</span></a>
+        <a className="gl-modal-contact" href={ask(piece.name)} target="_blank" rel="noreferrer">Let’s create yours <span className="wk-arrow" aria-hidden="true">↗</span></a>
         <a className="gl-modal-packages" href="/packages">View all packages →</a>
       </div>
     </div>}

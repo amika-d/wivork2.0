@@ -20,6 +20,6 @@ export default function ProductShowcase() {
         </div>
       </div>
     </article>})}</div>
-    <div className="wk-product-summary"><p>Custom sculpting · Resin printed · Hand-painted</p><a href="/packages">Explore all packages <span aria-hidden="true">↗</span></a></div>
+    <div className="wk-product-summary"><p>Custom sculpting · Resin printed · Hand-painted</p><a href="/packages">Explore all packages <span className="wk-arrow" aria-hidden="true">↗</span></a></div>
   </section>;
 }

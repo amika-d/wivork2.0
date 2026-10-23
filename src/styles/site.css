@@ -31,3 +31,9 @@
  .wk-header .wk-nav.open a{min-height:44px;display:flex;align-items:center;font-size:16px;white-space:nowrap}
 }
 @media(prefers-reduced-motion:reduce){.wk-header .wk-nav a{transition:none}}
+
+/* Diagonal arrows turn to point straight ahead when their link or button is hovered or focused. */
+.wk-arrow{display:inline-block;transition:transform .35s var(--wk-ease-out)}
+@media(hover:hover) and (pointer:fine){:is(a,button):hover .wk-arrow{transform:rotate(45deg)}}
+:is(a,button):focus-visible .wk-arrow{transform:rotate(45deg)}
+@media(prefers-reduced-motion:reduce){.wk-arrow{transition:none}}

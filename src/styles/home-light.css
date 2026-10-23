@@ -16,7 +16,7 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 
 /* Hero: centered introduction above one large photograph. */
 .hl-hero{padding:56px 24px 0;text-align:center}
-.hl-label{margin:0 0 20px;font-size:13px;letter-spacing:.2px;color:var(--hl-accent-text)}
+.hl-label{margin:0 0 20px;font-size:13px;letter-spacing:.2px;color:var(--wk-muted)}
 .hl-hero h1{margin:0 auto 22px;font-size:clamp(44px,6vw,84px);line-height:1.02;letter-spacing:-.045em;font-weight:500;text-wrap:balance}
 .hl-lede{max-width:46ch;margin:0 auto 30px;font-size:18px;line-height:1.55;color:var(--wk-muted);text-wrap:pretty}
 .hl-hero-frame{position:relative;max-width:1320px;margin:56px auto 0;border-radius:28px;overflow:hidden;aspect-ratio:16/8.4;background:#d9cbb8}
@@ -155,13 +155,13 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-faq.is-revealed details:nth-child(6){transition-delay:330ms}
 }
 
-/* One real piece, shown large. */
-.hl-feature{position:relative;max-width:1288px;margin:16px auto 0;border-radius:32px;overflow:hidden;aspect-ratio:16/8;background:#222}
-.hl-feature img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 15%}
-.hl-feature div{position:absolute;inset:auto 0 0;padding:120px 48px 44px;background:linear-gradient(transparent,#000b);color:#fff}
-.hl-feature span{font-size:13px;color:var(--wk-brand)}
-.hl-feature h2{margin:10px 0 8px;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.04em;font-weight:500}
-.hl-feature p{margin:0 0 12px;font-size:17px;color:#ffffffc7}
+/* A real customer with her piece: portrait photo beside the piece's name, on a warm dark that matches the photo's backdrop. */
+.hl-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;max-width:1288px;margin:16px auto 0;border-radius:32px;overflow:hidden;background:#1d1611;color:#fff}
+.hl-feature img{display:block;width:100%;height:100%;max-height:720px;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%}
+.hl-feature div{padding:56px clamp(32px,5vw,80px)}
+.hl-feature div>span{font-size:13px;color:var(--wk-brand)}
+.hl-feature h2{margin:10px 0 14px;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.045em;font-weight:500}
+.hl-feature p{max-width:34ch;margin:0 0 20px;font-size:17px;line-height:1.55;color:#ffffffc7}
 .hl-feature button{min-height:44px;padding:0;border:0;background:none;color:#fff;font-size:15px;text-decoration:underline;text-decoration-color:var(--wk-brand);text-underline-offset:6px}
 
 /* Closing invitation and footer card. */
@@ -180,7 +180,6 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-price-stage{min-height:340px}
  .hl-price-stage img{height:260px}
  .hl-faq{grid-template-columns:1fr;gap:32px;padding:56px 32px;margin-top:88px}
- .hl-feature{aspect-ratio:4/3}
 }
 @media(max-width:600px){
  .hl-hero{padding-top:40px;padding-inline:16px}
@@ -212,9 +211,8 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-faq,.hl-feature{margin-inline:16px}
  .hl-faq{padding:44px 20px;border-radius:24px;margin-top:72px}
  .hl-faq summary{font-size:16px}
- .hl-feature{aspect-ratio:4/5;border-radius:24px}
- .hl-feature img{object-position:58% 50%}
- .hl-feature div{padding:100px 24px 28px}
+ .hl-feature{grid-template-columns:1fr;border-radius:24px}
+ .hl-feature div{padding:28px 24px 32px}
  .hl-cta{padding:88px 16px 72px}
 }
 @media(prefers-reduced-motion:reduce){.hl-card,.hl-card-photo img,.hl-dark-button,.hl-ghost-button{transition:none}}

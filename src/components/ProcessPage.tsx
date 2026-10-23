@@ -253,7 +253,7 @@ export default function ProcessPage() {
           <div className="process-progress" aria-hidden="true"><div ref={progressBar}/></div>
         </div>
       </section>
-      <section className="process-cta" aria-labelledby="process-cta-title"><h2 id="process-cta-title">Your moment could be next.</h2><p>Send us a photo. We’ll help bring it to life.</p><a className="process-button" href={contact} target="_blank" rel="noreferrer">Create your miniature <span aria-hidden="true">↗</span></a></section>
+      <section className="process-cta" aria-labelledby="process-cta-title"><h2 id="process-cta-title">Your moment could be next.</h2><p>Send us a photo. We’ll help bring it to life.</p><a className="process-button" href={contact} target="_blank" rel="noreferrer">Create your miniature <span className="wk-arrow" aria-hidden="true">↗</span></a></section>
     </main>
     <WivorkFooter theme="dark" backHref="#process-film" backLabel="Back to the film ↑"/>
   </>;

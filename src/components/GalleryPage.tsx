@@ -34,7 +34,7 @@ function GallerySlider({ onSelect }: { onSelect: (item: (typeof items)[number]) 
     <ul ref={track} className="gl-track">
       {items.map((item, index) => <li key={item.title} data-index={index} aria-roledescription="slide" aria-label={`${index + 1} of ${items.length}: ${item.title}`}>
         <button className="gl-slider-photo" type="button" onClick={() => onSelect(item)} aria-label={`See prices for ${item.title}`}><img src={item.image} alt={item.alt} width="1672" height="941" loading={index < 2 ? 'eager' : 'lazy'} decoding="async"/></button>
-        <div><span className="gl-kind">{item.kind}</span><h2>{item.title}</h2><p>{item.description}</p><button className="gl-slider-pricing" type="button" onClick={() => onSelect(item)}>See prices ↗</button></div>
+        <div><span className="gl-kind">{item.kind}</span><h2>{item.title}</h2><p>{item.description}</p><button className="gl-slider-pricing" type="button" onClick={() => onSelect(item)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button></div>
       </li>)}
     </ul>
     <div className="gl-slider-nav">
@@ -80,13 +80,21 @@ export default function GalleryPage() {
     query.addEventListener('change', update);
     return () => query.removeEventListener('change', update);
   }, []);
+  // A one-time "drag to explore" cue for first visits; it fades for good after the first drag.
+  const [hinted, setHinted] = useState(true);
+  useEffect(() => { try { setHinted(localStorage.getItem('wk-gallery-dragged') === '1'); } catch { setHinted(false); } }, []);
+  const dismissHint = () => {
+    if (hinted) return;
+    setHinted(true);
+    try { localStorage.setItem('wk-gallery-dragged', '1'); } catch {}
+  };
   return <>
     <LoadingSplash loading={loading} progress={loadProgress} message="Gathering our creations" onSkip={() => setLoading(false)}/>
     <WivorkHeader current="creations" theme="dark"/>
     <main className="wk-gallery-page">
       <section className="gl-intro"><p>Our creations</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
       {sphere
-        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading}>{!loading && <InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
+        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading} onPointerDownCapture={dismissHint}>{!loading && !hinted && <div className="gl-drag-hint" aria-hidden="true"><span className="gl-drag-arrow">←</span>Drag to explore<span className="gl-drag-arrow">→</span></div>}{!loading && <InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
         : <section className="gl-mobile" aria-label="Gallery of wivork miniatures"><GallerySlider onSelect={setSelected}/></section>}
     </main>
     <CreationModal piece={selected} onClose={() => setSelected(null)}/>

@@ -16,7 +16,7 @@ export default function WivorkHeader({ current, theme = 'light' }: { current?: '
     <nav className={menuOpen ? 'wk-nav open' : 'wk-nav'} aria-label="Main navigation">
       {links.map((link) => <a key={link.key} href={link.href} aria-current={link.key === current ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{link.label}</a>)}
     </nav>
-    <a className="wk-contact" href={contact} target="_blank" rel="noreferrer">Let’s create <span>↗</span></a>
+    <a className="wk-contact" href={contact} target="_blank" rel="noreferrer">Let’s create <span className="wk-arrow" aria-hidden="true">↗</span></a>
     <button className="wk-menu" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'Close' : 'Menu'}</button>
   </header>;
 }

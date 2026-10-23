@@ -13,12 +13,12 @@ const contact = 'https://wa.me/94722227440';
 const say = (text: string) => `${contact}?text=${encodeURIComponent(text)}`;
 const sideBySide = creations[0];
 const sundayBest = creations[2];
-const goldenHour = creations[4];
+const quietGrace = creations[3];
 
 const steps = [
   { title: 'You send photos', text: 'Clear front and side views, sent on WhatsApp.', image: '/process/reference-upload-fictional-white-sari-v4.webp', alt: 'Illustrative example of sending front and side reference photos on a phone' },
   { title: 'We sculpt', text: 'A detailed 3D likeness, revised until it feels right.', image: '/process/digital-sculpting-white-sari-v5.webp', alt: 'Illustrative scene of a miniature being digitally sculpted' },
-  { title: 'We print', text: 'High-precision resin brings the model into your hands.', image: '/process/3d-printing-white-sari-v3.webp', alt: 'Illustrative resin printer scene with an unpainted miniature' },
+  { title: 'We 3D print', text: 'High-precision 3D printing brings the model into your hands.', image: '/process/3d-printing-white-sari-v3.webp', alt: 'Illustrative 3D printer scene with an unpainted miniature' },
   { title: 'We paint', text: 'Skin, hair and clothing, matched by hand.', image: '/process/hand-painting-white-sari-v5.webp', alt: 'Illustrative scene of an artist hand-painting a miniature' },
 ];
 
@@ -108,7 +108,7 @@ function PriceCard() {
         <p className="hl-price" key={item.price}>{item.price}</p>
       </div>
       <p className="hl-price-note">{item.text} Custom sizes are priced on request.</p>
-      <a className="hl-dark-button" href={say(`Hi wivork, I'd like to order the ${item.name} (${item.price}).`)} target="_blank" rel="noreferrer">Order on WhatsApp <span aria-hidden="true">↗</span></a>
+      <a className="hl-dark-button" href={say(`Hi wivork, I'd like to order the ${item.name} (${item.price}).`)} target="_blank" rel="noreferrer">Order on WhatsApp <span className="wk-arrow" aria-hidden="true">↗</span></a>
     </div>
   </div>;
 }
@@ -143,7 +143,7 @@ export default function App() {
       <section className="hl-hero" aria-labelledby="hero-title">
         <p className="hl-label">Custom miniatures · Hand-painted in Sri Lanka</p>
         <h1 id="hero-title">The people you love,{' '}<br/>made small by hand.</h1>
-        <p className="hl-lede">Send us a few photos. We sculpt the likeness, print it in resin and paint every detail, ready within a week.</p>
+        <p className="hl-lede">Send us a few photos. We sculpt the likeness, 3D print it and paint every detail, ready within a week.</p>
         <a className="hl-dark-button" href="/packages">Create your miniature <span aria-hidden="true">→</span></a>
         <figure className="hl-hero-frame">
           <img src="/home/v2/hero-couple-window.webp" alt="The Side by Side couple portrait bust, hand-painted, on a sunlit wooden table at home" width="1672" height="941" fetchPriority="high"/>
@@ -151,7 +151,7 @@ export default function App() {
           <button type="button" className="hl-hero-piece" aria-haspopup="dialog" onClick={() => setPiece(sideBySide)}>
             <span>{sideBySide.name}</span>
             <small>{sideBySide.kind} · {groups[1].packages[1].size} · {groups[1].packages[1].price}</small>
-            <em>See prices <span aria-hidden="true">↗</span></em>
+            <em>See prices <span className="wk-arrow" aria-hidden="true">↗</span></em>
           </button>
         </figure>
       </section>
@@ -169,8 +169,8 @@ export default function App() {
             <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941" loading="lazy"/>
           </a>
           <div className="hl-card hl-card-plain">
-            <p className="hl-tile-copy"><strong>Every piece, made the same careful way.</strong> Sculpted digitally from your photos, printed in resin and painted by hand, with unlimited revisions while we sculpt and paint.</p>
-            <a href="/gallery">See all our creations <span aria-hidden="true">↗</span></a>
+            <p className="hl-tile-copy"><strong>Every piece, made the same careful way.</strong> Sculpted digitally from your photos, 3D printed and painted by hand, with unlimited revisions while we sculpt and paint.</p>
+            <a href="/gallery">See all our creations <span className="wk-arrow" aria-hidden="true">↗</span></a>
           </div>
         </div>
       </section>
@@ -201,14 +201,19 @@ export default function App() {
       </section>
 
       <section className="hl-feature" aria-labelledby="feature-title">
-        <img src={goldenHour.image} alt={goldenHour.alt} width="1672" height="941" loading="lazy"/>
-        <div><span>{goldenHour.kind} · 18cm</span><h2 id="feature-title">{goldenHour.name}</h2><p>{goldenHour.description}</p><button type="button" aria-haspopup="dialog" onClick={() => setPiece(goldenHour)}>See prices <span aria-hidden="true">↗</span></button></div>
+        <img src="/home/v2/thihara-with-quiet-grace.webp" alt="A smiling customer holding her Quiet Grace miniature, a white-sari figure in a clear display case" width="1122" height="1402" loading="lazy"/>
+        <div>
+          <span>{quietGrace.kind} · {groups[0].packages[0].size}</span>
+          <h2 id="feature-title">{quietGrace.name}</h2>
+          <p>{quietGrace.description} Shown here with the person it was made for.</p>
+          <button type="button" aria-haspopup="dialog" onClick={() => setPiece(quietGrace)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button>
+        </div>
       </section>
 
       <section className="hl-cta" aria-labelledby="cta-title">
         <h2 id="cta-title">Start with a photo.</h2>
         <p>Message us on WhatsApp. We’ll help you choose the right photos, size and piece.</p>
-        <a className="hl-dark-button" href={say('Hi wivork, I’d like to create a custom miniature.')} target="_blank" rel="noreferrer">Talk to us on WhatsApp <span aria-hidden="true">↗</span></a>
+        <a className="hl-dark-button" href={say('Hi wivork, I’d like to create a custom miniature.')} target="_blank" rel="noreferrer">Talk to us on WhatsApp <span className="wk-arrow" aria-hidden="true">↗</span></a>
       </section>
     </main>
     <WivorkFooter theme="dark" backHref="#hero-title"/>

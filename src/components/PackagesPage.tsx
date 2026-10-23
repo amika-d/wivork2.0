@@ -46,7 +46,7 @@ export default function PackagesPage() {
     <main>
       <section className="pk-hero" aria-labelledby="packages-title">
         <div><p className="pk-label">Personally yours</p><h1 id="packages-title">Personal pieces.<br/>Clear, simple pricing.</h1></div>
-        <div className="pk-hero-copy"><p>A little likeness, made just for you. Choose a full-length miniature or a portrait bust, for yourself or someone you love.</p><a className="pk-ghost-button" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Find your perfect piece <span aria-hidden="true">↗</span></a></div>
+        <div className="pk-hero-copy"><p>A little likeness, made just for you. Choose a full-length miniature or a portrait bust, for yourself or someone you love.</p><a className="pk-ghost-button" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Find your perfect piece <span className="wk-arrow" aria-hidden="true">↗</span></a></div>
       </section>
       <PricingSection tab={tab} onTabChange={setTab}/>
       <section className="pk-terms" aria-labelledby="pk-terms-title" ref={termsRef}>
@@ -59,7 +59,7 @@ export default function PackagesPage() {
       <section className="pk-order" aria-labelledby="pk-order-title">
         <p className="pk-label">Ready to order?</p>
         <h2 id="pk-order-title">Let’s make yours.</h2>
-        <a className="pk-wa-button" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer"><WhatsAppIcon/>Connect on WhatsApp <span aria-hidden="true">↗</span></a>
+        <a className="pk-wa-button" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer"><WhatsAppIcon/>Connect on WhatsApp <span className="wk-arrow" aria-hidden="true">↗</span></a>
         <div className="pk-order-meta"><a href="tel:+94722227440">0722 227 440</a><a href="mailto:wivork@gmail.com">wivork@gmail.com</a><span>Colombo, Sri Lanka</span></div>
       </section>
     </main>

@@ -66,6 +66,18 @@ body:has(.pk-page){--wk-page:var(--wk-night);--wk-surface:var(--wk-night-raised)
 .pk-card.featured .pk-order-button{background:var(--wk-brand);color:#111}
 .pk-card.featured .pk-order-button:hover{background:var(--wk-brand-hover)}
 .pk-card.featured .pk-order-button span{background:#111;color:var(--wk-brand)}
+/* Desktop compares sizes with tabs; phones get every package in one swipeable row instead. */
+.pk-mobile{display:none}
+@media(max-width:700px){
+ .pk-desktop{display:none}
+ .pk-mobile{display:block}
+ .pk-scroller{display:flex;gap:12px;margin:0 -16px;padding:0 16px 8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;overscroll-behavior-x:contain;scrollbar-width:none}
+ .pk-scroller::-webkit-scrollbar{display:none}
+ .pk-scroller>div{flex:0 0 86%;display:flex;scroll-snap-align:start}
+ .pk-scroller .pk-card{width:100%}
+ .pk-mobile .pk-note{margin-top:12px}
+ .pk-mobile .pk-note+.pk-note{margin-top:4px}
+}
 .pk-note{max-width:720px;margin:24px auto 0;text-align:center;font-size:13px;line-height:1.6;color:#ffffff80}
 .pk-ask{display:flex;width:fit-content;max-width:100%;margin:28px auto 0}
 
