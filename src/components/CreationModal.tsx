@@ -34,8 +34,8 @@ export default function CreationModal({ piece, onClose }: { piece: Creation | nu
         <h2 id="gl-modal-title">A little of your world.</h2>
         <p>{piece.description} We’ll create yours from your own photographs.</p>
         <dl className="gl-modal-prices">
-          <div><dt>Single {isBust ? 'portrait bust' : 'miniature'}<small>{isBust ? '5cm · Upper-body portrait' : '18cm · Full-length figure'}</small></dt><dd>{groups[isBust ? 1 : 0].packages[0].price}</dd></div>
-          <div><dt>Couple {isBust ? 'portrait bust' : 'miniature'}<small>Two people, one personal piece</small></dt><dd>{groups[isBust ? 1 : 0].packages[1].price}</dd></div>
+          <div><dt>Single {isBust ? 'portrait bust' : 'miniature'}<small>{isBust ? '5cm · Upper-body portrait' : '18cm · Full-length figure, made for one person'}</small></dt><dd>{groups[isBust ? 1 : 0].packages[0].price}</dd></div>
+          {isBust && <div><dt>Couple portrait bust<small>Two people, one personal piece</small></dt><dd>{groups[1].packages[1].price}</dd></div>}
         </dl>
         <p className="gl-modal-note">Hand-painted · Custom digital sculpting<br/>Prices may vary for custom sizes.</p>
         <a className="gl-modal-contact" href={ask(piece.name)} target="_blank" rel="noreferrer">Let’s create yours <span aria-hidden="true">↗</span></a>

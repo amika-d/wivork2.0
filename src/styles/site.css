@@ -1,0 +1,33 @@
+/* Shared across every page: tokens, motion and the header in its light and dark themes. */
+:root{
+  --wk-paper:#f6f2ec;
+  --wk-paper-ink:#111;
+  --wk-paper-muted:#6e6a64;
+  --wk-card:#fff;
+  --wk-warm:#f8e6cc;
+  --wk-night:#111;
+  --wk-night-raised:#1b1b1b;
+  --wk-accent-text:#8a5414;
+  --wk-ease-out:cubic-bezier(.23,1,.32,1);
+  --wk-ease-in-out:cubic-bezier(.77,0,.175,1);
+  --wk-radius-lg:32px;
+  --wk-radius-md:28px;
+  --wk-radius-sm:20px;
+}
+
+/* One header: translucent and sticky, with the current page shown as a soft pill. The logo is ink on paper and brand yellow on dark. */
+.wk-header{position:sticky;top:0;z-index:50;--wk-header-bg:#f6f2ece6;--wk-header-solid:#f6f2ec;--wk-header-logo:#111;--wk-header-ink:#111;--wk-header-dim:#111c;--wk-header-pill:#11111112;--wk-header-hover:#1111110d;background:var(--wk-header-bg);color:var(--wk-header-ink);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%)}
+.wk-header[data-theme=dark]{--wk-header-bg:#111111e6;--wk-header-solid:#111;--wk-header-logo:var(--wk-brand);--wk-header-ink:#fff;--wk-header-dim:#ffffffbb;--wk-header-pill:#ffffff1c;--wk-header-hover:#ffffff14}
+.wk-header .wk-logo{position:relative}
+.wk-header .wk-logo img{visibility:hidden}
+.wk-header .wk-logo::after{content:'';position:absolute;inset:0;background:var(--wk-header-logo);-webkit-mask:url(/wivork/logo.png) left center/contain no-repeat;mask:url(/wivork/logo.png) left center/contain no-repeat}
+.wk-header .wk-nav{gap:6px}
+.wk-header .wk-nav a{padding:9px 16px;border-radius:30px;color:var(--wk-header-dim);text-decoration:none;transition:background .2s ease,color .2s ease}
+.wk-header .wk-nav a:hover{opacity:1;background:var(--wk-header-hover);color:var(--wk-header-ink)}
+.wk-header .wk-nav a[aria-current=page]{background:var(--wk-header-pill);color:var(--wk-header-ink);text-decoration:none}
+.wk-header .wk-menu{color:var(--wk-header-ink);border:0}
+@media(max-width:600px){
+ .wk-header .wk-nav.open{flex-direction:column;align-items:stretch;gap:4px;padding:12px 16px 20px;background:var(--wk-header-solid);box-shadow:0 16px 24px #0000001a}
+ .wk-header .wk-nav.open a{min-height:44px;display:flex;align-items:center;font-size:16px;white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce){.wk-header .wk-nav a{transition:none}}

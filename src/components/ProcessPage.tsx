@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/process.css';
-import '../styles/home-dark.css';
 import WivorkFooter from './WivorkFooter';
 import WivorkHeader from './WivorkHeader';
 import LoadingSplash from './LoadingSplash';
@@ -229,10 +228,10 @@ export default function ProcessPage() {
   }
 
   return <>
-    <WivorkHeader current="process"/>
+    <WivorkHeader current="process" theme="dark"/>
     <main className="wk-process-page">
       <LoadingSplash loading={loading} progress={loadProgress} message="Preparing your miniature’s journey" onSkip={() => setLoading(false)}/>
-      <section className="process-intro"><p>THE WIVORK PROCESS</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a resin print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
+      <section className="process-intro"><p className="process-label">The wivork process</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a resin print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
       <section className={`process-scroll${reduced || fallback ? ' reduced-motion' : ''}${fallback ? ' process-static' : ''}`} id="process-film" ref={root} aria-label="Scroll through the miniature-making process">
         <div className="process-sticky" aria-busy={loading} ref={stage} data-side={chapter % 2 === 0 ? 'left' : 'right'}>
           {fallback && <div className="process-fallback">
@@ -250,11 +249,11 @@ export default function ProcessPage() {
             <h2>{entry.title}</h2><p>{entry.text}</p>
           </article>)}
           <span className="process-scroll-hint">{reduced ? 'The finished miniature' : 'Scroll ↓'}</span>
-          {!reduced && <nav className="process-chapter-nav" aria-label="Jump to a process stage">{chapters.map((entry, index) => <button key={entry.title} onClick={() => jumpTo(entry.progress)} aria-current={index === chapter ? 'step' : undefined}>{entry.title}</button>)}</nav>}
+          {!reduced && <nav className="process-chapter-nav" aria-label="Jump to a process stage">{chapters.map((entry, index) => <button key={entry.title} type="button" onClick={() => jumpTo(entry.progress)} aria-current={index === chapter ? 'step' : undefined}><span aria-hidden="true">0{index + 1}</span><b>{entry.title}</b></button>)}</nav>}
           <div className="process-progress" aria-hidden="true"><div ref={progressBar}/></div>
         </div>
       </section>
-      <section className="process-after"><div className="process-next"><h2>Your moment could be next.</h2><p>Send us a photo. We’ll help bring it to life.</p><a className="wk-primary" href={contact} target="_blank" rel="noreferrer">Create your miniature ↗</a></div></section>
+      <section className="process-cta" aria-labelledby="process-cta-title"><h2 id="process-cta-title">Your moment could be next.</h2><p>Send us a photo. We’ll help bring it to life.</p><a className="process-button" href={contact} target="_blank" rel="noreferrer">Create your miniature <span aria-hidden="true">↗</span></a></section>
     </main>
     <WivorkFooter theme="dark" backHref="#process-film" backLabel="Back to the film ↑"/>
   </>;

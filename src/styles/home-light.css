@@ -3,12 +3,8 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-page{background:var(--wk-page);color:var(--wk-ink);overflow-x:clip}
 .hl-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* Header on paper. */
-.hl-page .wk-header{position:sticky;top:0;z-index:50;background:#f6f2ece6;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.hl-page .wk-nav{gap:6px}
-.hl-page .wk-nav a{padding:9px 16px;border-radius:30px;color:#111c;transition:background .2s ease,color .2s ease}
-.hl-page .wk-nav a:hover{opacity:1;background:#1111110d;color:#111}
-.hl-page .wk-nav.open{background:var(--wk-page)}
+/* Prices never break across lines. */
+.hl-nowrap{white-space:nowrap}
 
 /* Shared buttons: dark pill for the main action, quiet outline for the next step. */
 .hl-dark-button{display:inline-flex;align-items:center;gap:14px;min-height:48px;padding:0 10px 0 24px;border-radius:40px;background:#111;color:#fff;font-size:15px;transition:background .2s ease,transform .16s var(--hl-ease)}
@@ -53,26 +49,25 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-statement{max-width:24ch;margin:0 0 56px;font-size:clamp(34px,4.2vw,60px);line-height:1.08;letter-spacing:-.035em;font-weight:500}
 .hl-statement span{transition:opacity .15s linear}
 
-/* Pieces: one tall photograph beside two quieter cards. */
+/* Pieces: one tall photograph beside two quieter tiles. Tile copy leads with a bold phrase and continues in a softer tone. */
 .hl-bento{display:grid;grid-template-columns:1.1fr 1fr;grid-template-rows:auto auto;gap:16px}
-.hl-card{position:relative;display:flex;flex-direction:column;border-radius:24px;overflow:hidden;padding:28px;background:var(--hl-card);transition:transform .3s var(--hl-ease)}
-.hl-card>span,.hl-card div>span{font-size:13px;color:var(--hl-accent-text)}
-.hl-card h3{margin:10px 0 8px;font-size:clamp(24px,2.2vw,32px);line-height:1.12;letter-spacing:-.025em;font-weight:500;max-width:16ch}
-.hl-card p{margin:0;font-size:15px;color:var(--wk-muted);font-variant-numeric:tabular-nums}
+.hl-card{position:relative;display:flex;flex-direction:column;border-radius:28px;overflow:hidden;padding:36px;background:var(--hl-card);transition:transform .3s var(--hl-ease)}
+.hl-tile-copy{margin:0;max-width:30ch;font-size:clamp(19px,1.6vw,23px);line-height:1.32;letter-spacing:-.012em;color:#6e6a64;text-wrap:pretty}
+.hl-tile-copy strong{font-weight:550;color:#111}
 .hl-card-photo{grid-row:span 2;min-height:640px;padding:0;color:#fff;justify-content:flex-end}
 .hl-card-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform .8s var(--hl-ease)}
-.hl-card-photo div{position:relative;padding:120px 32px 30px;background:linear-gradient(transparent,#000a)}
-.hl-card-photo div>span{color:var(--wk-brand)}
-.hl-card-photo p{color:#ffffffc7}
-.hl-card-warm{background:var(--hl-warm);min-height:320px}
-.hl-card-warm img{display:block;width:100%;height:auto;aspect-ratio:16/8;margin:auto 0 0;padding-top:20px;box-sizing:content-box;object-fit:cover;border-radius:16px}
-.hl-card-plain ul{list-style:none;margin:16px 0 24px;padding:0;display:grid;gap:12px;font-size:17px}
-.hl-card-plain li{display:flex;gap:12px;align-items:baseline}
-.hl-card-plain li:before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:var(--wk-brand);transform:translateY(-3px)}
-.hl-card-plain>a{margin-top:auto;font-size:14px;color:var(--hl-accent-text)}
+.hl-card-photo .hl-tile-copy{position:relative;max-width:none;padding:140px 36px 34px;background:linear-gradient(transparent,#000b);color:#ffffffb3}
+.hl-card-photo .hl-tile-copy strong{color:#fff}
+/* The dark tile matches the studio backdrop, so the bust photo bleeds out of the bottom edge without a seam. */
+.hl-card-dark{background:#3a3a3c;min-height:360px;padding-bottom:0}
+.hl-card-dark .hl-tile-copy{color:#c7c7cc}
+.hl-card-dark .hl-tile-copy strong{color:#fff}
+.hl-card-dark img{display:block;width:calc(100% + 72px);max-width:none;height:auto;margin:auto -36px 0;padding-top:12px;-webkit-mask-image:linear-gradient(transparent,#000 22%);mask-image:linear-gradient(transparent,#000 22%)}
+.hl-card-plain{justify-content:space-between;gap:28px}
+.hl-card-plain>a{font-size:15px;color:var(--hl-accent-text)}
 @media(hover:hover) and (pointer:fine){
  .hl-card-photo:hover img{transform:scale(1.03)}
- a.hl-card-warm:hover{transform:translateY(-3px)}
+ a.hl-card-dark:hover{transform:translateY(-3px)}
 }
 
 /* Making steps, each with its picture. */
@@ -84,15 +79,41 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-steps p{margin:0;font-size:15px;line-height:1.55;color:var(--wk-muted);max-width:28ch}
 
 /* Price builder. */
-.hl-pricing{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
-.hl-pricing-copy p{max-width:38ch;margin:20px 0 28px;font-size:17px;line-height:1.6;color:var(--wk-muted)}
-.hl-price-card{padding:32px;border-radius:28px;background:var(--hl-warm)}
-.hl-toggle{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:10px;border-radius:40px;background:#1111110d}
-.hl-toggle button{min-height:44px;border:0;border-radius:40px;background:none;font-size:14px;color:#111b;transition:background .2s ease,color .2s ease}
-.hl-toggle button[aria-checked=true]{background:#fff;color:#111;box-shadow:0 1px 3px #1111111a}
-.hl-price-label{margin:26px 0 4px;font-size:14px;color:var(--wk-muted)}
-.hl-price{margin:0;font-size:clamp(48px,5vw,72px);line-height:1;letter-spacing:-.04em;font-weight:500;font-variant-numeric:tabular-nums}
-.hl-price-note{margin:14px 0 28px;font-size:15px;line-height:1.55;color:var(--wk-muted);max-width:40ch}
+/* Price configurator: section copy above one wide white card, the chosen piece on its left. */
+.hl-pricing{display:grid;grid-template-columns:1fr 1fr;gap:20px 48px;align-items:end}
+.hl-pricing-copy{display:contents}
+.hl-pricing-copy h2{grid-column:1}
+.hl-pricing-copy p{grid-column:2;max-width:42ch;margin:0;font-size:17px;line-height:1.6;color:var(--wk-muted)}
+.hl-pricing-copy .hl-ghost-button{grid-column:2;justify-self:start}
+.hl-price-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:20px;padding:12px;border-radius:var(--wk-radius-lg,32px);background:var(--hl-card);box-shadow:0 0 0 1px #1111170d,0 2px 4px #11111108}
+.hl-price-stage{position:relative;display:flex;align-items:flex-end;justify-content:center;min-height:460px;margin:0;padding:40px 32px 56px;border-radius:24px;background:#efe9e1;overflow:hidden}
+.hl-price-stage:before{content:'';position:absolute;left:50%;bottom:44px;width:56%;height:26px;border-radius:50%;background:radial-gradient(closest-side,#0000003a,#0000);transform:translateX(-50%)}
+.hl-price-stage img{position:relative;display:block;height:360px;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 12px 16px #00000026)}
+.hl-price-stage[data-count='2'] img{max-width:48%}
+.hl-price-stage[data-count='2'] img+img{margin-left:-4%}
+/* Busts are 5cm and wide, so they sit smaller than the 18cm figures. */
+.hl-price-stage-busts img{height:auto;width:min(82%,420px);max-height:300px}
+.hl-price-stage figcaption{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:var(--wk-muted)}
+.hl-price-body{display:flex;flex-direction:column;padding:28px 28px 24px}
+.hl-choice{margin-bottom:18px}
+.hl-choice-fixed{display:flex;align-items:center;min-height:52px;margin:0;padding:0 20px;border-radius:40px;background:#f1ede7;font-size:14px;color:#111b}
+.hl-choice-label{display:block;margin-bottom:8px;font-size:13px;color:var(--wk-muted)}
+.hl-toggle{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:40px;background:#f1ede7}
+.hl-toggle button{min-height:44px;padding:0 10px;border:0;border-radius:40px;background:none;font-size:14px;color:#111b;transition:background .2s ease,color .2s ease,box-shadow .2s ease}
+.hl-toggle button:hover{color:#111}
+.hl-toggle button[aria-checked=true]{background:#fff;color:#111;box-shadow:0 1px 3px #11111121,0 0 0 1px #1111110d}
+.hl-price-result{margin-top:auto;padding-top:28px;border-top:1px solid var(--hl-line)}
+.hl-price-label{margin:0 0 6px;font-size:14px;color:var(--wk-muted)}
+.hl-price{margin:0;font-size:clamp(48px,4.6vw,68px);line-height:1;letter-spacing:-.04em;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hl-price-note{margin:14px 0 24px;font-size:15px;line-height:1.55;color:var(--wk-muted);max-width:40ch}
+.hl-price-body .hl-dark-button{align-self:flex-start}
+@media(prefers-reduced-motion:no-preference){
+ .hl-price-stage img{animation:hl-piece-in .45s var(--hl-ease) both}
+ .hl-price-stage img+img{animation-delay:50ms}
+ .hl-price{animation:hl-price-in .3s var(--hl-ease) both}
+}
+@keyframes hl-piece-in{from{opacity:0;transform:translateY(10px) scale(.98);filter:blur(4px) drop-shadow(0 12px 16px #00000026)}}
+@keyframes hl-price-in{from{opacity:0;transform:translateY(4px);filter:blur(3px)}}
 
 /* FAQ: the dark band. */
 .hl-faq{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;max-width:1288px;margin:120px auto 0;padding:72px 48px;border-radius:32px;background:#111;color:#fff}
@@ -108,6 +129,25 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-faq summary:hover span{border-color:var(--wk-brand)}
 .hl-faq details p{margin:0 0 24px;max-width:60ch;font-size:16px;line-height:1.65;color:#ffffffb3}
 .hl-faq summary:focus-visible{outline:2px solid var(--wk-brand);outline-offset:4px}
+/* Answers grow open and shut; the exclusive accordion closes the previous one in the same motion. Browsers without ::details-content simply open instantly. */
+@media(prefers-reduced-motion:no-preference){
+ .hl-faq{interpolate-size:allow-keywords}
+ .hl-faq details::details-content{block-size:0;overflow:hidden;transition:block-size .34s var(--hl-ease),content-visibility .34s allow-discrete}
+ .hl-faq details[open]::details-content{block-size:auto}
+ .hl-faq details p{opacity:0;transform:translateY(-6px);filter:blur(2px);transition:opacity .22s ease,transform .34s var(--hl-ease),filter .22s ease}
+ .hl-faq details[open] p{opacity:1;transform:none;filter:none;transition-delay:60ms}
+ .hl-faq summary{transition:color .2s ease}
+ .hl-faq details:not([open]) summary:hover{color:#fffc}
+ /* First view: the heading, then each question, 50ms apart. */
+ .hl-faq.will-reveal:not(.is-revealed) :is(.hl-faq-head,details){opacity:0;transform:translateY(16px)}
+ .hl-faq :is(.hl-faq-head,details){transition:opacity .6s ease-out,transform .7s var(--hl-ease)}
+ .hl-faq.is-revealed details:nth-child(1){transition-delay:80ms}
+ .hl-faq.is-revealed details:nth-child(2){transition-delay:130ms}
+ .hl-faq.is-revealed details:nth-child(3){transition-delay:180ms}
+ .hl-faq.is-revealed details:nth-child(4){transition-delay:230ms}
+ .hl-faq.is-revealed details:nth-child(5){transition-delay:280ms}
+ .hl-faq.is-revealed details:nth-child(6){transition-delay:330ms}
+}
 
 /* One real piece, shown large. */
 .hl-feature{position:relative;max-width:1288px;margin:16px auto 0;border-radius:32px;overflow:hidden;aspect-ratio:16/8;background:#222}
@@ -121,15 +161,18 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 /* Closing invitation and footer card. */
 .hl-cta{max-width:720px;margin:0 auto;padding:128px 24px 96px;text-align:center}
 .hl-cta p{margin:18px auto 30px;max-width:40ch;font-size:17px;line-height:1.6;color:var(--wk-muted)}
-.hl-page .wf{max-width:1288px;margin:0 auto 24px;border-radius:32px;border:0}
 
-@media(max-width:1336px){.hl-faq,.hl-feature,.hl-page .wf{margin-inline:24px}.hl-hero-frame{margin-inline:0}}
+@media(max-width:1336px){.hl-faq,.hl-feature{margin-inline:24px}.hl-hero-frame{margin-inline:0}}
 @media(max-width:900px){
  .hl-section{padding-top:88px}
  .hl-bento{grid-template-columns:1fr 1fr}
  .hl-card-photo{grid-row:auto;grid-column:1/-1;min-height:560px}
  .hl-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}
- .hl-pricing{grid-template-columns:1fr;gap:32px}
+ .hl-pricing{grid-template-columns:1fr;gap:16px}
+ .hl-pricing-copy h2,.hl-pricing-copy p,.hl-pricing-copy .hl-ghost-button{grid-column:1}
+ .hl-price-card{grid-template-columns:1fr}
+ .hl-price-stage{min-height:340px}
+ .hl-price-stage img{height:260px}
  .hl-faq{grid-template-columns:1fr;gap:32px;padding:56px 32px;margin-top:88px}
  .hl-feature{aspect-ratio:4/3}
 }
@@ -148,12 +191,19 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-statement{margin-bottom:36px}
  .hl-bento{grid-template-columns:1fr}
  .hl-card-photo{min-height:480px}
+ .hl-card{padding:28px}
+ .hl-card-dark img{width:calc(100% + 56px);margin-inline:-28px}
+ .hl-card-photo .hl-tile-copy{padding:120px 24px 26px}
  .hl-steps{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin:0 -16px;padding:0 16px;scrollbar-width:none}
  .hl-steps::-webkit-scrollbar{display:none}
  .hl-steps li{flex:0 0 76%;scroll-snap-align:start}
- .hl-price-card{padding:20px;border-radius:22px}
+ .hl-price-card{padding:8px;border-radius:24px}
+ .hl-price-stage{min-height:280px;padding:28px 20px 44px;border-radius:18px}
+ .hl-price-stage img{height:210px}
+ .hl-price-stage:before{bottom:34px}
+ .hl-price-body{padding:20px 12px 12px}
  .hl-toggle button{font-size:13px}
- .hl-faq,.hl-feature,.hl-page .wf{margin-inline:16px}
+ .hl-faq,.hl-feature{margin-inline:16px}
  .hl-faq{padding:44px 20px;border-radius:24px;margin-top:72px}
  .hl-faq summary{font-size:16px}
  .hl-feature{aspect-ratio:4/5;border-radius:24px}

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import '../styles/gallery.css';
-import '../styles/home-dark.css';
 import WivorkHeader from './WivorkHeader';
 import WivorkFooter from './WivorkFooter';
 import InfiniteMenu from './InfiniteMenu';
@@ -83,9 +82,9 @@ export default function GalleryPage() {
   }, []);
   return <>
     <LoadingSplash loading={loading} progress={loadProgress} message="Gathering our creations" onSkip={() => setLoading(false)}/>
-    <WivorkHeader current="creations"/>
+    <WivorkHeader current="creations" theme="dark"/>
     <main className="wk-gallery-page">
-      <section className="gl-intro"><p>OUR CREATIONS</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
+      <section className="gl-intro"><p>Our creations</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
       {sphere
         ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading}>{!loading && <InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
         : <section className="gl-mobile" aria-label="Gallery of wivork miniatures"><GallerySlider onSelect={setSelected}/></section>}

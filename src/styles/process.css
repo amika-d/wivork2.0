@@ -1,47 +1,122 @@
-.wk-process-page{background:var(--wk-page);color:var(--wk-ink)}
-.wk-nav a[aria-current=page]{text-decoration:underline;text-decoration-color:var(--wk-brand);text-underline-offset:8px}
-.process-intro{text-align:center;padding:70px 24px 80px}.process-intro>p:first-child{font-size:11px;letter-spacing:1.7px;color:var(--wk-muted);margin:0 0 23px}.process-intro h1{font-size:clamp(60px,7vw,104px);line-height:1.02;letter-spacing:-4px;font-weight:450;margin:0 0 26px}.process-intro>p{font-size:20px;line-height:1.5;color:var(--wk-muted);margin:0 0 25px}.process-intro>a{font-size:14px;display:inline-block;border-bottom:1px solid var(--wk-brand);padding-bottom:6px}
-.process-scroll{height:700svh;position:relative;scroll-margin-top:0}.process-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:#111;color:#fff}.process-sticky canvas,.process-poster{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}.process-poster{z-index:1;transition:opacity .25s;pointer-events:none}.process-sticky canvas{z-index:0}
-.process-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .6s}.process-scrim-left{background:linear-gradient(90deg,#000b 0%,#0005 38%,transparent 62%)}.process-scrim-right{background:linear-gradient(270deg,#000b 0%,#0005 38%,transparent 62%)}.process-sticky[data-side=left] .process-scrim-left,.process-sticky[data-side=right] .process-scrim-right{opacity:1}
-.process-chapter{position:absolute;z-index:3;top:50%;width:min(420px,38vw);margin:0;opacity:0;pointer-events:none;transition:opacity .55s ease,transform .8s cubic-bezier(.2,.7,.2,1)}.process-chapter.is-left{left:clamp(32px,6vw,110px);transform:translate(-70px,-50%)}.process-chapter.is-right{right:clamp(32px,6vw,110px);transform:translate(70px,-50%)}.process-chapter[data-active=true]{opacity:1;transform:translate(0,-50%)}
-.process-chapter-count{display:block;font-size:clamp(64px,9vw,140px);line-height:.9;letter-spacing:-5px;font-weight:450;margin:0 0 22px}.process-chapter-count i{font-style:normal;font-size:14px;letter-spacing:1px;color:#fff9;margin-left:8px;vertical-align:top}.process-chapter h2{font-size:clamp(30px,3.4vw,52px);line-height:1.08;font-weight:450;letter-spacing:-1.6px;margin:0 0 14px}.process-chapter p{font-size:17px;line-height:1.5;color:#ffffffcc;margin:0}
-.process-scroll-hint{position:absolute;z-index:3;right:32px;top:28px;font-size:12px;letter-spacing:1px;color:#fffa;white-space:nowrap}.process-chapter-nav{position:absolute;z-index:3;left:0;right:0;bottom:30px;display:flex;justify-content:center;gap:34px}.process-chapter-nav button{background:none;border:0;border-bottom:2px solid transparent;padding:8px 0;font-size:12px;color:#fff8;cursor:pointer}.process-chapter-nav button[aria-current=step]{color:#fff;border-color:var(--wk-brand)}.process-chapter-nav button:hover{color:#fff}.process-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:#fff2;z-index:4}.process-progress>div{width:100%;height:100%;background:var(--wk-brand);transform:scaleX(0);transform-origin:left}
-.process-after{padding:70px 32px 90px}.process-after details{max-width:1000px;margin:0 auto}.process-after summary{cursor:pointer;list-style:none;border-top:1px solid #0a0a0a22;border-bottom:1px solid #0a0a0a22;padding:24px 0;display:flex;justify-content:space-between;font-size:16px}.process-after summary::-webkit-details-marker{display:none}.process-after summary span{color:#a56820}.process-after video{display:block;width:100%;border-radius:16px;margin:24px 0}.process-next{text-align:center;padding:100px 0 20px}.process-next h2{font-size:clamp(36px,5vw,68px);font-weight:450;letter-spacing:-2px;line-height:1.1;margin:0 0 22px}.process-next p{font-size:18px;color:var(--wk-muted);margin:0 0 27px}.process-footer{margin:0 32px;padding:40px 0 30px;border-top:1px solid #0a0a0a22;display:flex;align-items:center;justify-content:space-between;font-size:13px}.process-footer>span{font-size:11px;color:var(--wk-muted)}
-.process-scroll.reduced-motion{height:auto}.reduced-motion .process-sticky{position:relative}
-@media(max-width:600px){.process-intro{padding:50px 24px 55px}.process-intro h1{font-size:64px;letter-spacing:-2.5px}.process-intro>p{font-size:16px}.process-intro>p br{display:none}.process-scroll{height:520svh}.process-scrim-left,.process-scrim-right{background:linear-gradient(0deg,#000d 0%,#0007 40%,transparent 70%)}.process-chapter,.process-chapter.is-left,.process-chapter.is-right{top:auto;bottom:96px;left:24px;right:24px;width:auto;transform:translateY(30px)}.process-chapter[data-active=true]{transform:none}.process-chapter-count{font-size:56px;letter-spacing:-2px;margin-bottom:12px}.process-chapter h2{font-size:28px}.process-chapter p{font-size:14px}.process-scroll-hint{display:none}.process-chapter-nav{gap:14px;bottom:22px;padding:0 12px}.process-chapter-nav button{font-size:10px;padding:8px 0}.process-after{padding:40px 24px 60px}.process-next{padding-top:70px}.process-next h2{font-size:40px;letter-spacing:-1.5px}.process-next p{font-size:15px}.process-footer{margin:0 24px;gap:25px;flex-wrap:wrap}.process-footer .wk-logo img{width:120px}.process-footer>span{width:100%;font-size:10px}}
-@media(prefers-reduced-motion:reduce){.process-scroll{height:auto}.process-sticky{position:relative}.process-poster,.process-chapter{transition:none}}
-/* Dark top so the intro flows straight into the film stage */
-/* Dark /process page: header, intro, film, closing section and footer share one near-black */
-body:has(.wk-process-page){background:#111}
-.wk-process-page{background:#111;color:#fff}
-.wk-header.process-header{position:sticky;top:0;z-index:50;background:#111e;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:0;color:#fff}
-.process-header .wk-logo img{filter:brightness(0) invert(1)}
-.process-header .wk-nav{gap:6px}.process-header .wk-nav a{padding:9px 16px;border-radius:30px;color:#fffb;text-decoration:none;transition:background .2s,color .2s}.process-header .wk-nav a:hover{opacity:1;background:#ffffff14;color:#fff}.process-header .wk-nav a[aria-current=page]{color:#fff;background:#ffffff1c;text-decoration:none}
-.process-header .wk-menu{color:#fff}
-.process-intro{padding-bottom:110px}.process-intro>p,.process-intro>p:first-child{color:#fffa}.process-intro>a{color:#fff}
-.process-sticky:before{content:'';position:absolute;inset:0 0 auto;height:50%;z-index:2;pointer-events:none;background:linear-gradient(#111 0,#111 8%,#111d 22%,#1119 38%,#1114 60%,#1110 100%)}
-.process-sticky:after{content:'';position:absolute;inset:auto 0 0;height:14%;z-index:2;pointer-events:none;background:linear-gradient(#1110,#111)}
-.process-after summary{border-color:#ffffff22;color:#fff}.process-after summary span{color:var(--wk-brand)}.process-next p{color:#fffa}
-@media(max-width:600px){.process-header .wk-nav.open{background:#111}.process-header .wk-menu{border:0}}
+/* /process: a dark film page. Same type scale, labels and buttons as the home page, kept on near-black so the intro flows into the film. */
+body:has(.wk-process-page){background:var(--wk-night)}
+.wk-process-page{background:var(--wk-night);color:#fff;overflow-x:clip}
 
-/* Readable chapter navigation over the film. */
-.process-chapter-nav{left:50%;right:auto;transform:translateX(-50%);width:max-content;max-width:calc(100% - 48px);gap:24px;padding:8px 24px;border-radius:16px;background:#111b;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.process-chapter-nav button{font-size:14px;line-height:1.4;min-height:44px;padding:10px 2px;color:#ffffffc7;white-space:nowrap}
-.process-chapter-nav button[aria-current=step]{color:#fff}
-@media(max-width:600px){.process-chapter-nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:calc(100% - 32px);max-width:360px;gap:2px 18px;padding:8px 16px;bottom:20px}.process-chapter-nav button{font-size:13px;white-space:normal;text-align:center}.process-chapter,.process-chapter.is-left,.process-chapter.is-right{bottom:150px}}
-.process-intro .process-discover{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:450;line-height:1.5;letter-spacing:.2px;padding:8px 0;border-bottom:1px solid #f4a95080;color:#ffffffe0;transition:color .2s,border-color .2s}
+/* Intro */
+.process-intro{text-align:center;padding:72px 24px 110px}
+.process-label{margin:0 0 20px;font-size:13px;letter-spacing:.2px;color:var(--wk-brand)}
+.process-intro h1{margin:0 auto 24px;font-size:clamp(56px,7vw,104px);line-height:1.02;letter-spacing:-.045em;font-weight:500;text-wrap:balance}
+.process-intro>p:not(.process-label){margin:0 auto 28px;font-size:18px;line-height:1.55;color:#ffffffa6;text-wrap:pretty}
+.process-intro .process-discover{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:14px;color:#ffffffe0;border-bottom:1px solid #f4a95080;transition:color .2s ease,border-color .2s ease}
 .process-discover svg{color:var(--wk-brand)}
 .process-intro .process-discover:hover{color:#fff;border-color:var(--wk-brand)}
+@media(prefers-reduced-motion:no-preference){
+  .process-intro>*{animation:process-rise .7s var(--wk-ease-out) both}
+  .process-intro>:nth-child(2){animation-delay:60ms}
+  .process-intro>:nth-child(3){animation-delay:120ms}
+  .process-intro>:nth-child(4){animation-delay:180ms}
+}
+@keyframes process-rise{from{opacity:0;transform:translateY(12px)}}
+
+/* Film stage: sticky, scroll-scrubbed and full-bleed. */
+.process-scroll{height:700svh;position:relative;scroll-margin-top:0}
+.process-sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--wk-night);color:#fff}
+.process-sticky canvas,.process-poster{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover}
+.process-poster{z-index:1;transition:opacity .25s ease;pointer-events:none}
+.process-sticky canvas{z-index:0}
+/* Top fade so the intro's near-black runs into the film without a seam. */
+.process-sticky:before{content:'';position:absolute;inset:0 0 auto;height:50%;z-index:2;pointer-events:none;background:linear-gradient(#111 0,#111 8%,#111d 22%,#1119 38%,#1114 60%,#1110 100%)}
+.process-sticky:after{content:'';position:absolute;inset:auto 0 0;height:14%;z-index:2;pointer-events:none;background:linear-gradient(#1110,#111)}
+
+/* Side scrims keep the chapter text legible over the film. */
+.process-scrim{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .6s ease}
+.process-scrim-left{background:linear-gradient(90deg,#000b 0%,#0005 38%,transparent 62%)}
+.process-scrim-right{background:linear-gradient(270deg,#000b 0%,#0005 38%,transparent 62%)}
+.process-sticky[data-side=left] .process-scrim-left,.process-sticky[data-side=right] .process-scrim-right{opacity:1}
+
+.process-chapter{position:absolute;z-index:3;top:50%;width:min(420px,38vw);margin:0;opacity:0;pointer-events:none;transition:opacity .55s ease,transform .8s var(--wk-ease-out)}
+.process-chapter.is-left{left:clamp(32px,6vw,110px);transform:translate(-56px,-50%)}
+.process-chapter.is-right{right:clamp(32px,6vw,110px);transform:translate(56px,-50%)}
+.process-chapter[data-active=true]{opacity:1;transform:translate(0,-50%)}
+.process-chapter-count{display:block;margin:0 0 22px;font-size:clamp(64px,9vw,140px);line-height:.9;letter-spacing:-.03em;font-weight:500;font-variant-numeric:tabular-nums}
+.process-chapter-count i{margin-left:8px;font-style:normal;font-size:14px;letter-spacing:0;color:#fff9;vertical-align:top}
+.process-chapter h2{margin:0 0 14px;font-size:clamp(30px,3.4vw,52px);line-height:1.06;letter-spacing:-.035em;font-weight:500}
+.process-chapter p{margin:0;font-size:17px;line-height:1.55;color:#ffffffcc}
+
+.process-scroll-hint{position:absolute;z-index:3;right:32px;top:112px;font-size:13px;color:#ffffffa6;white-space:nowrap}
+
+/* Chapter pills: one row inside the stage, the current chapter lit. */
+.process-chapter-nav{position:absolute;z-index:4;left:50%;bottom:28px;transform:translateX(-50%);display:flex;gap:4px;width:max-content;max-width:calc(100% - 32px);padding:4px;border:1px solid #ffffff1f;border-radius:40px;background:#111111a6;backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%)}
+.process-chapter-nav button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border:0;border-radius:40px;background:none;font:inherit;font-size:14px;color:#ffffffb3;white-space:nowrap;cursor:pointer;transition:background .25s ease,color .25s ease,transform .16s var(--wk-ease-out)}
+.process-chapter-nav button b{font-weight:inherit}
+.process-chapter-nav button span{font-size:12px;color:var(--wk-brand);font-variant-numeric:tabular-nums;transition:color .25s ease}
+.process-chapter-nav button:hover{color:#fff;background:#ffffff14}
+.process-chapter-nav button[aria-current=step]{background:#fff;color:#111}
+.process-chapter-nav button[aria-current=step] span{color:var(--wk-accent-text)}
+.process-chapter-nav button:active{transform:scale(.97)}
+.process-chapter-nav button:focus-visible{outline:2px solid var(--wk-brand);outline-offset:2px}
+.process-progress{position:absolute;bottom:0;left:0;right:0;height:3px;background:#fff2;z-index:4}
+.process-progress>div{width:100%;height:100%;background:var(--wk-brand);transform:scaleX(0);transform-origin:left}
+
+/* After the film: the closing invitation, then the footer card. */
+.process-cta{max-width:720px;margin:0 auto;padding:128px 24px 96px;text-align:center}
+.process-cta h2{margin:0;font-size:clamp(34px,3.6vw,52px);line-height:1.06;letter-spacing:-.035em;font-weight:500;text-wrap:balance}
+.process-cta p{margin:18px auto 30px;max-width:40ch;font-size:17px;line-height:1.6;color:#ffffffa6}
+/* The home page's dark pill, inverted for a dark page. */
+.process-button{display:inline-flex;align-items:center;gap:14px;min-height:48px;padding:0 10px 0 24px;border-radius:40px;background:#fff;color:#111;font-size:15px;transition:background .2s ease,transform .16s var(--wk-ease-out)}
+.process-button span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--wk-brand);color:#111;font-size:15px}
+.process-button:hover{background:#ece8e2}
+.process-button:active{transform:scale(.97)}
+.process-button:focus-visible{outline:2px solid var(--wk-brand);outline-offset:3px}
 
 
+/* Reduced motion and static fallback: the film shows its last frame, or four cards replace it. */
+.process-scroll.reduced-motion{height:auto}
+.reduced-motion .process-sticky{position:relative}
 .process-static .process-sticky{height:auto;min-height:0}
 .process-static .process-sticky>:not(.process-fallback){display:none}
 .process-static .process-sticky:before,.process-static .process-sticky:after{display:none}
-.process-fallback{position:relative;padding:48px 24px;max-width:1180px;margin:auto}
-.process-fallback>h2{text-align:center;font-size:32px;margin:0 0 32px}
-.process-fallback>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
-.process-fallback img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:16px;margin-bottom:20px}
-.process-fallback article>span{color:var(--wk-brand);font-size:13px}
-.process-fallback h3{font-size:24px;margin:8px 0}
-.process-fallback p{font-size:15px;line-height:1.6;color:#ffffffb3;margin:0}
-@media(max-width:600px){.process-fallback>div{grid-template-columns:1fr}}
+.process-fallback{position:relative;max-width:1240px;margin:0 auto;padding:24px 24px 0}
+.process-fallback>h2{margin:0 0 36px;font-size:clamp(34px,3.6vw,52px);line-height:1.06;letter-spacing:-.035em;font-weight:500;text-align:center;text-wrap:balance}
+.process-fallback>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.process-fallback article{display:flex;flex-direction:column;padding:8px 8px 28px;border-radius:var(--wk-radius-md);background:var(--wk-night-raised)}
+.process-fallback img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--wk-radius-sm);background:#222;margin-bottom:22px}
+.process-fallback article>:not(img){margin-inline:20px}
+.process-fallback article>span{font-size:13px;color:var(--wk-brand);font-variant-numeric:tabular-nums}
+.process-fallback h3{margin:6px 20px;font-size:22px;letter-spacing:-.02em;font-weight:500}
+.process-fallback p{margin:0;max-width:40ch;font-size:15px;line-height:1.55;color:#ffffffa6}
+
+
+@media(max-width:900px){
+  .process-chapter-nav button{padding:0 12px;font-size:13px}
+  .process-chapter-nav button span{display:none}
+}
+
+@media(max-width:600px){
+  .process-intro{padding:48px 16px 72px}
+  .process-intro h1{font-size:clamp(44px,13vw,64px)}
+  .process-intro>p:not(.process-label){font-size:16px}
+  .process-intro>p br{display:none}
+  .process-scroll{height:520svh}
+  .process-scrim-left,.process-scrim-right{background:linear-gradient(0deg,#000d 0%,#0007 40%,transparent 70%)}
+  .process-chapter,.process-chapter.is-left,.process-chapter.is-right{top:auto;bottom:104px;left:20px;right:20px;width:auto;transform:translateY(24px)}
+  .process-chapter[data-active=true]{transform:none}
+  .process-chapter-count{font-size:56px;margin-bottom:12px}
+  .process-chapter h2{font-size:28px}
+  .process-chapter p{font-size:15px}
+  .process-scroll-hint{display:none}
+  /* Numbers only on phones, kept left so the WhatsApp button has its corner; the chapter title is already on screen. */
+  .process-chapter-nav{left:16px;bottom:24px;transform:none}
+  .process-chapter-nav button{min-width:44px;min-height:44px;padding:0 12px}
+  .process-chapter-nav button span{display:inline;font-size:13px}
+  .process-chapter-nav button b{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .process-cta{padding:88px 16px 72px}
+  .process-fallback{padding-inline:16px}
+  .process-fallback>div{grid-template-columns:1fr}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .process-scroll{height:auto}
+  .process-sticky{position:relative}
+  .process-poster,.process-chapter,.process-scrim,.process-chapter-nav button,.process-button,.process-intro .process-discover{transition:none}
+}

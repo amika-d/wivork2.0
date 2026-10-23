@@ -47,36 +47,73 @@ function ScrollWords({ text }: { text: string }) {
 
 // A radio group with one tab stop; arrow keys move the choice, as the ARIA radio pattern expects.
 function Segmented({ label, options, value, onChange }: { label: string; options: string[]; value: number; onChange: (index: number) => void }) {
-  return <div className="hl-toggle" role="radiogroup" aria-label={label} onKeyDown={event => {
-    const step = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
-    if (!step) return;
-    event.preventDefault();
-    const next = (value + step + options.length) % options.length;
-    onChange(next);
-    (event.currentTarget.children[next] as HTMLElement).focus();
-  }}>{options.map((option, index) => <button key={option} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option}</button>)}</div>;
+  return <div className="hl-choice">
+    <span className="hl-choice-label" id={`choice-${label}`}>{label}</span>
+    <div className="hl-toggle" role="radiogroup" aria-labelledby={`choice-${label}`} onKeyDown={event => {
+      const step = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
+      if (!step) return;
+      event.preventDefault();
+      const next = (value + step + options.length) % options.length;
+      onChange(next);
+      (event.currentTarget.children[next] as HTMLElement).focus();
+    }}>{options.map((option, index) => <button key={option} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option}</button>)}</div>
+  </div>;
 }
 
-// Choosing a size and how many people gives the real package price.
+// A small configurator: the chosen piece stands on the left and its real price updates on the right.
 function PriceCard() {
   const [size, setSize] = useState(0);
   const [people, setPeople] = useState(0);
-  const item = groups[size].packages[people];
+  const group = groups[size];
+  // Signature miniatures come for one person only, so the people choice applies to busts alone.
+  const item = group.packages[Math.min(people, group.packages.length - 1)];
   return <div className="hl-price-card">
-    <Segmented label="Size" options={[`Miniature · ${groups[0].packages[0].size}`, `Portrait bust · ${groups[1].packages[0].size}`]} value={size} onChange={setSize}/>
-    <Segmented label="People" options={['One person', 'Two people']} value={people} onChange={setPeople}/>
-    <div aria-live="polite" aria-atomic="true"><p className="hl-price-label">{item.name}</p><p className="hl-price">{item.price}</p></div>
-    <p className="hl-price-note">{item.text} Custom sizes are priced on request.</p>
-    <a className="hl-dark-button" href={say(`Hi wivork, I'd like to order the ${item.name} (${item.price}).`)} target="_blank" rel="noreferrer">Order on WhatsApp <span aria-hidden="true">↗</span></a>
+    {/* Keyed by package, so each choice settles in with a short blur-in rather than a hard swap. */}
+    <figure className={`hl-price-stage hl-price-stage-${group.id}`} key={item.name} data-count={item.figures.length}>
+      {item.figures.map((figure, index) => <img key={figure.src + index} src={figure.src} alt={figure.alt} decoding="async"/>)}
+      {item.pictured && <figcaption>{item.pictured}</figcaption>}
+    </figure>
+    <div className="hl-price-body">
+      <Segmented label="Size" options={[`Signature miniature · ${groups[0].packages[0].size}`, `Portrait bust · ${groups[1].packages[0].size}`]} value={size} onChange={setSize}/>
+      {group.packages.length > 1
+        ? <Segmented label="People" options={['One person', 'Two people']} value={people} onChange={setPeople}/>
+        : <div className="hl-choice"><span className="hl-choice-label">People</span><p className="hl-choice-fixed">Made for one person</p></div>}
+      <div className="hl-price-result" aria-live="polite" aria-atomic="true">
+        <p className="hl-price-label">{item.name} · {item.size}</p>
+        <p className="hl-price" key={item.price}>{item.price}</p>
+      </div>
+      <p className="hl-price-note">{item.text} Custom sizes are priced on request.</p>
+      <a className="hl-dark-button" href={say(`Hi wivork, I'd like to order the ${item.name} (${item.price}).`)} target="_blank" rel="noreferrer">Order on WhatsApp <span aria-hidden="true">↗</span></a>
+    </div>
   </div>;
+}
+
+// The FAQ rows rise in once, the first time the band scrolls into view.
+function useRevealOnce<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  useEffect(() => {
+    const element = ref.current;
+    // Only hide what is still below the screen, so the content never depends on this script to appear.
+    if (!element || element.getBoundingClientRect().top < window.innerHeight) return;
+    element.classList.add('will-reveal');
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      element.classList.add('is-revealed');
+      observer.disconnect();
+    }, { threshold: .2 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
 }
 
 export default function App() {
   useLenis();
+  const faqRef = useRevealOnce<HTMLElement>();
   useEffect(prefetchProcess, []);
   const [piece, setPiece] = useState<Creation | null>(null);
   return <div className="hl-page">
-    <WivorkHeader/>
+    <WivorkHeader current="home"/>
     <main>
       <section className="hl-hero" aria-labelledby="hero-title">
         <p className="hl-label">Custom miniatures · Hand-painted in Sri Lanka</p>
@@ -100,17 +137,14 @@ export default function App() {
         <div className="hl-bento">
           <a className="hl-card hl-card-photo" href="/packages">
             <img src="/home/v2/feature-red-sari-ledge.webp" alt="The Evening in Red full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
-            <div><span>Signature miniature</span><h3>A full-length likeness, 18cm tall.</h3><p>{groups[0].packages[0].price} · couple {groups[0].packages[1].price}</p></div>
+            <p className="hl-tile-copy"><strong>Signature miniature.</strong> A full-length likeness, {groups[0].packages[0].size} tall. Made for one person, <span className="hl-nowrap">{groups[0].packages[0].price}</span>.</p>
           </a>
-          <a className="hl-card hl-card-warm" href="/packages">
-            <span>Portrait bust</span>
-            <h3>An upper-body portrait, 5cm tall.</h3>
-            <p>{groups[1].packages[0].price} · couple {groups[1].packages[1].price}</p>
+          <a className="hl-card hl-card-dark" href="/packages">
+            <p className="hl-tile-copy"><strong>Portrait bust.</strong> An upper-body likeness on a small oval base, {groups[1].packages[0].size} tall. <span className="hl-nowrap">{groups[1].packages[0].price}</span>, or <span className="hl-nowrap">{groups[1].packages[1].price}</span> for a couple.</p>
             <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941" loading="lazy"/>
           </a>
           <div className="hl-card hl-card-plain">
-            <span>Included with every piece</span>
-            <ul>{['Custom digital sculpting', 'Resin printing', 'Hand-painting', 'Unlimited sculpting revisions'].map(item => <li key={item}>{item}</li>)}</ul>
+            <p className="hl-tile-copy"><strong>Every piece, made the same careful way.</strong> Sculpted digitally from your photos, printed in resin and painted by hand, with unlimited revisions while we sculpt and paint.</p>
             <a href="/gallery">See all our creations <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -133,7 +167,7 @@ export default function App() {
         <PriceCard/>
       </section>
 
-      <section className="hl-faq" id="faq" aria-labelledby="faq-title">
+      <section className="hl-faq" id="faq" aria-labelledby="faq-title" ref={faqRef}>
         <div className="hl-faq-head"><h2 id="faq-title">Questions, answered.</h2><p>What people ask before they order. Anything else, ask us on WhatsApp.</p></div>
         <div className="hl-faq-list">{faqs.map((faq, index) => <details key={faq.question} name="faq" open={index === 0}>
           <summary>{faq.question}<span aria-hidden="true"/></summary>

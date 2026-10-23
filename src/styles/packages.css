@@ -1,90 +1,147 @@
-body:has(.pk-page){--wk-page:#111;--wk-surface:#1b1b1b;--wk-ink:#fff;--wk-muted:#ffffffb3;background:#111;color:#fff}
-.pk-page{background:#111;color:#fff;padding:0 32px}
-.pk-page section{max-width:1180px;margin:0 auto}
-.pk-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:start;gap:80px;padding:88px 0 64px;text-align:left}
-.pk-eyebrow{display:block;font-size:11px;letter-spacing:1.7px;color:var(--wk-brand);margin-bottom:22px}
-.pk-hero h1{font-size:clamp(40px,4.6vw,66px);line-height:1.08;letter-spacing:-2.7px;font-weight:450;margin:0}
-.pk-hero-copy{max-width:400px;padding-top:32px}
-.pk-hero-copy p{font-size:17px;line-height:1.65;color:#ffffffb3;margin:0 0 22px}
-.pk-hero-copy a{display:inline-flex;align-items:center;gap:14px;font-size:14px;padding:6px 0;border-bottom:1px solid #f4a95066}
-.pk-hero-copy a:hover{border-color:var(--wk-brand)}
-.pk-group{padding:16px 0 80px}
-.pk-group-head{text-align:center;margin-bottom:30px}
-.pk-group-head span{display:block;font-size:11px;letter-spacing:1.7px;text-transform:uppercase;color:var(--wk-brand);margin-bottom:12px}
-.pk-group-head h2{font-size:clamp(28px,3vw,40px);font-weight:450;letter-spacing:-1.2px;line-height:1.15;margin:0}
-.pk-tabs{display:flex;justify-content:center;gap:6px;width:fit-content;max-width:100%;margin:0 auto 36px;padding:5px;border-radius:40px;background:#1d1d1d}
-.pk-tabs button{background:none;border:0;border-radius:30px;min-height:44px;padding:11px 24px;font-size:14px;color:#ffffffb3;transition:background .2s,color .2s}
+/* Packages: the dark page, with the home design system's type, controls, accordion and closing pattern. */
+body:has(.pk-page){--wk-page:var(--wk-night);--wk-surface:var(--wk-night-raised);--wk-ink:#fff;--wk-muted:#ffffffb3;background:var(--wk-night);color:#fff}
+.pk-page{--pk-raised:var(--wk-night-raised,#1b1b1b);--pk-hair:#ffffff14;--pk-dim:#ffffffa6;background:var(--wk-night);color:#fff;overflow-x:clip}
+.pk-page main{padding:0 24px}
+.pk-page main>section{max-width:1180px;margin:0 auto}
+
+/* Sentence-case labels replace the old uppercase eyebrows. Orange on dark; the deeper accent on the light card. */
+.pk-label{margin:0 0 18px;font-size:13px;line-height:1.4;letter-spacing:.2px;color:var(--wk-brand)}
+
+/* Buttons, after the home's dark pill and ghost outline. */
+.pk-ghost-button{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px;border:1px solid #ffffff33;border-radius:40px;font-size:14px;white-space:nowrap;transition:border-color .2s ease,transform .16s var(--wk-ease-out)}
+.pk-ghost-button:hover{border-color:#fff}
+.pk-order-button,.pk-wa-button{display:inline-flex;align-items:center;gap:14px;min-height:48px;padding:0 9px 0 22px;border-radius:40px;background:#111;color:#fff;font-size:15px;white-space:nowrap;transition:background .2s ease,transform .16s var(--wk-ease-out)}
+.pk-order-button span,.pk-wa-button span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--wk-brand);color:#111;font-size:15px}
+.pk-order-button:hover{background:#2a2a2a}
+.pk-ghost-button:active,.pk-order-button:active,.pk-wa-button:active{transform:scale(.97)}
+
+/* Hero. */
+.pk-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);align-items:end;gap:80px;padding:88px 0 72px}
+.pk-hero h1{margin:0;font-size:clamp(44px,5vw,72px);line-height:1.04;letter-spacing:-.045em;font-weight:500;text-wrap:balance}
+.pk-hero-copy{max-width:400px}
+.pk-hero-copy p{margin:0 0 24px;font-size:17px;line-height:1.6;color:var(--wk-muted);text-wrap:pretty}
+
+/* Sizes and cards. */
+.pk-group{padding:24px 0 96px}
+.pk-group-head{text-align:center;margin-bottom:28px}
+.pk-group-head .pk-label{margin-bottom:12px}
+.pk-group-head h2{margin:0;font-size:clamp(34px,3.6vw,52px);line-height:1.06;letter-spacing:-.035em;font-weight:500}
+
+/* Segmented control on dark: a faint track and a white thumb with dark text. */
+.pk-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:min(440px,100%);margin:0 auto 40px;padding:4px;border-radius:40px;background:#ffffff12}
+.pk-tabs button{min-height:44px;padding:0 16px;border:0;border-radius:40px;background:none;font:inherit;font-size:14px;color:#ffffffb3;cursor:pointer;transition:background .2s ease,color .2s ease}
 .pk-tabs button:hover{color:#fff}
-.pk-tabs button[aria-selected=true]{background:var(--wk-brand);color:#0a0a0a}
-#pk-panel{animation:pk-in .35s ease}
-@keyframes pk-in{from{opacity:0}to{opacity:1}}
-.pk-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
-.pk-card{--pk-ink:#111;--pk-muted:#111a;--pk-line:#1111;position:relative;min-width:0;border-radius:16px;background:#efefed;color:var(--pk-ink);padding:34px 36px 30px;text-align:left;display:flex;flex-direction:column;align-items:stretch}
-.pk-card.featured{--pk-ink:#fff;--pk-muted:#ffffffad;--pk-line:#ffffff18;background:#1d1d1d;border:1px solid #ffffff14}
-.pk-card-detail{font-size:10px;letter-spacing:1.5px;font-weight:450;color:var(--pk-muted)}
-.pk-card h3{font-size:clamp(26px,2.4vw,34px);letter-spacing:-1px;font-weight:450;line-height:1.15;margin:16px 0 12px}
-.pk-card>p{max-width:420px;font-size:15px;line-height:1.6;color:var(--pk-muted);margin:0 0 26px}
-.pk-features{list-style:none;padding:24px 0;margin:0 0 28px;border-top:1px solid var(--pk-line);display:grid;gap:16px}
-.pk-features li{display:flex;align-items:center;gap:12px;font-size:14px;line-height:1.5}
-.pk-features svg{width:16px;height:16px;flex-shrink:0;opacity:.8}
-.pk-card-foot{width:100%;margin-top:auto;padding-top:24px;border-top:1px solid var(--pk-line);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
-.pk-price{font-variant-numeric:tabular-nums}
-.pk-price small{display:block;font-size:11px;color:var(--pk-muted);margin-bottom:7px}
-.pk-price strong{display:block;font-size:clamp(25px,2.5vw,34px);line-height:1.1;font-weight:450;letter-spacing:-.8px;color:var(--pk-ink)}
-.pk-card .wk-primary{background:#111;color:#fff;font-size:13px;min-height:44px;padding:11px 18px;gap:14px;white-space:nowrap}
-.pk-card .wk-primary:hover{background:#333}
-.pk-card.featured .wk-primary{background:var(--wk-brand);color:#0a0a0a}
-.pk-card.featured .wk-primary:hover{background:var(--wk-brand-hover)}
-.pk-note{text-align:center;font-size:12px;line-height:1.6;color:#ffffff80;margin:24px auto 0;max-width:720px}
-.pk-ask{display:flex;align-items:center;justify-content:center;gap:10px;width:fit-content;max-width:100%;margin:32px auto 0;font-size:14px;line-height:1.5;color:#ffffffb3;border-bottom:1px solid #ffffff40;padding-bottom:6px}
-.pk-ask:hover{color:var(--wk-brand);border-color:var(--wk-brand)}
-.pk-wa{gap:10px}
-.pk-process{padding:30px 0 40px}
-.pk-process .pk-group-head{margin-bottom:50px}
-.pk-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center;margin:0 auto 80px;max-width:1080px}
-.pk-step.flip .pk-step-image{order:2}
-.pk-step-image{position:relative;min-width:0}
-.pk-step-image img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;border-radius:14px;background:#242321}
-.pk-step-image>span{position:absolute;top:14px;left:14px;width:34px;height:34px;border-radius:50%;background:#111b;color:#fff;display:grid;place-items:center;font-size:13px}
-.pk-step-copy h3{font-size:clamp(26px,2.6vw,36px);font-weight:450;letter-spacing:-1px;line-height:1.15;margin:0 0 18px}
-.pk-step-copy p{font-size:16px;line-height:1.65;color:#ffffffb3;margin:0 0 16px}
-.pk-step-copy .pk-highlight{color:var(--wk-brand)}
-.pk-step-copy .pk-small{font-size:13px;color:#ffffff80}
-.pk-terms{border-radius:16px;background:#1d1d1d;padding:48px;max-width:900px}
-.pk-terms h2{font-size:12px;letter-spacing:1.7px;text-transform:uppercase;text-align:center;font-weight:450;margin:0 0 36px}
-.pk-terms dl{margin:0;display:grid;gap:26px}
-.pk-terms dt{font-weight:450;margin-bottom:8px}
-.pk-terms dd{margin:0;font-size:15px;line-height:1.65;color:#ffffffb3}
-.pk-page .pk-order{text-align:center;padding:100px 0 110px;display:flex;flex-direction:column;align-items:center}
-.pk-order>p{font-size:11px;letter-spacing:1.7px;color:var(--wk-brand);margin:0 0 20px}
-.pk-order h2{font-size:clamp(38px,5vw,64px);font-weight:450;letter-spacing:-2px;line-height:1.1;margin:0 0 30px}
-.pk-order-cta{font-size:15px;padding:14px 26px;color:#0a0a0a}
-.pk-order-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:30px;font-size:14px;color:#ffffff90}
+.pk-tabs button[aria-selected=true]{background:#fff;color:#111;box-shadow:0 1px 3px #0000004d}
+.pk-tabs button:focus-visible{outline:2px solid var(--wk-brand);outline-offset:2px}
+#pk-panel{animation:pk-in .3s ease-out}
+@keyframes pk-in{from{opacity:0}}
+
+.pk-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+/* Signature miniatures are a single offer, so its one card sits centred at a readable width. */
+.pk-cards[data-count='1']{grid-template-columns:minmax(0,600px);justify-content:center}
+.pk-card{--pk-ink:#111;--pk-muted:#6e6a64;--pk-line:#1111171a;--pk-stage:#e3e1dc;--pk-label:var(--wk-accent-text);position:relative;min-width:0;display:flex;flex-direction:column;padding:32px;border-radius:var(--wk-radius-md);background:#efefed;color:var(--pk-ink);text-align:left}
+.pk-card.featured{--pk-ink:#fff;--pk-muted:#ffffffa6;--pk-line:#ffffff1a;--pk-stage:#2a2a2a;--pk-label:var(--wk-brand);background:var(--pk-raised);box-shadow:inset 0 0 0 1px var(--pk-hair)}
+.pk-card .pk-label{margin:0 0 10px;color:var(--pk-label)}
+
+/* The stage sits 12px inside the card, so its radius is the card's minus that gap. */
+.pk-stage{position:relative;display:flex;align-items:flex-end;justify-content:center;height:320px;margin:-20px -20px 28px;padding:24px 24px 34px;border-radius:calc(var(--wk-radius-md) - 12px);background:var(--pk-stage);overflow:hidden}
+.pk-stage:before{content:'';position:absolute;left:50%;bottom:26px;width:58%;height:22px;border-radius:50%;background:radial-gradient(closest-side,#0000003d,#0000);transform:translateX(-50%);pointer-events:none}
+.pk-card.featured .pk-stage:before{background:radial-gradient(closest-side,#000a,#0000)}
+.pk-stage img{position:relative;display:block;height:100%;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 10px 14px #0000002e);transition:transform .5s var(--wk-ease-out)}
+.pk-stage[data-count='2'] img{max-width:50%}
+.pk-stage[data-count='2'] img+img{margin-left:-6%}
+/* Busts are 5cm and wide, so they sit lower and smaller than the 18cm figures. */
+.pk-stage-busts img{height:auto;width:min(86%,380px);max-height:100%}
+.pk-stage figcaption{position:absolute;left:0;right:0;bottom:9px;text-align:center;font-size:12px;color:var(--pk-muted)}
+@media(hover:hover) and (pointer:fine){.pk-card:hover .pk-stage img{transform:translateY(-4px)}}
+
+.pk-card h3{margin:0 0 10px;font-size:clamp(26px,2.4vw,32px);line-height:1.1;letter-spacing:-.03em;font-weight:500}
+.pk-card-text{max-width:40ch;margin:0 0 24px;font-size:15px;line-height:1.55;color:var(--pk-muted);text-wrap:pretty}
+.pk-features{list-style:none;display:grid;gap:14px;margin:0 0 24px;padding:24px 0 0;border-top:1px solid var(--pk-line)}
+.pk-features li{display:flex;align-items:center;gap:12px;font-size:15px;line-height:1.5}
+.pk-features svg{flex:none;color:var(--pk-label)}
+.pk-card-foot{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:auto;padding-top:24px;border-top:1px solid var(--pk-line)}
+.pk-price small{display:block;margin-bottom:6px;font-size:13px;color:var(--pk-muted)}
+.pk-price strong{display:block;font-size:clamp(40px,3.6vw,48px);line-height:1;letter-spacing:-.04em;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pk-card.featured .pk-order-button{background:var(--wk-brand);color:#111}
+.pk-card.featured .pk-order-button:hover{background:var(--wk-brand-hover)}
+.pk-card.featured .pk-order-button span{background:#111;color:var(--wk-brand)}
+.pk-note{max-width:720px;margin:24px auto 0;text-align:center;font-size:13px;line-height:1.6;color:#ffffff80}
+.pk-ask{display:flex;width:fit-content;max-width:100%;margin:28px auto 0}
+
+/* Terms: the home FAQ accordion on a raised dark panel. */
+.pk-page main>.pk-terms{display:grid;grid-template-columns:.8fr 1.2fr;gap:64px;max-width:1240px;padding:72px 48px;border-radius:var(--wk-radius-lg);background:var(--pk-raised);box-shadow:inset 0 0 0 1px var(--pk-hair)}
+.pk-terms h2{margin:0;font-size:clamp(34px,3.6vw,52px);line-height:1.06;letter-spacing:-.035em;font-weight:500;text-wrap:balance}
+.pk-terms-head p{margin:20px 0 0;max-width:30ch;font-size:16px;line-height:1.6;color:var(--pk-dim)}
+.pk-terms details{border-bottom:1px solid #ffffff1f}
+.pk-terms details:first-child{border-top:1px solid #ffffff1f}
+.pk-terms summary{display:flex;justify-content:space-between;align-items:center;gap:24px;min-height:64px;padding:16px 0;font-size:18px;letter-spacing:-.01em;cursor:pointer;list-style:none}
+.pk-terms summary::-webkit-details-marker{display:none}
+.pk-terms summary span{position:relative;flex:none;width:28px;height:28px;border:1px solid #ffffff33;border-radius:50%}
+.pk-terms summary span:before,.pk-terms summary span:after{content:'';position:absolute;left:50%;top:50%;width:10px;height:1.5px;background:currentColor;transform:translate(-50%,-50%);transition:transform .2s var(--wk-ease-out)}
+.pk-terms summary span:after{transform:translate(-50%,-50%) rotate(90deg)}
+.pk-terms details[open] summary span:after{transform:translate(-50%,-50%) rotate(0)}
+.pk-terms summary:hover span{border-color:var(--wk-brand)}
+.pk-terms summary:focus-visible{outline:2px solid var(--wk-brand);outline-offset:4px}
+.pk-terms details p{margin:0 0 24px;max-width:60ch;font-size:16px;line-height:1.65;color:#ffffffb3}
+/* Answers grow open and shut; the exclusive accordion closes the previous one in the same motion. Browsers without ::details-content open instantly. */
+@media(prefers-reduced-motion:no-preference){
+ .pk-terms{interpolate-size:allow-keywords}
+ .pk-terms details::details-content{block-size:0;overflow:hidden;transition:block-size .34s var(--wk-ease-out),content-visibility .34s allow-discrete}
+ .pk-terms details[open]::details-content{block-size:auto}
+ .pk-terms details p{opacity:0;transform:translateY(-6px);filter:blur(2px);transition:opacity .22s ease,transform .34s var(--wk-ease-out),filter .22s ease}
+ .pk-terms details[open] p{opacity:1;transform:none;filter:none;transition-delay:60ms}
+ .pk-terms summary{transition:color .2s ease}
+ .pk-terms details:not([open]) summary:hover{color:#fffc}
+ /* First view: the heading, then each term, 50ms apart. */
+ .pk-terms.will-reveal:not(.is-revealed) :is(.pk-terms-head,details){opacity:0;transform:translateY(16px)}
+ .pk-terms :is(.pk-terms-head,details){transition:opacity .6s ease-out,transform .7s var(--wk-ease-out)}
+ .pk-terms.is-revealed details:nth-child(1){transition-delay:80ms}
+ .pk-terms.is-revealed details:nth-child(2){transition-delay:130ms}
+ .pk-terms.is-revealed details:nth-child(3){transition-delay:180ms}
+ .pk-terms.is-revealed details:nth-child(4){transition-delay:230ms}
+}
+
+/* Closing invitation, after the home .hl-cta. */
+.pk-page main>.pk-order{max-width:720px;padding:128px 0 96px;text-align:center}
+.pk-order h2{margin:0 0 30px;font-size:clamp(40px,5vw,64px);line-height:1.04;letter-spacing:-.035em;font-weight:500}
+.pk-wa-button{gap:12px;padding-left:20px;background:var(--wk-brand);color:#111}
+.pk-wa-button:hover{background:var(--wk-brand-hover)}
+.pk-wa-button span{background:#111;color:var(--wk-brand)}
+.pk-order-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;margin-top:28px;font-size:14px;color:var(--pk-dim)}
+.pk-order-meta a{transition:color .2s ease}
 .pk-order-meta a:hover{color:var(--wk-brand)}
-@media(max-width:800px){.pk-page{padding:0 24px}.pk-hero{gap:32px;padding:60px 0 48px}.pk-hero-copy{padding-top:28px}.pk-hero-copy p{font-size:15px}.pk-card{padding:30px 26px}.pk-card-foot{flex-direction:column;align-items:flex-start}.pk-card .wk-primary{width:100%}.pk-step{gap:32px;margin-bottom:56px}.pk-terms{padding:36px 28px}}
-@media(max-width:600px){.pk-page{padding:0 20px}.pk-hero{grid-template-columns:1fr;gap:24px;padding:48px 0 40px}.pk-hero h1{font-size:clamp(36px,10vw,48px);letter-spacing:-1.7px}.pk-hero-copy{padding:0;max-width:400px}.pk-hero-copy p{font-size:16px}.pk-group{padding-bottom:60px}.pk-cards{grid-template-columns:1fr;gap:20px}.pk-card{padding:30px 26px}.pk-card h3{font-size:29px}.pk-card>p{font-size:14px;margin-bottom:22px}.pk-features{gap:14px;padding:22px 0;margin-bottom:24px}.pk-features li{font-size:14px}.pk-card-foot{flex-direction:row;align-items:center;gap:18px}.pk-card .wk-primary{width:auto}.pk-price strong{font-size:28px}.pk-tabs button{font-size:12px;padding:10px 16px}.pk-note{font-size:11px}.pk-step{grid-template-columns:1fr;gap:24px}.pk-step.flip .pk-step-image{order:0}.pk-step-copy p{font-size:15px}.pk-terms{padding:32px 24px}.pk-page .pk-order{padding:72px 0 80px}.pk-order-meta{flex-direction:column;gap:8px}}
-@media(max-width:360px){.pk-card{padding:26px 22px}.pk-card-foot{flex-direction:column;align-items:stretch}.pk-card .wk-primary{width:100%;justify-content:center}.pk-tabs button{padding-inline:12px}}
-@media(prefers-reduced-motion:reduce){#pk-panel{animation:none}}
-.pk-step{gap:72px;margin-bottom:72px}
-.pk-step-copy{max-width:440px}
-.pk-step-copy h3{margin-bottom:16px}
-.pk-step-copy p{margin:0;font-size:16px;line-height:1.7}
-.pk-step-help{display:inline-flex;font-size:13px;line-height:1.5;margin-top:18px;padding-bottom:4px;border-bottom:1px solid #ffffff35;color:#ffffffad}
-.pk-step-help:hover{color:var(--wk-brand);border-color:var(--wk-brand)}
-@media(max-width:800px){.pk-step{gap:36px;margin-bottom:56px}}
-@media(max-width:600px){.pk-step{gap:24px;margin-bottom:52px}.pk-step-copy p{font-size:15px}}
 
-/* Portrait process frames: explicit height prevents intrinsic image dimensions
-   from creating tall letterboxed containers. Keep the action in the crop. */
-.pk-step{grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:96px}
-.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,420px)}
-.pk-step-image img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%}
-@media(max-width:800px){.pk-step,.pk-step.flip{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:36px}}
-@media(max-width:600px){.pk-step,.pk-step.flip{grid-template-columns:1fr;gap:24px}.pk-step-image{width:100%;max-width:400px;margin-inline:auto}}
+/* Footer as a rounded card, like the home page. */
 
-.home-pricing{color:#fff;margin:32px;padding:56px max(24px,calc((100% - 1180px) / 2 - 32px)) 48px;scroll-margin-top:90px}
-@media(max-width:600px){.home-pricing{margin:24px 16px;padding:40px 20px}}
-
-/* Home pricing sits on the dark page, like the packages page. */
-.home-pricing .pk-group-head h2{font-size:clamp(36px,4vw,56px);letter-spacing:-2px}
-@media(max-width:600px){.home-pricing .pk-group-head h2{letter-spacing:-1.4px}}
+@media(max-width:900px){
+ .pk-hero{grid-template-columns:1fr;gap:28px;padding:64px 0 56px}
+ .pk-page main>.pk-terms{grid-template-columns:1fr;gap:32px;padding:56px 32px}
+ .pk-card-foot{flex-direction:column;align-items:stretch}
+ .pk-order-button{justify-content:space-between}
+}
+@media(max-width:700px){.pk-cards{grid-template-columns:1fr}.pk-card-foot{flex-direction:row;align-items:flex-end}.pk-order-button{justify-content:flex-start}}
+@media(max-width:600px){
+ .pk-page main{padding:0 16px}
+ .pk-hero{padding:44px 0 44px;gap:24px}
+ .pk-hero h1{font-size:clamp(38px,11vw,48px)}
+ .pk-hero-copy p{font-size:16px}
+ .pk-group{padding-bottom:72px}
+ .pk-tabs{margin-bottom:28px}
+ .pk-tabs button{padding:0 10px;font-size:13px}
+ .pk-card{padding:24px;border-radius:24px}
+ .pk-stage{height:240px;margin:-12px -12px 24px;border-radius:12px}
+ .pk-card h3{font-size:28px}
+ .pk-card-text{font-size:14px;margin-bottom:20px}
+ .pk-features{gap:12px;padding-top:20px;margin-bottom:20px}
+ .pk-features li{font-size:14px}
+ .pk-card-foot{flex-direction:column;align-items:stretch;gap:16px;padding-top:20px}
+ .pk-price strong{font-size:44px}
+ .pk-order-button{justify-content:space-between}
+ .pk-note{font-size:12px}
+ .pk-page main>.pk-terms{padding:44px 20px;border-radius:24px}
+ .pk-terms summary{font-size:16px}
+ .pk-page main>.pk-order{padding:88px 0 72px}
+ .pk-order-meta{flex-direction:column;gap:8px}
+}
+@media(prefers-reduced-motion:reduce){#pk-panel{animation:none}.pk-stage img,.pk-ghost-button,.pk-order-button,.pk-wa-button,.pk-tabs button{transition:none}}

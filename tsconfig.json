@@ -9,6 +9,8 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "tmp",
+    "output"
   ]
 }
