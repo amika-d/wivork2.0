@@ -60,25 +60,50 @@ function Segmented({ label, options, value, onChange }: { label: string; options
   </div>;
 }
 
+// Every real option, in the order the card shows them while it plays on its own.
+const showcase = groups.flatMap((group, size) => group.packages.map((_, people) => ({ size, people })));
+
 // A small configurator: the chosen piece stands on the left and its real price updates on the right.
+// Until someone makes a choice it steps through every option; the timer line's animation drives each step,
+// so pausing (pointer over the card, card off screen) is just pausing that animation.
 function PriceCard() {
   const [size, setSize] = useState(0);
   const [people, setPeople] = useState(0);
+  const [auto, setAuto] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const card = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !card.current) return;
+    setAuto(true);
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .4 });
+    observer.observe(card.current);
+    return () => observer.disconnect();
+  }, []);
   const group = groups[size];
   // Signature miniatures come for one person only, so the people choice applies to busts alone.
   const item = group.packages[Math.min(people, group.packages.length - 1)];
-  return <div className="hl-price-card">
+  const choose = (apply: () => void) => { setAuto(false); apply(); };
+  const advance = () => {
+    const current = showcase.findIndex(option => option.size === size && option.people === Math.min(people, group.packages.length - 1));
+    const next = showcase[(current + 1) % showcase.length];
+    setSize(next.size);
+    setPeople(next.people);
+  };
+  return <div className="hl-price-card" ref={card} onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}>
     {/* Keyed by package, so each choice settles in with a short blur-in rather than a hard swap. */}
     <figure className={`hl-price-stage hl-price-stage-${group.id}`} key={item.name} data-count={item.figures.length}>
       {item.figures.map((figure, index) => <img key={figure.src + index} src={figure.src} alt={figure.alt} decoding="async"/>)}
       {item.pictured && <figcaption>{item.pictured}</figcaption>}
+      {auto && <span className="hl-price-timer" aria-hidden="true" data-paused={hovered || !visible} onAnimationEnd={advance}/>}
     </figure>
     <div className="hl-price-body">
-      <Segmented label="Size" options={groups.map(option => ({ name: option.eyebrow, detail: option.packages[0].size }))} value={size} onChange={setSize}/>
+      <Segmented label="Size" options={groups.map(option => ({ name: option.eyebrow, detail: option.packages[0].size }))} value={size} onChange={index => choose(() => setSize(index))}/>
       {group.packages.length > 1
-        ? <Segmented label="People" options={[{ name: 'One Person' }, { name: 'Two People' }]} value={people} onChange={setPeople}/>
+        ? <Segmented label="People" options={[{ name: 'One Person' }, { name: 'Two People' }]} value={people} onChange={index => choose(() => setPeople(index))}/>
         : <div className="hl-choice"><span className="hl-choice-label">People</span><p className="hl-choice-fixed">One Person</p></div>}
-      <div className="hl-price-result" aria-live="polite" aria-atomic="true">
+      {/* Quiet while it plays on its own, so screen readers only hear changes the visitor makes. */}
+      <div className="hl-price-result" aria-live={auto ? 'off' : 'polite'} aria-atomic="true">
         <p className="hl-price-label">{item.name} · {item.size}</p>
         <p className="hl-price" key={item.price}>{item.price}</p>
       </div>

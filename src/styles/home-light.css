@@ -93,6 +93,11 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-price-stage[data-count='2'] img+img{margin-left:-4%}
 /* Busts are 5cm and wide, so they sit smaller than the 18cm figures. */
 .hl-price-stage-busts img{height:auto;width:min(82%,420px);max-height:300px}
+/* Auto-play timer: a hairline that fills along the bottom of the stage; its animation end moves to the next option. */
+.hl-price-timer{position:absolute;left:24px;right:24px;bottom:18px;height:2px;border-radius:2px;background:#11111114;overflow:hidden}
+.hl-price-timer:after{content:'';position:absolute;inset:0;background:var(--wk-brand);transform-origin:left;animation:hl-timer 3.6s linear both}
+.hl-price-timer[data-paused=true]:after{animation-play-state:paused}
+@keyframes hl-timer{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .hl-price-stage figcaption{position:absolute;left:0;right:0;bottom:16px;text-align:center;font-size:12px;color:var(--wk-muted)}
 .hl-price-body{display:flex;flex-direction:column;padding:28px 28px 24px}
 .hl-choice{margin-bottom:18px}
