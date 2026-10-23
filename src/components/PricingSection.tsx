@@ -31,29 +31,11 @@ function PackageCard({ item, index, groupId, label }: { item: Item; index: numbe
 
 const allPackages = groups.flatMap(option => option.packages.map((item, index) => ({ item, index, option })));
 
-// Phones: every package in one swipeable row, with arrow buttons and a counter so it reads as a row, not a dead end.
-function PackageScroller() {
-  const track = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-  useEffect(() => {
-    const slides = track.current?.children;
-    if (!slides) return;
-    const observer = new IntersectionObserver(entries => {
-      for (const entry of entries) if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.index));
-    }, { root: track.current, threshold: .6 });
-    Array.from(slides).forEach(slide => observer.observe(slide));
-    return () => observer.disconnect();
-  }, []);
-  const go = (index: number) => (track.current?.children[index] as HTMLElement | undefined)?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-  const count = String(allPackages.length).padStart(2, '0');
+// Phones: no tabs, every package stacked in one column, each labelled with its size.
+function PackageList() {
   return <div className="pk-mobile">
-    <div className="pk-group-head"><p className="pk-label">Swipe to compare</p><h2>Every package</h2></div>
-    <div className="pk-scroller" role="list" ref={track}>{allPackages.map(({ item, index, option }, slide) => <div role="listitem" key={item.name} data-index={slide} aria-label={`${slide + 1} of ${allPackages.length}: ${item.name}`}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`}/></div>)}</div>
-    <div className="pk-scroller-nav">
-      <button type="button" onClick={() => go(Math.max(0, active - 1))} disabled={active === 0} aria-label="Previous package">←</button>
-      <span aria-live="polite">{String(active + 1).padStart(2, '0')} / {count}</span>
-      <button type="button" onClick={() => go(Math.min(allPackages.length - 1, active + 1))} disabled={active === allPackages.length - 1} aria-label="Next package">→</button>
-    </div>
+    <div className="pk-group-head"><p className="pk-label">Choose your piece</p><h2>Every package</h2></div>
+    <div className="pk-stack" role="list">{allPackages.map(({ item, index, option }) => <div role="listitem" key={item.name}><PackageCard item={item} index={index} groupId={option.id} label={`${option.eyebrow} · ${item.size}`}/></div>)}</div>
     {groups.map(option => <p className="pk-note" key={option.id}>* {option.note}</p>)}
   </div>;
 }
@@ -64,6 +46,19 @@ export default function PricingSection({ tab: controlledTab, onTabChange }: { ta
   const setTab = onTabChange ?? setLocalTab;
   const group = groups[tab];
   const tabsRef = useRef<HTMLDivElement>(null);
+  // Until the visitor picks a size, the tabs switch on their own; the timer line's animation drives each switch,
+  // and hovering the cards or scrolling away pauses it.
+  const [auto, setAuto] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const desktopRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !desktopRef.current) return;
+    setAuto(true);
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: .35 });
+    observer.observe(desktopRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // One tab stop for the whole tablist; arrow keys, Home and End move between the sizes and select them.
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -71,24 +66,26 @@ export default function PricingSection({ tab: controlledTab, onTabChange }: { ta
     const next = { ArrowRight: tab + 1, ArrowDown: tab + 1, ArrowLeft: tab - 1, ArrowUp: tab - 1, Home: 0, End: last }[event.key];
     if (next === undefined) return;
     event.preventDefault();
+    setAuto(false);
     const index = (next + groups.length) % groups.length;
     setTab(index);
     (tabsRef.current?.children[index] as HTMLElement | undefined)?.focus();
   };
 
   return <section className="pk-group" id="pricing" aria-labelledby="pricing-title">
-    <div className="pk-desktop">
+    <div className="pk-desktop" ref={desktopRef} onPointerEnter={() => setHovered(true)} onPointerLeave={() => setHovered(false)}>
     <div className="pk-group-head"><p className="pk-label">Choose your size</p><h2 id="pricing-title">{group.title}</h2></div>
     <div className="pk-tabs" role="tablist" aria-label="Package size" ref={tabsRef} onKeyDown={onKeyDown}>
-      {groups.map((item, index) => <button key={item.id} type="button" role="tab" id={`tab-${item.id}`} aria-selected={tab === index} aria-controls="pk-panel" tabIndex={tab === index ? 0 : -1} onClick={() => setTab(index)}>{item.eyebrow}</button>)}
+      {groups.map((item, index) => <button key={item.id} type="button" role="tab" id={`tab-${item.id}`} aria-selected={tab === index} aria-controls="pk-panel" tabIndex={tab === index ? 0 : -1} onClick={() => { setAuto(false); setTab(index); }}>{item.eyebrow}</button>)}
     </div>
+    {auto && <div className="pk-timer" aria-hidden="true"><span key={tab} data-paused={hovered || !visible} onAnimationEnd={() => setTab((tab + 1) % groups.length)}/></div>}
     <div id="pk-panel" role="tabpanel" aria-labelledby={`tab-${group.id}`} key={group.id}>
       <div className="pk-cards" data-count={group.packages.length}>{group.packages.map((item, index) => <PackageCard key={item.name} item={item} index={index} groupId={group.id}/>)}</div>
       <p className="pk-note">* {group.note}</p>
     </div>
     </div>
-    {/* Phones skip the tabs: every package sits in one swipeable row, labelled with its size. */}
-    <PackageScroller/>
+    {/* Phones skip the tabs: every package is stacked in one column, labelled with its size. */}
+    <PackageList/>
     <a className="pk-ghost-button pk-ask" href={`https://wa.me/${phone}`} target="_blank" rel="noreferrer">Not sure which one? Chat with us <span className="wk-arrow" aria-hidden="true">↗</span></a>
   </section>;
 }
