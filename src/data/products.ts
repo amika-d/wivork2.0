@@ -35,5 +35,5 @@ export const creations = [
   { name: 'Laveena’s', kind: 'Full-length Miniature', bust: false, image: '/work/hero-16x9/yellow-sari-studio-v2.webp', description: 'Patterned borders, picked out one stroke at a time.', alt: 'Hand-painted miniature of a woman in a yellow sari' },
   { name: 'Anuja’s', kind: 'Full-length Miniature', bust: false, image: '/work/hero-16x9/blue-sari-studio-v2.webp', description: 'Small white flowers scattered across a blue sari.', alt: 'Hand-painted miniature of a woman in a blue sari' },
   { name: 'Dasith’s', kind: 'Full-length Miniature', bust: false, image: '/work/hero-16x9/green-shirt-studio-v2.webp', description: 'Everyday clothes, with character in every detail.', alt: 'Hand-painted miniature of a man in a green shirt and jeans' },
-  { name: 'Popa’s', kind: 'Full-length Miniature', bust: false, image: '/work/hero-16x9/black-jacket-studio-v2.webp', description: 'Packed for the trail, standing on rough ground.', alt: 'Hand-painted miniature in a black outfit with a tan backpack on a textured base' },
+  { name: 'Amika’s', kind: 'Full-length Miniature', bust: false, image: '/work/hero-16x9/black-jacket-studio-v2.webp', description: 'Packed for the trail, standing on rough ground.', alt: 'Hand-painted miniature in a black outfit with a tan backpack on a textured base' },
 ];
