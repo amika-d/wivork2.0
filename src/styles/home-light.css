@@ -156,13 +156,15 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 }
 
 /* A real customer with her piece: portrait photo beside the piece's name, on a warm dark that matches the photo's backdrop. */
-.hl-feature{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;max-width:1288px;margin:16px auto 0;border-radius:32px;overflow:hidden;background:#2a170e;color:#fff}
-.hl-feature img{display:block;width:100%;height:100%;max-height:720px;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;-webkit-mask-image:linear-gradient(90deg,#000 72%,transparent);mask-image:linear-gradient(90deg,#000 72%,transparent)}
-.hl-feature div{padding:56px clamp(32px,5vw,80px)}
-.hl-feature div>span{font-size:13px;color:var(--wk-brand)}
+.hl-feature{display:flex;flex-direction:column;align-items:center;max-width:1288px;margin:120px auto 0;text-align:center;color:var(--wk-ink)}
+.hl-feature img{display:block;width:min(100%,920px);height:auto;margin-top:40px}
+.hl-feature div{padding:0 24px}
+.hl-feature div>span{font-size:13px;color:var(--hl-accent-text)}
 .hl-feature h2{margin:10px 0 14px;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.045em;font-weight:500}
-.hl-feature p{max-width:34ch;margin:0 0 20px;font-size:17px;line-height:1.55;color:#ffffffc7}
-.hl-feature button{min-height:44px;padding:0;border:0;background:none;color:#fff;font-size:15px;text-decoration:underline;text-decoration-color:var(--wk-brand);text-underline-offset:6px}
+.hl-feature p{max-width:40ch;margin:0 auto 20px;font-size:17px;line-height:1.55;color:#111b;text-wrap:balance}
+.hl-feature button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 20px;border:0;border-radius:40px;background:var(--wk-brand);color:#111;font-size:15px;transition:background .2s ease,transform .16s var(--hl-ease)}
+.hl-feature button:hover{background:#f7b96c}
+.hl-feature button:active{transform:scale(.97)}
 
 /* Closing invitation and footer card. */
 .hl-cta{max-width:720px;margin:0 auto;padding:128px 24px 96px;text-align:center}
@@ -224,9 +226,9 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
  .hl-faq,.hl-feature{margin-inline:16px}
  .hl-faq{padding:44px 20px;border-radius:24px;margin-top:72px}
  .hl-faq summary{font-size:16px}
- .hl-feature{grid-template-columns:1fr;border-radius:24px}
- .hl-feature img{-webkit-mask-image:linear-gradient(#000 78%,transparent);mask-image:linear-gradient(#000 78%,transparent)}
- .hl-feature div{padding:28px 24px 32px}
+ .hl-feature{margin-top:72px}
+ .hl-feature img{margin-top:32px}
+ .hl-feature div{padding:0 8px}
  .hl-cta{padding:88px 16px 72px}
 }
 @media(prefers-reduced-motion:reduce){.hl-card,.hl-card-photo img,.hl-dark-button,.hl-ghost-button{transition:none}}

@@ -201,13 +201,13 @@ export default function App() {
       </section>
 
       <section className="hl-feature" aria-labelledby="feature-title">
-        <img src="/home/v2/thihara-with-quiet-grace.webp" alt="Thihara smiling and holding her miniature, a white-sari figure in a clear display case" width="1122" height="1402" loading="lazy"/>
         <div>
           <span>{quietGrace.kind} · {groups[0].packages[0].size}</span>
           <h2 id="feature-title">{quietGrace.name}</h2>
           <p>{quietGrace.description} Shown here with Thihara, who it was made for.</p>
           <button type="button" aria-haspopup="dialog" onClick={() => setPiece(quietGrace)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button>
         </div>
+        <img src="/home/v2/thihara-with-quiet-grace-open.webp" alt="Thihara smiling and holding her miniature, a white-sari figure in a clear display case" width="768" height="900" loading="lazy"/>
       </section>
 
       <section className="hl-cta" aria-labelledby="cta-title">
