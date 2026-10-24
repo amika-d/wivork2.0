@@ -202,7 +202,6 @@ export default function App() {
 
       <section className="hl-feature" aria-labelledby="feature-title">
         <div>
-          <span>{quietGrace.kind} · {groups[0].packages[0].size}</span>
           <h2 id="feature-title">{quietGrace.name}</h2>
           <p>{quietGrace.description} Shown here with Thihara, who it was made for.</p>
           <button type="button" aria-haspopup="dialog" onClick={() => setPiece(quietGrace)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button>

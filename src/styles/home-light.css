@@ -159,8 +159,7 @@ body:has(.hl-page){--wk-page:#f6f2ec;--wk-ink:#111;--wk-muted:#1119;--hl-card:#f
 .hl-feature{display:flex;flex-direction:column;align-items:center;max-width:1288px;margin:120px auto 0;text-align:center;color:var(--wk-ink)}
 .hl-feature img{display:block;width:min(100%,920px);height:auto;margin-top:40px}
 .hl-feature div{padding:0 24px}
-.hl-feature div>span{font-size:13px;color:var(--hl-accent-text)}
-.hl-feature h2{margin:10px 0 14px;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.045em;font-weight:500}
+.hl-feature h2{margin:0 0 14px;font-size:clamp(40px,5vw,72px);line-height:1;letter-spacing:-.045em;font-weight:500}
 .hl-feature p{max-width:40ch;margin:0 auto 20px;font-size:17px;line-height:1.55;color:#111b;text-wrap:balance}
 .hl-feature button{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 20px;border:0;border-radius:40px;background:var(--wk-brand);color:#111;font-size:15px;transition:background .2s ease,transform .16s var(--hl-ease)}
 .hl-feature button:hover{background:#f7b96c}
