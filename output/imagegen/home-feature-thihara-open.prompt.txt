@@ -1,0 +1,7 @@
+Use case: outpaint a real customer photo so it can sit directly on a website page with no card or frame around it. Image 1 is the authoritative photo: keep the woman exactly as she is — same face, likeness, expression, smile, peace-sign hand, hair, earrings, striped blue, lilac and orange sweater, pose — and keep the clear glass display case and the white-sari miniature inside it exactly unchanged. Do not retouch, slim, restyle or regenerate her face or body.
+
+Landscape 3:2. Keep her in the left part of the frame at about the same size, but move her slightly right so her whole left arm and sleeve (on the viewer's left) are fully inside the frame with a little empty space beside it — continue the striped sleeve naturally where it was cut off. She should only be cropped by the bottom edge, at the waist. The right half of the image stays completely empty.
+
+Background: a perfectly flat, uniform, solid warm paper colour, exactly #f6f2ec, edge to edge — no vignette, no gradient, no darker corners, no texture, no floor, no seams, no lines. Only a very faint soft shadow right beside her body so she does not look cut out. Soft diffused daylight from the front-left, natural skin tones. Calm, minimal, premium editorial mood like an Apple or Sana campaign portrait.
+
+No text, no logo, no border, no extra objects or people.

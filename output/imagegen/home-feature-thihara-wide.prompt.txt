@@ -1,0 +1,7 @@
+Use case: outpaint a real customer photo into a wide website feature banner. Image 1 is the authoritative photo: keep the woman exactly as she is — same face, likeness, expression, smile, peace-sign hand, hair, earrings, striped blue, lilac and orange sweater, pose and scale — and keep the clear glass display case and the white-sari miniature inside it exactly unchanged. Do not retouch, slim, restyle or regenerate her face or body.
+
+Make a landscape 3:2 image. Place her, at the same size relative to the image height as in Image 1, in the LEFT part of the frame (her body roughly between 3% and 48% of the width), cropped at the bottom edge the same way as Image 1. Extend the seamless studio backdrop to the right so the right half of the image is completely empty, calm space for a headline.
+
+Backdrop: one continuous, seamless, very light warm off-white paper sweep (around #f1ece6), evenly and softly lit, a touch brighter behind her and fading very gently toward the right and the bottom edges, no texture, no visible seams, no horizontal or vertical lines, no floor line, no props. Soft diffused daylight from the front-left, natural skin tones, a faint natural shadow so she sits in the space. Calm, minimal, premium editorial mood like an Apple or Sana campaign portrait on a white set.
+
+No text, no logo, no border, no extra objects or people.
