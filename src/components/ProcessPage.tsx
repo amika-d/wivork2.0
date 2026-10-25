@@ -231,7 +231,7 @@ export default function ProcessPage() {
     <WivorkHeader current="process" theme="dark"/>
     <main className="wk-process-page">
       <LoadingSplash loading={loading} progress={loadProgress} message="Preparing your miniature’s journey" onSkip={() => setLoading(false)}/>
-      <section className="process-intro"><p className="process-label">The wivork process</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a resin print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
+      <section className="process-intro"><p className="process-label">The wivork process</p><h1>A moment.<br/>A miniature.</h1><p>Your photo becomes a sculpture, a 3D print,<br/>and a hand-painted keepsake.</p><a href="#process-film" className="process-discover"><span>See how it’s made</span><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M8 3v10m-4-4 4 4 4-4"/></svg></a></section>
       <section className={`process-scroll${reduced || fallback ? ' reduced-motion' : ''}${fallback ? ' process-static' : ''}`} id="process-film" ref={root} aria-label="Scroll through the miniature-making process">
         <div className="process-sticky" aria-busy={loading} ref={stage} data-side={chapter % 2 === 0 ? 'left' : 'right'}>
           {fallback && <div className="process-fallback">
@@ -242,7 +242,7 @@ export default function ProcessPage() {
             </article>)}</div>
           </div>}
           <picture><source media="(max-aspect-ratio: 1/1)" srcSet="/process/film/m/f_000.webp"/><img className="process-poster" src="/process/film/d/f_000.webp" alt="A portrait photograph at the beginning of the miniature-making process" style={{opacity: ready ? 0 : 1}}/></picture>
-          <canvas ref={canvas} aria-label="Your photograph transforms into a digital sculpture, a resin print, and a painted miniature" role="img"/>
+          <canvas ref={canvas} aria-label="Your photograph transforms into a digital sculpture, a 3D print, and a painted miniature" role="img"/>
           <div className="process-scrim process-scrim-left" aria-hidden="true"/><div className="process-scrim process-scrim-right" aria-hidden="true"/>
           {chapters.map((entry, index) => <article key={entry.title} className={`process-chapter ${index % 2 === 0 ? 'is-left' : 'is-right'}`} data-active={index === chapter} aria-hidden={index !== chapter}>
             <span className="process-chapter-count">0{index + 1} <i>/ 04</i></span>
