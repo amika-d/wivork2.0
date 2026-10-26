@@ -5,7 +5,7 @@ type Package = { name: string; size: string; price: string; text: string; figure
 export const groups: { id: string; eyebrow: string; title: string; note: string; packages: Package[] }[] = [
   { id: 'signature', eyebrow: 'Signature Miniatures', title: 'Full-figure, 18cm', note: 'Signature Miniatures are made for one person. Listed prices are for our standard 18cm height. Pricing may vary depending on requested custom sizes.', packages: [
     { name: 'Single Miniature', size: '18cm', price: 'Rs. 10,000', text: 'A full-length portrait of one person, made from your photos.',
-      figures: [{ src: '/wivork/products/signature-cutout.webp', alt: 'A hand-painted full-length miniature of a woman in a red sari holding a gold handbag' }] },
+      figures: [{ src: '/wivork/products/black-outfit-cutout.webp', alt: 'A hand-painted full-length miniature of a man in a black outfit with a tan backpack, standing on a rough octagonal base' }] },
   ] },
   { id: 'busts', eyebrow: 'Portrait Busts', title: 'Compact, 5cm', note: 'Listed prices are for our standard 5cm bust height. Pricing may vary depending on requested custom sizes.', packages: [
     { name: 'Single Portrait Bust', size: '5cm', price: 'Rs. 1,800', text: 'An upper-body portrait of one person, made from your photos.',
