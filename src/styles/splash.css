@@ -6,6 +6,7 @@
 .wk-splash-mark{display:block;width:72px;height:auto;margin-bottom:28px;-webkit-mask:linear-gradient(90deg,#000 45%,transparent 55%) 100% 0/240% 100% no-repeat;mask:linear-gradient(90deg,#000 45%,transparent 55%) 100% 0/240% 100% no-repeat;animation:wk-splash-reveal .9s var(--wk-splash-ease) .1s forwards,wk-splash-breathe 2.4s ease-in-out 1s infinite}
 @keyframes wk-splash-reveal{to{-webkit-mask-position:0 0;mask-position:0 0}}
 @keyframes wk-splash-breathe{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes wk-splash-breathe-soft{0%,100%{opacity:1}50%{opacity:.7}}
 
 .wk-splash p{margin:0;font-size:17px;line-height:1.4;letter-spacing:-.01em;color:#ffffffcc}
 
@@ -19,6 +20,14 @@
 .wk-splash button.is-offered{opacity:1;visibility:inherit;transform:none;transition:opacity .4s var(--wk-splash-ease),transform .4s var(--wk-splash-ease),visibility 0s,color .2s ease}
 .wk-splash button:hover{color:#fff}
 .wk-splash button:focus-visible{outline:2px solid var(--wk-brand,#f4a950);outline-offset:2px;border-radius:6px}
+
+/* Light tone for the paper-coloured pages: same motion, page colour behind a dark hairline and text. */
+.wk-splash.is-light{background:var(--wk-page,#f6f2ec);color:#111}
+.wk-splash.is-light p{color:#111c}
+.wk-splash.is-light .wk-splash-mark{animation-name:wk-splash-reveal,wk-splash-breathe-soft}
+.wk-splash.is-light .wk-splash-track{background:#1111171f}
+.wk-splash.is-light button{color:#11111199}
+.wk-splash.is-light button:hover{color:#111}
 
 /* Exit: content fades and lifts 8px, then the panel fades; visibility drops last so it never blocks clicks. */
 .wk-splash.is-done{opacity:0;visibility:hidden;pointer-events:none;transition:opacity .28s var(--wk-splash-ease) .2s,visibility 0s .48s}

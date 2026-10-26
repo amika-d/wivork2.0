@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import WivorkHeader from './WivorkHeader';
 import WivorkFooter from './WivorkFooter';
+import LoadingSplash from './LoadingSplash';
 import '../styles/home-light.css';
 import { useLenis } from '../lib/useLenis';
 import { prefetchProcess } from '../lib/prefetchProcess';
@@ -13,6 +14,7 @@ const contact = 'https://wa.me/94722227440';
 const say = (text: string) => `${contact}?text=${encodeURIComponent(text)}`;
 const loveBirds = creations[0];
 const sundayBest = creations[2];
+const featureImage = '/home/v2/thihara-with-quiet-grace-open.webp';
 const quietGrace = creations[3];
 
 const steps = [
@@ -59,6 +61,13 @@ function Segmented({ label, options, value, onChange }: { label: string; options
     }}>{options.map((option, index) => <button key={option.name} type="button" role="radio" aria-checked={value === index} tabIndex={value === index ? 0 : -1} onClick={() => onChange(index)}>{option.name}{option.detail && <small>{option.detail}</small>}</button>)}</div>
   </div>;
 }
+
+// Everything the page shows as a picture; the splash waits for all of it, so nothing pops in blank while scrolling.
+const pagePictures = [...new Set([
+  '/home/v2/hero-couple-window.webp', '/home/v2/feature-red-sari-ledge.webp', sundayBest.image, featureImage,
+  ...steps.map(step => step.image),
+  ...groups.flatMap(group => group.packages.flatMap(item => item.figures.map(figure => figure.src))),
+])];
 
 // Every real option, in the order the card shows them while it plays on its own.
 const showcase = groups.flatMap((group, size) => group.packages.map((_, people) => ({ size, people })));
@@ -137,7 +146,42 @@ export default function App() {
   const faqRef = useRevealOnce<HTMLElement>();
   useEffect(prefetchProcess, []);
   const [piece, setPiece] = useState<Creation | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+  useEffect(() => {
+    // Hold the splash until every picture is downloaded, or 8 seconds pass, so a slow connection never traps anyone.
+    let cancelled = false;
+    let done = 0;
+    const timeout = window.setTimeout(() => setLoading(false), 8000);
+    const images = pagePictures.map(src => {
+      const image = new Image();
+      image.onload = image.onerror = () => {
+        if (cancelled) return;
+        setLoadProgress(Math.round(++done / pagePictures.length * 100));
+        if (done === pagePictures.length) { clearTimeout(timeout); setLoading(false); }
+      };
+      image.src = src;
+      return image;
+    });
+    return () => {
+      cancelled = true;
+      clearTimeout(timeout);
+      for (const image of images) image.onload = image.onerror = null;
+    };
+  }, []);
+  // No scrolling behind the splash: pause the smooth scroller and lock the page until it lifts.
+  useEffect(() => {
+    if (!loading) return;
+    const { documentElement, body } = document;
+    window.__lenis?.stop();
+    documentElement.style.overflow = body.style.overflow = 'hidden';
+    return () => {
+      documentElement.style.overflow = body.style.overflow = '';
+      window.__lenis?.start();
+    };
+  }, [loading]);
   return <div className="hl-page">
+    <LoadingSplash loading={loading} progress={loadProgress} message="Getting your miniatures ready" tone="light" onSkip={() => setLoading(false)}/>
     <WivorkHeader current="home"/>
     <main>
       <section className="hl-hero" aria-labelledby="hero-title">
@@ -161,12 +205,12 @@ export default function App() {
         <ScrollWords text="Every piece starts with a few photos of someone you love, and ends as something you can hold."/>
         <div className="hl-bento">
           <a className="hl-card hl-card-photo" href="/packages">
-            <img src="/home/v2/feature-red-sari-ledge.webp" alt="Priyanka’s full-length miniature standing on a sunny window ledge" width="1122" height="1402" loading="lazy"/>
+            <img src="/home/v2/feature-red-sari-ledge.webp" alt="Priyanka’s full-length miniature standing on a sunny window ledge" width="1122" height="1402"/>
             <p className="hl-tile-copy"><strong>Signature Miniature.</strong> A full-length likeness, {groups[0].packages[0].size} tall. Made for one person, <span className="hl-nowrap">{groups[0].packages[0].price}</span>.</p>
           </a>
           <a className="hl-card hl-card-dark" href="/packages">
             <p className="hl-tile-copy"><strong>Portrait Bust.</strong> An upper-body likeness on a small oval base, {groups[1].packages[0].size} tall. <span className="hl-nowrap">{groups[1].packages[0].price}</span>, or <span className="hl-nowrap">{groups[1].packages[1].price}</span> for a couple.</p>
-            <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941" loading="lazy"/>
+            <img src={sundayBest.image} alt={sundayBest.alt} width="1672" height="941"/>
           </a>
           <div className="hl-card hl-card-plain">
             <p className="hl-tile-copy"><strong>Every piece, made the same careful way.</strong> Sculpted digitally from your photos, 3D printed and painted by hand, with unlimited revisions while we sculpt and paint.</p>
@@ -178,7 +222,7 @@ export default function App() {
       <section className="hl-section" aria-labelledby="steps-title">
         <div className="hl-section-head"><h2 id="steps-title">From your photos to a piece you can hold.</h2><a className="hl-ghost-button" href="/process">How it’s made <span aria-hidden="true">→</span></a></div>
         <ol className="hl-steps">{steps.map((step, index) => <li key={step.title}>
-          <img src={step.image} alt={step.alt} width="1672" height="941" loading="lazy"/>
+          <img src={step.image} alt={step.alt} width="1672" height="941"/>
           <span>0{index + 1}</span><h3>{step.title}</h3><p>{step.text}</p>
         </li>)}</ol>
       </section>
@@ -206,7 +250,7 @@ export default function App() {
           <p>{quietGrace.description} Shown here with the person it was made for.</p>
           <button type="button" aria-haspopup="dialog" onClick={() => setPiece(quietGrace)}>See prices <span className="wk-arrow" aria-hidden="true">↗</span></button>
         </div>
-        <img src="/home/v2/thihara-with-quiet-grace-open.webp" alt="A smiling woman holding her miniature, a white-sari figure in a clear display case" width="768" height="900" loading="lazy"/>
+        <img src={featureImage} alt="A smiling woman holding her miniature, a white-sari figure in a clear display case" width="768" height="900"/>
       </section>
 
       <section className="hl-cta" aria-labelledby="cta-title">
