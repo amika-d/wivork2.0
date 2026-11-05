@@ -165,6 +165,7 @@ const InfiniteMenu = ({
   dim = 0.5,
   intro = true,
   showInfo = true,
+  arrows = false,
   renderInfo,
   theme = 'dark',
   accentColor,
@@ -727,11 +728,13 @@ const InfiniteMenu = ({
       wake();
     };
 
+    const step = direction => goTo(neighbor(state.target >= 0 ? state.target : state.front, direction));
+
     const onKeyDown = event => {
       const directions = { ArrowRight: [1, 0], ArrowLeft: [-1, 0], ArrowUp: [0, 1], ArrowDown: [0, -1] };
       if (directions[event.key]) {
         event.preventDefault();
-        goTo(neighbor(state.target >= 0 ? state.target : state.front, directions[event.key]));
+        step(directions[event.key]);
       } else if (event.key === 'Enter' && event.target === root) {
         event.preventDefault();
         activate(state.front);
@@ -764,7 +767,7 @@ const InfiniteMenu = ({
       wake();
     };
 
-    engineRef.current = { loadItems, wake };
+    engineRef.current = { loadItems, wake, step };
 
     canvas.addEventListener('pointerdown', onPointerDown);
     canvas.addEventListener('pointermove', onPointerMove);
@@ -888,6 +891,16 @@ const InfiniteMenu = ({
               ))}
           </div>
         ))}
+      {arrows && (
+        <div className="infinite-menu__arrows" data-layout={layout}>
+          <button type="button" aria-label="Previous piece" onClick={() => engineRef.current?.step([-1, 0])}>
+            ←
+          </button>
+          <button type="button" aria-label="Next piece" onClick={() => engineRef.current?.step([1, 0])}>
+            →
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -92,9 +92,9 @@ export default function GalleryPage() {
     <LoadingSplash loading={loading} progress={loadProgress} message="Gathering our creations" onSkip={() => setLoading(false)}/>
     <WivorkHeader current="creations" theme="dark"/>
     <main className="wk-gallery-page">
-      <section className="gl-intro"><p>Our creations</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
+      <section className="gl-intro"><p>Our creations</p><h1>Made by hand.<br/>Kept for years.</h1><p>{sphere ? 'Drag the sphere or use the arrows to explore. Click the piece in front to see prices and make it yours.' : 'Swipe through a few of our favourite pieces.'}</p></section>
       {sphere
-        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading} onPointerDownCapture={dismissHint}>{!loading && !hinted && <div className="gl-drag-hint" aria-hidden="true"><span className="gl-drag-arrow">←</span>Drag to explore<span className="gl-drag-arrow">→</span></div>}{!loading && <InfiniteMenu items={items} count={120} theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
+        ? <section className="gl-sphere" aria-label="Gallery of wivork miniatures" aria-busy={loading} onPointerDownCapture={dismissHint}>{!loading && !hinted && <div className="gl-drag-hint" aria-hidden="true"><span className="gl-drag-arrow">←</span>Drag to explore<span className="gl-drag-arrow">→</span></div>}{!loading && <InfiniteMenu items={items} count={120} arrows theme="dark" accentColor="#f4a950" autoplay={selected ? 0 : 3.5} onItemClick={(item: (typeof items)[number]) => setSelected(item)}/>}</section>
         : <section className="gl-mobile" aria-label="Gallery of wivork miniatures"><GallerySlider onSelect={setSelected}/></section>}
     </main>
     <CreationModal piece={selected} onClose={() => setSelected(null)}/>

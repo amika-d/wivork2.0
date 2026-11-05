@@ -43,3 +43,6 @@ body:has(.wk-gallery-page){--wk-page:#111;--wk-ink:#fff;background:#111;color:#f
 .gl-slider-photo:focus-visible{outline:2px solid var(--wk-brand,#f4a950);outline-offset:-4px}
 
 /* End on the same rounded footer card as home, lifted one step off the dark room so its edge reads. */
+/* Narrow sphere layout: the floating WhatsApp button owns the bottom-right corner, so the price button moves left of the name. */
+.gl-sphere .infinite-menu__info[data-layout='stacked'] .infinite-menu__action{right:auto;left:20px}
+.gl-sphere .infinite-menu__info[data-layout='stacked'] :is(.infinite-menu__title,.infinite-menu__description){left:88px;right:228px}

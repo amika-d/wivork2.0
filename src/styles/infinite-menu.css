@@ -159,3 +159,65 @@
 .infinite-menu__info[data-layout='stacked'][data-moving='true'] .infinite-menu__action {
   transform: translateY(12px) scale(0.6);
 }
+
+/* Optional prev/next buttons: they flank the front piece's action, so first-timers have a visible way to turn the sphere. */
+.infinite-menu__arrows {
+  position: absolute;
+  bottom: calc(7% + 4px);
+  left: 50%;
+  display: flex;
+  gap: 104px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.infinite-menu__arrows button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--infinite-menu-text) 22%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--infinite-menu-text) 6%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--infinite-menu-text);
+  font-size: 16px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    transform 0.16s ease-out,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.infinite-menu__arrows button:hover {
+  border-color: color-mix(in srgb, var(--infinite-menu-text) 50%, transparent);
+  background: color-mix(in srgb, var(--infinite-menu-text) 12%, transparent);
+}
+
+.infinite-menu__arrows button:active {
+  transform: scale(0.95);
+}
+
+.infinite-menu__arrows button:focus-visible {
+  outline: 2px solid var(--infinite-menu-accent);
+  outline-offset: 2px;
+}
+
+/* In the stacked layout the title and action fill the bottom edge, so the arrows move to the top right. */
+.infinite-menu__arrows[data-layout='stacked'] {
+  top: 20px;
+  right: 20px;
+  bottom: auto;
+  left: auto;
+  gap: 10px;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infinite-menu__arrows button {
+    transition: none;
+  }
+}
